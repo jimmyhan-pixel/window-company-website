@@ -85,7 +85,7 @@ export default function Home() {
       </section>
 
       {/* Products Section - Modern Grid */}
-      <section className="py-24 bg-gradient-to-b from-white to-[#f7f8f3]">
+      <section id="products" className="py-24 bg-gradient-to-b from-white to-[#f7f8f3]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
@@ -133,7 +133,7 @@ export default function Home() {
                   </li>
                 </ul>
                 <Link
-                  href="/quotation"
+                  href="/products/vinyl"
                   className="block text-center px-6 py-3 bg-[#738751] text-white font-semibold hover:bg-[#5a6a42] transition-all duration-300 uppercase tracking-wider text-sm"
                 >
                   Learn More
@@ -177,7 +177,7 @@ export default function Home() {
                   </li>
                 </ul>
                 <Link
-                  href="/quotation"
+                  href="/products/aluminum"
                   className="block text-center px-6 py-3 bg-gray-900 text-white font-semibold hover:bg-gray-800 transition-all duration-300 uppercase tracking-wider text-sm"
                 >
                   Learn More
@@ -221,8 +221,8 @@ export default function Home() {
                   </li>
                 </ul>
                 <Link
-                  href="/quotation"
-                  className="block text-center px-6 py-3 bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-all duration-300 uppercase tracking-wider text-sm"
+                  href="/products/commercial"
+                  className="block text-center px-6 py-3 bg-[#6b2d5c] text-white font-semibold hover:bg-[#5a2550] transition-all duration-300 uppercase tracking-wider text-sm"
                 >
                   Learn More
                 </Link>

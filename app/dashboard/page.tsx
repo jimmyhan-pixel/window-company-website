@@ -11,7 +11,7 @@ export default function DashboardPage() {
   useEffect(() => {
     // Check if user is logged in
     const isLoggedIn = localStorage.getItem('isLoggedIn')
-    
+
     if (!isLoggedIn) {
       router.push('/login')
     } else {
@@ -43,7 +43,7 @@ export default function DashboardPage() {
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-4">
               <Link href="/" className="text-2xl font-bold text-gray-900">
-                Premier<span className="text-green-600">Windows</span>
+                City<span className="text-green-600">Windows</span>
               </Link>
               <span className="text-gray-400">|</span>
               <h1 className="text-xl font-semibold text-gray-700">Admin Dashboard</h1>
@@ -60,7 +60,7 @@ export default function DashboardPage() {
 
       {/* Dashboard Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
+
         {/* Welcome Section */}
         <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-lg shadow-lg p-8 mb-8 text-white">
           <h2 className="text-3xl font-bold mb-2">Welcome Back!</h2>
@@ -209,7 +209,7 @@ export default function DashboardPage() {
               <h3 className="font-bold text-blue-900 mb-1">MVP Features</h3>
               <p className="text-sm text-blue-800">
                 This is the MVP (Minimum Viable Product) version. Full features including:
-                database storage, quote management, CSV export, and media management 
+                database storage, quote management, CSV export, and media management
                 will be implemented in v1.
               </p>
             </div>
