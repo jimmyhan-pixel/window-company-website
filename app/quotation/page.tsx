@@ -697,7 +697,8 @@ export default function QuotationPage() {
                 </div>
 
                 <div className="grid lg:grid-cols-3 gap-6">
-                    <div className="lg:col-span-2">
+                    {/* Left Column - Form Content */}
+                    <div className="lg:col-span-1">
 
                         {step === 1 && (
                             <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
@@ -879,14 +880,21 @@ export default function QuotationPage() {
                         )}
                     </div>
 
+                    {/* Middle Column - Window Preview */}
                     <div className="lg:col-span-1">
-                        <div className="sticky top-8 space-y-4">
-                            <SelectionSummary />
+                        <div className="sticky top-8">
                             <WindowPreview
                                 windowType={formData.windowType}
                                 grids={formData.grids}
                                 color={formData.color}
                             />
+                        </div>
+                    </div>
+
+                    {/* Right Column - Selection Summary */}
+                    <div className="lg:col-span-1">
+                        <div className="sticky top-8">
+                            <SelectionSummary />
                         </div>
                     </div>
                 </div>
