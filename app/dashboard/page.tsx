@@ -112,65 +112,9 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Quick Actions */}
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h3>
-            <div className="space-y-3">
-              <Link href="/quotation" className="flex items-center p-3 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
-                <span className="text-2xl mr-3">➕</span>
-                <div>
-                  <p className="font-medium text-gray-900">Create Quote</p>
-                  <p className="text-sm text-gray-600">Start a new quote request</p>
-                </div>
-              </Link>
-              <button className="w-full flex items-center p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
-                <span className="text-2xl mr-3">📊</span>
-                <div className="text-left">
-                  <p className="font-medium text-gray-900">View Reports</p>
-                  <p className="text-sm text-gray-600">Sales and analytics</p>
-                </div>
-              </button>
-              <Link href="/contact" className="flex items-center p-3 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors">
-                <span className="text-2xl mr-3">📞</span>
-                <div>
-                  <p className="font-medium text-gray-900">Contact Info</p>
-                  <p className="text-sm text-gray-600">View contact page</p>
-                </div>
-              </Link>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-xl font-bold text-gray-900 mb-4">Recent Activity</h3>
-            <div className="space-y-4">
-              <div className="flex items-start">
-                <div className="flex-shrink-0 w-2 h-2 bg-green-500 rounded-full mt-2"></div>
-                <div className="ml-3">
-                  <p className="text-sm font-medium text-gray-900">New quote request</p>
-                  <p className="text-xs text-gray-600">Double Hung Vinyl - 2 hours ago</p>
-                </div>
-              </div>
-              <div className="flex items-start">
-                <div className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
-                <div className="ml-3">
-                  <p className="text-sm font-medium text-gray-900">Quote sent</p>
-                  <p className="text-xs text-gray-600">Aluminum Slider - 5 hours ago</p>
-                </div>
-              </div>
-              <div className="flex items-start">
-                <div className="flex-shrink-0 w-2 h-2 bg-purple-500 rounded-full mt-2"></div>
-                <div className="ml-3">
-                  <p className="text-sm font-medium text-gray-900">Order completed</p>
-                  <p className="text-xs text-gray-600">Bay Window - Yesterday</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
         {/* Quote Requests Table */}
-        <div className="bg-white rounded-lg shadow">
+        <div className="bg-white rounded-lg shadow mb-8">
           <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
             <h2 className="text-xl font-bold text-gray-900">Recent Quote Requests</h2>
             <span className="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
@@ -201,8 +145,112 @@ export default function DashboardPage() {
           </div>
         </div>
 
+        {/* Product Images Management */}
+        <div className="bg-white rounded-lg shadow mb-8">
+          <div className="px-6 py-4 border-b border-gray-200">
+            <h2 className="text-xl font-bold text-gray-900 flex items-center">
+              <span className="mr-2">📸</span>
+              Product Images Management
+            </h2>
+            <p className="text-sm text-gray-600 mt-1">每个子页面的产品图片可以在这里上传</p>
+          </div>
+
+          <div className="p-6 space-y-6">
+            {/* Vinyl Windows */}
+            <div className="border-2 border-gray-200 rounded-lg p-6 hover:border-green-500 transition-colors">
+              <h3 className="font-semibold text-gray-900 mb-4 text-lg">Vinyl Windows - Homepage Image</h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <p className="text-sm text-gray-600 mb-3">Current Image Preview</p>
+                  <div className="bg-gray-100 rounded-lg h-48 flex items-center justify-center border-2 border-dashed border-gray-300">
+                    <div className="text-center">
+                      <span className="text-6xl mb-2 block">🪟</span>
+                      <p className="text-sm text-gray-500">Vinyl Window Preview</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col justify-center space-y-3">
+                  <button className="w-full py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium">
+                    Upload New Image
+                  </button>
+                  <button className="w-full py-3 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors font-medium">
+                    Remove Image
+                  </button>
+                  <p className="text-xs text-gray-500 mt-2">
+                    Recommended: 800x600px, JPG or PNG
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Aluminum Windows */}
+            <div className="border-2 border-gray-200 rounded-lg p-6 hover:border-green-500 transition-colors">
+              <h3 className="font-semibold text-gray-900 mb-4 text-lg">Aluminum Windows - Homepage Image</h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <p className="text-sm text-gray-600 mb-3">Current Image Preview</p>
+                  <div className="bg-gray-100 rounded-lg h-48 flex items-center justify-center border-2 border-dashed border-gray-300">
+                    <div className="text-center">
+                      <span className="text-6xl mb-2 block">🏢</span>
+                      <p className="text-sm text-gray-500">Aluminum Window Preview</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col justify-center space-y-3">
+                  <button className="w-full py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium">
+                    Upload New Image
+                  </button>
+                  <button className="w-full py-3 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors font-medium">
+                    Remove Image
+                  </button>
+                  <p className="text-xs text-gray-500 mt-2">
+                    Recommended: 800x600px, JPG or PNG
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Commercial Windows */}
+            <div className="border-2 border-gray-200 rounded-lg p-6 hover:border-green-500 transition-colors">
+              <h3 className="font-semibold text-gray-900 mb-4 text-lg">Commercial Windows - Homepage Image</h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <p className="text-sm text-gray-600 mb-3">Current Image Preview</p>
+                  <div className="bg-gray-100 rounded-lg h-48 flex items-center justify-center border-2 border-dashed border-gray-300">
+                    <div className="text-center">
+                      <span className="text-6xl mb-2 block">🏗️</span>
+                      <p className="text-sm text-gray-500">Commercial Window Preview</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col justify-center space-y-3">
+                  <button className="w-full py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium">
+                    Upload New Image
+                  </button>
+                  <button className="w-full py-3 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors font-medium">
+                    Remove Image
+                  </button>
+                  <p className="text-xs text-gray-500 mt-2">
+                    Recommended: 800x600px, JPG or PNG
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <div className="flex items-start">
+                <span className="text-xl mr-2">ℹ️</span>
+                <div className="text-sm text-blue-800">
+                  <p className="font-medium mb-1">Image Upload Feature</p>
+                  <p>Upload and replace product images for the homepage. Changes will be reflected immediately after upload.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Footer Info */}
-        <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
           <div className="flex items-start">
             <span className="text-2xl mr-3">💡</span>
             <div>

@@ -100,6 +100,7 @@ export default function Home() {
             {/* Vinyl Windows */}
             <div className="group relative overflow-hidden bg-white shadow-2xl hover:shadow-3xl transition-all duration-500 rounded-lg">
               <div className="aspect-[4/3] relative overflow-hidden">
+                {/* 替换为你自己的图片：将 src 改为 "/images/products/vinyl-windows.jpg" */}
                 <img
                   src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop"
                   alt="Vinyl Windows"
@@ -144,8 +145,9 @@ export default function Home() {
             {/* Aluminum Residential Windows */}
             <div className="group relative overflow-hidden bg-white shadow-2xl hover:shadow-3xl transition-all duration-500 rounded-lg">
               <div className="aspect-[4/3] relative overflow-hidden">
+                {/* 替换为你自己的图片：将 src 改为 "/images/products/aluminum-windows.jpg" */}
                 <img
-                  src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&h=600&fit=crop"
+                  src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&h=600&fit=crop"
                   alt="Aluminum Windows"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
@@ -188,6 +190,7 @@ export default function Home() {
             {/* Commercial Aluminum Windows */}
             <div className="group relative overflow-hidden bg-white shadow-2xl hover:shadow-3xl transition-all duration-500 rounded-lg">
               <div className="aspect-[4/3] relative overflow-hidden">
+                {/* 替换为你自己的图片：将 src 改为 "/images/products/commercial-windows.jpg" */}
                 <img
                   src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop"
                   alt="Commercial Windows"
