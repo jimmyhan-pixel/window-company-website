@@ -2,7 +2,7 @@
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white py-12">
+    <div className="min-h-screen bg-gradient-to-b from-[#f7f8f3] to-white py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Contact Us</h1>
@@ -20,7 +20,7 @@ export default function ContactPage() {
               {/* Address */}
               <div className="flex items-start">
                 <div className="flex-shrink-0">
-                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                  <div className="w-12 h-12 bg-[#eef0e6] rounded-lg flex items-center justify-center">
                     <span className="text-2xl">📍</span>
                   </div>
                 </div>
@@ -36,7 +36,7 @@ export default function ContactPage() {
               {/* Phone */}
               <div className="flex items-start">
                 <div className="flex-shrink-0">
-                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                  <div className="w-12 h-12 bg-[#eef0e6] rounded-lg flex items-center justify-center">
                     <span className="text-2xl">📞</span>
                   </div>
                 </div>
@@ -44,7 +44,7 @@ export default function ContactPage() {
                   <h3 className="text-lg font-semibold text-gray-900">Phone</h3>
                   <a 
                     href="tel:+12125551234" 
-                    className="text-green-600 hover:text-green-700 font-medium mt-1 block"
+                    className="text-[#738751] hover:text-[#5a6a42] font-medium mt-1 block"
                   >
                     (212) 555-1234
                   </a>
@@ -54,7 +54,7 @@ export default function ContactPage() {
               {/* Email */}
               <div className="flex items-start">
                 <div className="flex-shrink-0">
-                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                  <div className="w-12 h-12 bg-[#eef0e6] rounded-lg flex items-center justify-center">
                     <span className="text-2xl">✉️</span>
                   </div>
                 </div>
@@ -62,7 +62,7 @@ export default function ContactPage() {
                   <h3 className="text-lg font-semibold text-gray-900">Email</h3>
                   <a 
                     href="mailto:info@premierwindows.com" 
-                    className="text-green-600 hover:text-green-700 font-medium mt-1 block"
+                    className="text-[#738751] hover:text-[#5a6a42] font-medium mt-1 block"
                   >
                     info@premierwindows.com
                   </a>
@@ -72,7 +72,7 @@ export default function ContactPage() {
               {/* Business Hours */}
               <div className="flex items-start">
                 <div className="flex-shrink-0">
-                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                  <div className="w-12 h-12 bg-[#eef0e6] rounded-lg flex items-center justify-center">
                     <span className="text-2xl">🕐</span>
                   </div>
                 </div>
@@ -91,7 +91,7 @@ export default function ContactPage() {
             <div className="mt-8 pt-8 border-t border-gray-200">
               <button
                 onClick={() => window.location.href = '/quotation'}
-                className="block w-full py-3 bg-green-600 text-white text-center font-semibold rounded-lg hover:bg-green-700 transition-colors"
+                className="block w-full py-3 bg-[#738751] text-white text-center font-semibold rounded-lg hover:bg-[#5a6a42] transition-colors"
               >
                 Get Free Quote
               </button>

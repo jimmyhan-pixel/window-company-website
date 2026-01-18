@@ -31,7 +31,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-b from-[#f7f8f3] to-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full">
         <div className="bg-white rounded-xl shadow-lg p-8">
           {/* Header */}
@@ -57,7 +57,7 @@ export default function LoginPage() {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-green-600 focus:outline-none"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#738751] focus:outline-none"
                 placeholder="Enter username"
                 required
               />
@@ -71,7 +71,7 @@ export default function LoginPage() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-green-600 focus:outline-none"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#738751] focus:outline-none"
                 placeholder="Enter password"
                 required
               />
@@ -80,7 +80,7 @@ export default function LoginPage() {
             <button
               onClick={handleLogin}
               disabled={isLoading || !username || !password}
-              className="w-full py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+              className="w-full py-3 bg-[#738751] text-white font-semibold rounded-lg hover:bg-[#5a6a42] transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
             >
               {isLoading ? 'Signing in...' : 'Sign In'}
             </button>
@@ -95,7 +95,7 @@ export default function LoginPage() {
 
           {/* Back Link */}
           <div className="mt-6 text-center">
-            <a href="/" className="text-green-600 hover:text-green-700 text-sm font-medium">
+            <a href="/" className="text-[#738751] hover:text-[#5a6a42] text-sm font-medium">
               ← Back to Home
             </a>
           </div>

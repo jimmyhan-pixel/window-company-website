@@ -178,11 +178,12 @@ function WindowPreview({
             case 'Three Lites Slider':
                 return (
                     <svg viewBox="0 0 300 200" className="w-full absolute inset-0">
+                        {/* Left pane - slides right */}
                         <path d="M 40 100 L 80 100 M 70 90 L 80 100 L 70 110"
                             fill="none" stroke={arrowColor} strokeWidth={arrowWidth} />
-                        <path d="M 130 100 L 170 100 M 160 90 L 170 100 L 160 110"
-                            fill="none" stroke={arrowColor} strokeWidth={arrowWidth} />
-                        <path d="M 220 100 L 260 100 M 250 90 L 260 100 L 250 110"
+                        {/* Middle pane - FIXED (no arrow) */}
+                        {/* Right pane - slides left */}
+                        <path d="M 260 100 L 220 100 M 230 90 L 220 100 L 230 110"
                             fill="none" stroke={arrowColor} strokeWidth={arrowWidth} />
                     </svg>
                 )
@@ -460,15 +461,15 @@ function WindowPreview({
 
     if (!windowType) {
         return (
-            <div className="bg-gray-100 rounded-lg p-8 flex items-center justify-center h-64">
+            <div className="bg-[#f7f8f3] rounded-xl p-8 flex items-center justify-center h-64 border border-gray-200">
                 <p className="text-gray-500">Select window type to see preview</p>
             </div>
         )
     }
 
     return (
-        <div className="bg-white rounded-lg p-6 border-2 border-gray-200">
-            <h3 className="font-bold text-gray-900 text-sm mb-4 text-center">Window Preview</h3>
+        <div className="bg-white rounded-xl p-6 border-2 border-[#dce2cd] shadow-sm">
+            <h3 className="font-bold text-[#2d2d2d] text-sm mb-4 text-center">Window Preview</h3>
             <div
                 className="relative"
                 style={{ filter: getColorFilter() }}
@@ -632,41 +633,41 @@ export default function QuotationPage() {
         if (step === 1) return null
 
         return (
-            <div className="bg-green-50 rounded-lg p-4 border-2 border-green-200 mb-4">
+            <div className="bg-[#f7f8f3] rounded-lg p-4 border-2 border-[#dce2cd] mb-4">
                 <h3 className="font-bold text-gray-900 text-sm mb-3">📋 Your Selection</h3>
                 <div className="space-y-2 text-xs">
                     {formData.material && (
-                        <div className="flex justify-between py-1 border-b border-green-200">
+                        <div className="flex justify-between py-1 border-b border-[#dce2cd]">
                             <span className="text-gray-600">Material:</span>
                             <span className="font-medium capitalize">{formData.material}</span>
                         </div>
                     )}
                     {formData.aluminumCategory && (
-                        <div className="flex justify-between py-1 border-b border-green-200">
+                        <div className="flex justify-between py-1 border-b border-[#dce2cd]">
                             <span className="text-gray-600">Category:</span>
                             <span className="font-medium capitalize">{formData.aluminumCategory}</span>
                         </div>
                     )}
                     {formData.windowType && (
-                        <div className="flex justify-between py-1 border-b border-green-200">
+                        <div className="flex justify-between py-1 border-b border-[#dce2cd]">
                             <span className="text-gray-600">Window Type:</span>
                             <span className="font-medium">{formData.windowType}</span>
                         </div>
                     )}
                     {formData.grids && (
-                        <div className="flex justify-between py-1 border-b border-green-200">
+                        <div className="flex justify-between py-1 border-b border-[#dce2cd]">
                             <span className="text-gray-600">Grids:</span>
                             <span className="font-medium">{formData.grids}</span>
                         </div>
                     )}
                     {formData.color && (
-                        <div className="flex justify-between py-1 border-b border-green-200">
+                        <div className="flex justify-between py-1 border-b border-[#dce2cd]">
                             <span className="text-gray-600">Color:</span>
                             <span className="font-medium">{formData.color}</span>
                         </div>
                     )}
                     {formData.width && formData.height && (
-                        <div className="flex justify-between py-1 border-b border-green-200">
+                        <div className="flex justify-between py-1 border-b border-[#dce2cd]">
                             <span className="text-gray-600">Size:</span>
                             <span className="font-medium">{formData.width}" × {formData.height}"</span>
                         </div>
@@ -683,7 +684,7 @@ export default function QuotationPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-green-50 to-white py-12">
+        <div className="min-h-screen bg-gradient-to-b from-[#f7f8f3] to-white py-12">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="mb-8">
                     <div className="flex justify-between text-sm text-gray-600 mb-2">
@@ -691,7 +692,7 @@ export default function QuotationPage() {
                         <span>{Math.round((step / 8) * 100)}% Complete</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-green-600 h-2 rounded-full transition-all duration-300" style={{ width: `${(step / 8) * 100}%` }}></div>
+                        <div className="bg-[#738751] h-2 rounded-full transition-all duration-300" style={{ width: `${(step / 8) * 100}%` }}></div>
                     </div>
                 </div>
 
@@ -699,18 +700,18 @@ export default function QuotationPage() {
                     <div className="lg:col-span-2">
 
                         {step === 1 && (
-                            <div className="bg-white rounded-xl shadow-lg p-8">
-                                <h2 className="text-3xl font-bold text-gray-900 mb-2">Choose Window Material</h2>
+                            <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+                                <h2 className="text-3xl font-bold text-[#2d2d2d] mb-2">Choose Window Material</h2>
                                 <p className="text-gray-600 mb-8">Select the type of window material you prefer</p>
                                 <div className="grid md:grid-cols-2 gap-6">
-                                    <button onClick={() => handleMaterialSelect('vinyl')} className="p-6 border-2 border-gray-200 rounded-xl hover:border-green-600 hover:bg-green-50 transition-all text-left group">
+                                    <button onClick={() => handleMaterialSelect('vinyl')} className="p-6 border-2 border-gray-200 rounded-xl hover:border-[#738751] hover:bg-[#f7f8f3] transition-all text-left group">
                                         <div className="text-4xl mb-4">🪟</div>
-                                        <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-green-600">Vinyl Windows</h3>
+                                        <h3 className="text-xl font-bold text-[#2d2d2d] mb-2 group-hover:text-[#738751]">Vinyl Windows</h3>
                                         <p className="text-gray-600 text-sm">Energy efficient, low maintenance</p>
                                     </button>
-                                    <button onClick={() => handleMaterialSelect('aluminum')} className="p-6 border-2 border-gray-200 rounded-xl hover:border-green-600 hover:bg-green-50 transition-all text-left group">
+                                    <button onClick={() => handleMaterialSelect('aluminum')} className="p-6 border-2 border-gray-200 rounded-xl hover:border-[#738751] hover:bg-[#f7f8f3] transition-all text-left group">
                                         <div className="text-4xl mb-4">🏢</div>
-                                        <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-green-600">Aluminum Windows</h3>
+                                        <h3 className="text-xl font-bold text-[#2d2d2d] mb-2 group-hover:text-[#738751]">Aluminum Windows</h3>
                                         <p className="text-gray-600 text-sm">Durable, modern design</p>
                                     </button>
                                 </div>
@@ -722,16 +723,16 @@ export default function QuotationPage() {
                                 <h2 className="text-3xl font-bold text-gray-900 mb-2">Choose Window Category</h2>
                                 <p className="text-gray-600 mb-8">Select residential or commercial windows</p>
                                 <div className="grid md:grid-cols-2 gap-6">
-                                    <button onClick={() => handleAluminumCategory('residential')} className="p-6 border-2 border-gray-200 rounded-xl hover:border-green-600 hover:bg-green-50 transition-all text-left">
+                                    <button onClick={() => handleAluminumCategory('residential')} className="p-6 border-2 border-gray-200 rounded-xl hover:border-[#738751] hover:bg-[#f7f8f3] transition-all text-left">
                                         <h3 className="text-xl font-bold text-gray-900 mb-2">Residential Windows</h3>
                                         <p className="text-gray-600 text-sm">For homes and apartments</p>
                                     </button>
-                                    <button onClick={() => handleAluminumCategory('commercial')} className="p-6 border-2 border-gray-200 rounded-xl hover:border-green-600 hover:bg-green-50 transition-all text-left">
+                                    <button onClick={() => handleAluminumCategory('commercial')} className="p-6 border-2 border-gray-200 rounded-xl hover:border-[#738751] hover:bg-[#f7f8f3] transition-all text-left">
                                         <h3 className="text-xl font-bold text-gray-900 mb-2">Commercial Windows</h3>
                                         <p className="text-gray-600 text-sm">For offices and business spaces</p>
                                     </button>
                                 </div>
-                                <button onClick={() => setStep(1)} className="mt-6 text-green-600 hover:text-green-700 font-medium">← Back</button>
+                                <button onClick={() => setStep(1)} className="mt-6 text-[#738751] hover:text-[#5a6a42] font-medium">← Back</button>
                             </div>
                         )}
 
@@ -741,24 +742,24 @@ export default function QuotationPage() {
                                 <p className="text-gray-600 mb-8">Select the window type that fits your needs</p>
                                 <div className="grid md:grid-cols-2 gap-4">
                                     {formData.material === 'vinyl' && vinylWindowTypes.map((type) => (
-                                        <button key={type} onClick={() => handleWindowType(type)} className="p-4 border-2 border-gray-200 rounded-lg hover:border-green-600 hover:bg-green-50 transition-all text-left font-medium">
+                                        <button key={type} onClick={() => handleWindowType(type)} className="p-4 border-2 border-gray-200 rounded-lg hover:border-[#738751] hover:bg-[#f7f8f3] transition-all text-left font-medium">
                                             {type}
                                         </button>
                                     ))}
                                     {formData.material === 'aluminum' && formData.aluminumCategory === 'residential' && aluminumResidentialTypes.map((type) => (
-                                        <button key={type} onClick={() => handleWindowType(type)} className="p-4 border-2 border-gray-200 rounded-lg hover:border-green-600 hover:bg-green-50 transition
+                                        <button key={type} onClick={() => handleWindowType(type)} className="p-4 border-2 border-gray-200 rounded-lg hover:border-[#738751] hover:bg-[#f7f8f3] transition
 
                     -all text-left font-medium">
                                             {type}
                                         </button>
                                     ))}
                                     {formData.material === 'aluminum' && formData.aluminumCategory === 'commercial' && aluminumCommercialTypes.map((type) => (
-                                        <button key={type} onClick={() => handleWindowType(type)} className="p-4 border-2 border-gray-200 rounded-lg hover:border-green-600 hover:bg-green-50 transition-all text-left font-medium">
+                                        <button key={type} onClick={() => handleWindowType(type)} className="p-4 border-2 border-gray-200 rounded-lg hover:border-[#738751] hover:bg-[#f7f8f3] transition-all text-left font-medium">
                                             {type}
                                         </button>
                                     ))}
                                 </div>
-                                <button onClick={() => setStep(formData.material === 'vinyl' ? 1 : 2)} className="mt-6 text-green-600 hover:text-green-700 font-medium">← Back</button>
+                                <button onClick={() => setStep(formData.material === 'vinyl' ? 1 : 2)} className="mt-6 text-[#738751] hover:text-[#5a6a42] font-medium">← Back</button>
                             </div>
                         )}
 
@@ -768,13 +769,13 @@ export default function QuotationPage() {
                                 <p className="text-gray-600 mb-8">Select window grid pattern (optional)</p>
                                 <div className="grid md:grid-cols-3 gap-4">
                                     {getGridsOptions().map((grid) => (
-                                        <button key={grid} onClick={() => handleGridsSelect(grid)} className="p-6 border-2 border-gray-200 rounded-lg hover:border-green-600 hover:bg-green-50 transition-all text-center font-medium">
+                                        <button key={grid} onClick={() => handleGridsSelect(grid)} className="p-6 border-2 border-gray-200 rounded-lg hover:border-[#738751] hover:bg-[#f7f8f3] transition-all text-center font-medium">
                                             <div className="text-2xl mb-2">⊞</div>
                                             {grid}
                                         </button>
                                     ))}
                                 </div>
-                                <button onClick={() => setStep(formData.material === 'vinyl' ? 2 : 3)} className="mt-6 text-green-600 hover:text-green-700 font-medium">← Back</button>
+                                <button onClick={() => setStep(formData.material === 'vinyl' ? 2 : 3)} className="mt-6 text-[#738751] hover:text-[#5a6a42] font-medium">← Back</button>
                             </div>
                         )}
 
@@ -782,7 +783,7 @@ export default function QuotationPage() {
                             <div className="bg-white rounded-xl shadow-lg p-8">
                                 <h2 className="text-3xl font-bold text-gray-900 mb-2">Window Color</h2>
                                 <p className="text-gray-600 mb-8">Vinyl windows come in white color</p>
-                                <div className="p-6 border-2 border-green-600 bg-green-50 rounded-lg">
+                                <div className="p-6 border-2 border-[#738751] bg-[#f7f8f3] rounded-lg">
                                     <div className="flex items-center justify-center">
                                         <div className="w-16 h-16 rounded-full bg-white border-2 border-gray-300 mr-4"></div>
                                         <div>
@@ -791,8 +792,8 @@ export default function QuotationPage() {
                                         </div>
                                     </div>
                                 </div>
-                                <button onClick={handleColorContinue} className="w-full mt-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700">Continue</button>
-                                <button onClick={() => setStep(needsGrids() ? 3 : 2)} className="mt-4 text-green-600 hover:text-green-700 font-medium">← Back</button>
+                                <button onClick={handleColorContinue} className="w-full mt-6 py-3 bg-[#738751] text-white font-semibold rounded-lg hover:bg-[#5a6a42]">Continue</button>
+                                <button onClick={() => setStep(needsGrids() ? 3 : 2)} className="mt-4 text-[#738751] hover:text-[#5a6a42] font-medium">← Back</button>
                             </div>
                         )}
 
@@ -802,13 +803,13 @@ export default function QuotationPage() {
                                 <p className="text-gray-600 mb-8">Select your preferred window color</p>
                                 <div className="grid md:grid-cols-3 gap-4">
                                     {aluminumColors.map((color) => (
-                                        <button key={color} onClick={() => handleColorSelect(color)} className="p-6 border-2 border-gray-200 rounded-lg hover:border-green-600 hover:bg-green-50 transition-all">
+                                        <button key={color} onClick={() => handleColorSelect(color)} className="p-6 border-2 border-gray-200 rounded-lg hover:border-[#738751] hover:bg-[#f7f8f3] transition-all">
                                             <div className={`w-16 h-16 rounded-full mx-auto mb-3 ${color === 'White' ? 'bg-white border-2 border-gray-300' : color === 'Bronze' ? 'bg-amber-700' : 'bg-black'}`}></div>
                                             <p className="font-medium text-center">{color}</p>
                                         </button>
                                     ))}
                                 </div>
-                                <button onClick={() => setStep(needsGrids() ? 4 : 3)} className="mt-6 text-green-600 hover:text-green-700 font-medium">← Back</button>
+                                <button onClick={() => setStep(needsGrids() ? 4 : 3)} className="mt-6 text-[#738751] hover:text-[#5a6a42] font-medium">← Back</button>
                             </div>
                         )}
 
@@ -819,15 +820,15 @@ export default function QuotationPage() {
                                 <div className="space-y-6">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">Width (inches)</label>
-                                        <input type="number" min="1" value={formData.width} onChange={(e) => setFormData({ ...formData, width: e.target.value })} className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-green-600 focus:outline-none" placeholder="e.g., 36" />
+                                        <input type="number" min="1" value={formData.width} onChange={(e) => setFormData({ ...formData, width: e.target.value })} className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#738751] focus:outline-none" placeholder="e.g., 36" />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">Height (inches)</label>
-                                        <input type="number" min="1" value={formData.height} onChange={(e) => setFormData({ ...formData, height: e.target.value })} className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-green-600 focus:outline-none" placeholder="e.g., 48" />
+                                        <input type="number" min="1" value={formData.height} onChange={(e) => setFormData({ ...formData, height: e.target.value })} className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#738751] focus:outline-none" placeholder="e.g., 48" />
                                     </div>
-                                    <button onClick={handleSizeSubmit} disabled={!formData.width || !formData.height} className="w-full py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed">Continue</button>
+                                    <button onClick={handleSizeSubmit} disabled={!formData.width || !formData.height} className="w-full py-3 bg-[#738751] text-white font-semibold rounded-lg hover:bg-[#5a6a42] transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed">Continue</button>
                                 </div>
-                                <button onClick={() => setStep(formData.material === 'vinyl' ? 4 : 5)} className="mt-6 text-green-600 hover:text-green-700 font-medium">← Back</button>
+                                <button onClick={() => setStep(formData.material === 'vinyl' ? 4 : 5)} className="mt-6 text-[#738751] hover:text-[#5a6a42] font-medium">← Back</button>
                             </div>
                         )}
 
@@ -837,10 +838,10 @@ export default function QuotationPage() {
                                 <p className="text-gray-600 mb-8">Enter the quantity you need</p>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
-                                    <input type="number" min="1" value={formData.quantity} onChange={(e) => setFormData({ ...formData, quantity: e.target.value })} className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-green-600 focus:outline-none text-lg" />
-                                    <button onClick={handleQuantitySubmit} disabled={!formData.quantity || parseInt(formData.quantity) < 1} className="w-full mt-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed">Continue</button>
+                                    <input type="number" min="1" value={formData.quantity} onChange={(e) => setFormData({ ...formData, quantity: e.target.value })} className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#738751] focus:outline-none text-lg" />
+                                    <button onClick={handleQuantitySubmit} disabled={!formData.quantity || parseInt(formData.quantity) < 1} className="w-full mt-6 py-3 bg-[#738751] text-white font-semibold rounded-lg hover:bg-[#5a6a42] transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed">Continue</button>
                                 </div>
-                                <button onClick={() => setStep(formData.material === 'vinyl' ? 5 : 6)} className="mt-6 text-green-600 hover:text-green-700 font-medium">← Back</button>
+                                <button onClick={() => setStep(formData.material === 'vinyl' ? 5 : 6)} className="mt-6 text-[#738751] hover:text-[#5a6a42] font-medium">← Back</button>
                             </div>
                         )}
 
@@ -851,17 +852,17 @@ export default function QuotationPage() {
                                 <div className="space-y-6">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">Email *</label>
-                                        <input type="email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-green-600 focus:outline-none" placeholder="your@email.com" />
+                                        <input type="email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#738751] focus:outline-none" placeholder="your@email.com" />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
-                                        <input type="tel" required value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-green-600 focus:outline-none" placeholder="(123) 456-7890" />
+                                        <input type="tel" required value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#738751] focus:outline-none" placeholder="(123) 456-7890" />
                                     </div>
-                                    <button onClick={handleSubmit} disabled={isSubmitting || !formData.email || !formData.phone} className="w-full py-4 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors disabled:bg-gray-400 text-lg">
+                                    <button onClick={handleSubmit} disabled={isSubmitting || !formData.email || !formData.phone} className="w-full py-4 bg-[#738751] text-white font-semibold rounded-lg hover:bg-[#5a6a42] transition-colors disabled:bg-gray-400 text-lg">
                                         {isSubmitting ? 'Submitting...' : 'Submit Quote Request'}
                                     </button>
                                 </div>
-                                <button onClick={() => setStep(formData.material === 'vinyl' ? 6 : 7)} className="mt-6 text-green-600 hover:text-green-700 font-medium">← Back</button>
+                                <button onClick={() => setStep(formData.material === 'vinyl' ? 6 : 7)} className="mt-6 text-[#738751] hover:text-[#5a6a42] font-medium">← Back</button>
                             </div>
                         )}
 
@@ -869,9 +870,9 @@ export default function QuotationPage() {
                             <div className="bg-white rounded-xl shadow-lg p-8 text-center">
                                 <div className="text-6xl mb-6">✅</div>
                                 <h2 className="text-3xl font-bold text-gray-900 mb-4">Quote Request Submitted!</h2>
-                                <p className="text-gray-600 mb-8">Thank you! We've received your request and will send a detailed quote to <span className="font-medium text-green-600">{formData.email}</span> within 24 hours.</p>
+                                <p className="text-gray-600 mb-8">Thank you! We've received your request and will send a detailed quote to <span className="font-medium text-[#738751]">{formData.email}</span> within 24 hours.</p>
                                 <div className="space-y-4">
-                                    <button onClick={resetForm} className="w-full py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors">Submit Another Quote</button>
+                                    <button onClick={resetForm} className="w-full py-3 bg-[#738751] text-white font-semibold rounded-lg hover:bg-[#5a6a42] transition-colors">Submit Another Quote</button>
                                     <button onClick={() => router.push('/')} className="w-full py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors">Back to Home</button>
                                 </div>
                             </div>
