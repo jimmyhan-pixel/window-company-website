@@ -6,7 +6,7 @@ import Navbar from "./components/Navbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Premier Windows - Quality Windows for Your Home",
+  title: "City Windows / 华美门窗 - Quality Windows for Your Home",
   description: "Professional window installation and replacement services in New York",
 };
 
