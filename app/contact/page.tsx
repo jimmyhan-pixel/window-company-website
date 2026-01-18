@@ -2,119 +2,152 @@
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#f7f8f3] via-white to-[#f7f8f3] py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12 animate-fade-in">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">Contact Us</h1>
-          <p className="text-xl text-gray-600">
-            Get in touch with our team for any questions or support
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Contact Information */}
-          <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100 animate-scale-in">
-            <h2 className="text-3xl font-bold text-gray-900 mb-8">Get In Touch</h2>
-
-            <div className="space-y-6">
-              {/* Address */}
-              <div className="flex items-start group">
-                <div className="flex-shrink-0">
-                  <div className="w-14 h-14 bg-gradient-to-br from-[#eef0e6] to-[#dce2cd] rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-sm">
-                    <span className="text-3xl">📍</span>
-                  </div>
-                </div>
-                <div className="ml-4">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-1">Address</h3>
-                  <p className="text-gray-600">
-                    123 Window Street<br />
-                    New York, NY 10001
-                  </p>
-                </div>
-              </div>
-
-              {/* Phone */}
-              <div className="flex items-start group">
-                <div className="flex-shrink-0">
-                  <div className="w-14 h-14 bg-gradient-to-br from-[#eef0e6] to-[#dce2cd] rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-sm">
-                    <span className="text-3xl">📞</span>
-                  </div>
-                </div>
-                <div className="ml-4">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-1">Phone</h3>
-                  <a
-                    href="tel:+12125551234"
-                    className="text-[#738751] hover:text-[#5a6a42] font-medium transition-colors hover:underline"
-                  >
-                    (212) 555-1234
-                  </a>
-                </div>
-              </div>
-
-              {/* Email */}
-              <div className="flex items-start group">
-                <div className="flex-shrink-0">
-                  <div className="w-14 h-14 bg-gradient-to-br from-[#eef0e6] to-[#dce2cd] rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-sm">
-                    <span className="text-3xl">✉️</span>
-                  </div>
-                </div>
-                <div className="ml-4">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-1">Email</h3>
-                  <a
-                    href="mailto:info@citywindows.com"
-                    className="text-[#738751] hover:text-[#5a6a42] font-medium transition-colors hover:underline"
-                  >
-                    info@citywindows.com
-                  </a>
-                </div>
-              </div>
-
-              {/* Business Hours */}
-              <div className="flex items-start group">
-                <div className="flex-shrink-0">
-                  <div className="w-14 h-14 bg-gradient-to-br from-[#eef0e6] to-[#dce2cd] rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-sm">
-                    <span className="text-3xl">🕐</span>
-                  </div>
-                </div>
-                <div className="ml-4">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Business Hours</h3>
-                  <div className="text-gray-600 space-y-1">
-                    <p className="flex justify-between"><span className="font-medium">Monday - Friday:</span> <span>8:00 AM - 6:00 PM</span></p>
-                    <p className="flex justify-between"><span className="font-medium">Saturday:</span> <span>9:00 AM - 4:00 PM</span></p>
-                    <p className="flex justify-between"><span className="font-medium">Sunday:</span> <span className="text-red-500">Closed</span></p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* CTA Button */}
-            <div className="mt-8 pt-8 border-t border-gray-200">
-              <button
-                onClick={() => window.location.href = '/quotation'}
-                className="block w-full py-4 bg-gradient-to-r from-[#738751] to-[#5a6a42] text-white text-center font-semibold rounded-xl hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
-              >
-                ✨ Get Free Quote
-              </button>
-            </div>
-          </div>
-
-          {/* Map */}
-          <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 animate-scale-in">
-            <div className="h-full min-h-[500px]">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.15830869428!2d-74.11976379575477!3d40.69766374874431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY!5e0!3m2!1sen!2sus!4v1234567890123!5m2!1sen!2sus"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="rounded-3xl"
-              ></iframe>
-            </div>
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <section className="relative py-24 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white overflow-hidden">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0gMTAwIDAgTCAwIDAgMCAxMDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjAzKSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-40"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center animate-fade-in">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6">Get In Touch</h1>
+            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto">
+              We're here to help with all your window and door needs
+            </p>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* Contact Content */}
+      <section className="py-24 bg-gradient-to-b from-white to-[#f7f8f3]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-12">
+            {/* Contact Information */}
+            <div className="space-y-8">
+              <div>
+                <h2 className="text-4xl font-bold text-gray-900 mb-8">Contact Information</h2>
+                <p className="text-lg text-gray-600 mb-12">
+                  Reach out to us for a free consultation or quote. We're available to answer all your questions.
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                {/* Address */}
+                <div className="flex items-start group">
+                  <div className="flex-shrink-0">
+                    <div className="w-16 h-16 bg-gradient-to-br from-[#738751] to-[#5a6a42] rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="ml-6">
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">Address</h3>
+                    <p className="text-gray-600 leading-relaxed">
+                      123 Window Street<br />
+                      New York, NY 10001
+                    </p>
+                  </div>
+                </div>
+
+                {/* Phone */}
+                <div className="flex items-start group">
+                  <div className="flex-shrink-0">
+                    <div className="w-16 h-16 bg-gradient-to-br from-[#738751] to-[#5a6a42] rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="ml-6">
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">Phone</h3>
+                    <a
+                      href="tel:+12125551234"
+                      className="text-[#738751] hover:text-[#5a6a42] font-semibold text-lg transition-colors"
+                    >
+                      (212) 555-1234
+                    </a>
+                  </div>
+                </div>
+
+                {/* Email */}
+                <div className="flex items-start group">
+                  <div className="flex-shrink-0">
+                    <div className="w-16 h-16 bg-gradient-to-br from-[#738751] to-[#5a6a42] rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="ml-6">
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">Email</h3>
+                    <a
+                      href="mailto:info@citywindows.com"
+                      className="text-[#738751] hover:text-[#5a6a42] font-semibold text-lg transition-colors"
+                    >
+                      info@citywindows.com
+                    </a>
+                  </div>
+                </div>
+
+                {/* Business Hours */}
+                <div className="flex items-start group">
+                  <div className="flex-shrink-0">
+                    <div className="w-16 h-16 bg-gradient-to-br from-[#738751] to-[#5a6a42] rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="ml-6">
+                    <h3 className="text-xl font-bold text-gray-900 mb-3">Business Hours</h3>
+                    <div className="text-gray-600 space-y-2">
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium">Monday - Friday:</span>
+                        <span className="ml-4">8:00 AM - 6:00 PM</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium">Saturday:</span>
+                        <span className="ml-4">9:00 AM - 4:00 PM</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium">Sunday:</span>
+                        <span className="ml-4 text-red-500 font-semibold">Closed</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* CTA Button */}
+              <div className="pt-8">
+                <button
+                  onClick={() => window.location.href = '/quotation'}
+                  className="w-full py-5 bg-gradient-to-r from-[#738751] to-[#5a6a42] text-white text-lg font-bold hover:shadow-2xl transition-all duration-300 hover:scale-105 uppercase tracking-wider"
+                >
+                  Get Free Quote
+                </button>
+              </div>
+            </div>
+
+            {/* Map */}
+            <div className="relative">
+              <div className="sticky top-8">
+                <div className="bg-white shadow-2xl overflow-hidden h-[600px] border-4 border-gray-100">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.15830869428!2d-74.11976379575477!3d40.69766374874431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY!5e0!3m2!1sen!2sus!4v1234567890123!5m2!1sen!2sus"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  ></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

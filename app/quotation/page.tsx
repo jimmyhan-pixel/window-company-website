@@ -724,11 +724,11 @@ export default function QuotationPage() {
                                 <h2 className="text-3xl font-bold text-gray-900 mb-2">Choose Window Category</h2>
                                 <p className="text-gray-600 mb-8">Select residential or commercial windows</p>
                                 <div className="grid md:grid-cols-2 gap-6">
-                                    <button onClick={() => handleAluminumCategory('residential')} className="p-8 border-2 border-gray-200 rounded-2xl hover:border-[#738751] hover:bg-gradient-to-br hover:from-[#f7f8f3] hover:to-white transition-all duration-300 text-left hover:shadow-lg hover:-translate-y-1">
+                                    <button onClick={() => handleAluminumCategory('residential')} className="p-8 border-2 border-gray-200 rounded-2xl hover:border-[#738751] hover:bg-gradient-to-br hover:from-[#f7f8f3] hover:to-white transition-all duration-300 hover:shadow-lg hover:-translate-y-1 flex flex-col items-center justify-center text-center">
                                         <h3 className="text-xl font-bold text-gray-900 mb-2">Residential Windows</h3>
                                         <p className="text-gray-600 text-sm">For homes and apartments</p>
                                     </button>
-                                    <button onClick={() => handleAluminumCategory('commercial')} className="p-8 border-2 border-gray-200 rounded-2xl hover:border-[#738751] hover:bg-gradient-to-br hover:from-[#f7f8f3] hover:to-white transition-all duration-300 text-left hover:shadow-lg hover:-translate-y-1">
+                                    <button onClick={() => handleAluminumCategory('commercial')} className="p-8 border-2 border-gray-200 rounded-2xl hover:border-[#738751] hover:bg-gradient-to-br hover:from-[#f7f8f3] hover:to-white transition-all duration-300 hover:shadow-lg hover:-translate-y-1 flex flex-col items-center justify-center text-center">
                                         <h3 className="text-xl font-bold text-gray-900 mb-2">Commercial Windows</h3>
                                         <p className="text-gray-600 text-sm">For offices and business spaces</p>
                                     </button>
