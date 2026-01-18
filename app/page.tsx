@@ -92,36 +92,40 @@ export default function Home() {
               Our Collections
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Explore our premium selection of vinyl and aluminum windows
+              Explore our premium selection of windows for every need
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-3 gap-8">
             {/* Vinyl Windows */}
-            <div className="group relative overflow-hidden bg-white shadow-2xl hover:shadow-3xl transition-all duration-500">
-              <div className="aspect-[4/3] bg-gradient-to-br from-[#eef0e6] via-[#dce2cd] to-[#c4cfad] relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-                  <div className="text-7xl mb-4 group-hover:scale-110 transition-transform duration-500">🪟</div>
-                  <h3 className="text-4xl font-bold mb-2">Vinyl Windows</h3>
-                  <p className="text-lg text-gray-200">For residential projects</p>
+            <div className="group relative overflow-hidden bg-white shadow-2xl hover:shadow-3xl transition-all duration-500 rounded-lg">
+              <div className="aspect-[4/3] relative overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop"
+                  alt="Vinyl Windows"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                  <h3 className="text-3xl font-bold mb-2">Vinyl Windows</h3>
+                  <p className="text-sm text-gray-200">Residential · Energy Efficient</p>
                 </div>
               </div>
-              <div className="p-8">
-                <ul className="space-y-4 mb-8">
-                  <li className="flex items-center text-gray-700">
+              <div className="p-6">
+                <ul className="space-y-3 mb-6">
+                  <li className="flex items-center text-gray-700 text-sm">
                     <svg className="w-5 h-5 text-[#738751] mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
                     <span>Energy efficient & low maintenance</span>
                   </li>
-                  <li className="flex items-center text-gray-700">
+                  <li className="flex items-center text-gray-700 text-sm">
                     <svg className="w-5 h-5 text-[#738751] mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
                     <span>9 window styles available</span>
                   </li>
-                  <li className="flex items-center text-gray-700">
+                  <li className="flex items-center text-gray-700 text-sm">
                     <svg className="w-5 h-5 text-[#738751] mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
@@ -130,38 +134,42 @@ export default function Home() {
                 </ul>
                 <Link
                   href="/quotation"
-                  className="block text-center px-8 py-4 bg-[#738751] text-white font-semibold hover:bg-[#5a6a42] transition-all duration-300 uppercase tracking-wider"
+                  className="block text-center px-6 py-3 bg-[#738751] text-white font-semibold hover:bg-[#5a6a42] transition-all duration-300 uppercase tracking-wider text-sm"
                 >
-                  Explore Vinyl Windows
+                  Learn More
                 </Link>
               </div>
             </div>
 
-            {/* Aluminum Windows */}
-            <div className="group relative overflow-hidden bg-white shadow-2xl hover:shadow-3xl transition-all duration-500">
-              <div className="aspect-[4/3] bg-gradient-to-br from-[#e5e7eb] via-[#d1d5db] to-[#9ca3af] relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-                  <div className="text-7xl mb-4 group-hover:scale-110 transition-transform duration-500">🏢</div>
-                  <h3 className="text-4xl font-bold mb-2">Aluminum Windows</h3>
-                  <p className="text-lg text-gray-200">For commercial projects</p>
+            {/* Aluminum Residential Windows */}
+            <div className="group relative overflow-hidden bg-white shadow-2xl hover:shadow-3xl transition-all duration-500 rounded-lg">
+              <div className="aspect-[4/3] relative overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&h=600&fit=crop"
+                  alt="Aluminum Windows"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                  <h3 className="text-3xl font-bold mb-2">Aluminum Windows</h3>
+                  <p className="text-sm text-gray-200">Residential · Premium Quality</p>
                 </div>
               </div>
-              <div className="p-8">
-                <ul className="space-y-4 mb-8">
-                  <li className="flex items-center text-gray-700">
+              <div className="p-6">
+                <ul className="space-y-3 mb-6">
+                  <li className="flex items-center text-gray-700 text-sm">
                     <svg className="w-5 h-5 text-[#738751] mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
                     <span>Durable & modern design</span>
                   </li>
-                  <li className="flex items-center text-gray-700">
+                  <li className="flex items-center text-gray-700 text-sm">
                     <svg className="w-5 h-5 text-[#738751] mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
                     <span>3 color choices available</span>
                   </li>
-                  <li className="flex items-center text-gray-700">
+                  <li className="flex items-center text-gray-700 text-sm">
                     <svg className="w-5 h-5 text-[#738751] mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
@@ -170,9 +178,53 @@ export default function Home() {
                 </ul>
                 <Link
                   href="/quotation"
-                  className="block text-center px-8 py-4 bg-gray-900 text-white font-semibold hover:bg-gray-800 transition-all duration-300 uppercase tracking-wider"
+                  className="block text-center px-6 py-3 bg-gray-900 text-white font-semibold hover:bg-gray-800 transition-all duration-300 uppercase tracking-wider text-sm"
                 >
-                  Explore Aluminum Windows
+                  Learn More
+                </Link>
+              </div>
+            </div>
+
+            {/* Commercial Aluminum Windows */}
+            <div className="group relative overflow-hidden bg-white shadow-2xl hover:shadow-3xl transition-all duration-500 rounded-lg">
+              <div className="aspect-[4/3] relative overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop"
+                  alt="Commercial Windows"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                  <h3 className="text-3xl font-bold mb-2">Commercial Windows</h3>
+                  <p className="text-sm text-gray-200">Office Buildings · Large Scale</p>
+                </div>
+              </div>
+              <div className="p-6">
+                <ul className="space-y-3 mb-6">
+                  <li className="flex items-center text-gray-700 text-sm">
+                    <svg className="w-5 h-5 text-[#738751] mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    <span>Large-scale curtain walls</span>
+                  </li>
+                  <li className="flex items-center text-gray-700 text-sm">
+                    <svg className="w-5 h-5 text-[#738751] mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    <span>Professional grade soundproofing</span>
+                  </li>
+                  <li className="flex items-center text-gray-700 text-sm">
+                    <svg className="w-5 h-5 text-[#738751] mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    <span>Meets commercial standards</span>
+                  </li>
+                </ul>
+                <Link
+                  href="/quotation"
+                  className="block text-center px-6 py-3 bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-all duration-300 uppercase tracking-wider text-sm"
+                >
+                  Learn More
                 </Link>
               </div>
             </div>

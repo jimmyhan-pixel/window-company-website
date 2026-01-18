@@ -706,12 +706,10 @@ export default function QuotationPage() {
                                 <p className="text-gray-600 mb-8">Select the type of window material you prefer</p>
                                 <div className="grid md:grid-cols-2 gap-6">
                                     <button onClick={() => handleMaterialSelect('vinyl')} className="p-8 border-2 border-gray-200 rounded-2xl hover:border-[#738751] hover:bg-gradient-to-br hover:from-[#f7f8f3] hover:to-white transition-all duration-300 text-left group hover:shadow-lg hover:-translate-y-1">
-                                        <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">🪟</div>
                                         <h3 className="text-xl font-bold text-[#2d2d2d] mb-2 group-hover:text-[#738751] transition-colors">Vinyl Windows</h3>
                                         <p className="text-gray-600 text-sm">Energy efficient, low maintenance</p>
                                     </button>
                                     <button onClick={() => handleMaterialSelect('aluminum')} className="p-8 border-2 border-gray-200 rounded-2xl hover:border-[#738751] hover:bg-gradient-to-br hover:from-[#f7f8f3] hover:to-white transition-all duration-300 text-left group hover:shadow-lg hover:-translate-y-1">
-                                        <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">🏢</div>
                                         <h3 className="text-xl font-bold text-[#2d2d2d] mb-2 group-hover:text-[#738751] transition-colors">Aluminum Windows</h3>
                                         <p className="text-gray-600 text-sm">Durable, modern design</p>
                                     </button>
