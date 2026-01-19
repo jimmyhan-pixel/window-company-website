@@ -19,471 +19,373 @@ interface FormData {
     phone: string
 }
 
-// Window Preview Component with Layered Approach
-function WindowPreview({
-    windowType,
-    grids,
-    color
-}: {
-    windowType: string
-    grids: string
-    color: string
-}) {
-    // Get color filter based on selection
-    const getColorFilter = () => {
+// Window Preview Component
+function WindowPreview({ windowType, grids, color }: { windowType: string; grids: string; color: string }) {
+    const getFrameColor = () => {
         switch (color) {
-            case 'White':
-                return 'brightness(1.2) saturate(0)'
-            case 'Bronze':
-                return 'sepia(1) saturate(2) hue-rotate(10deg) brightness(0.6)'
-            case 'Black':
-                return 'brightness(0.3)'
-            default:
-                return 'none'
+            case 'White': return '#e8e8e8'
+            case 'Bronze': return '#5d4037'
+            case 'Black': return '#1a1a1a'
+            default: return '#4a4a4a'
         }
     }
 
-    // Layer 1: Window Frame (base structure)
+    const frameColor = getFrameColor()
+
     const WindowFrame = () => {
-        const frameColor = "#333"
-        const frameWidth = 4
+        const glassStyle = { fill: 'url(#glassGradient)' }
 
         switch (windowType) {
             case 'Double Hung':
                 return (
-                    <svg viewBox="0 0 200 300" className="w-full">
-                        <rect x="20" y="20" width="160" height="260" fill="none" stroke={frameColor} strokeWidth={frameWidth} />
-                        <line x1="20" y1="150" x2="180" y2="150" stroke={frameColor} strokeWidth={frameWidth} />
+                    <svg viewBox="0 0 200 300" className="w-full h-full">
+                        <defs>
+                            <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stopColor="#e3f2fd" stopOpacity="0.9" />
+                                <stop offset="50%" stopColor="#bbdefb" stopOpacity="0.7" />
+                                <stop offset="100%" stopColor="#90caf9" stopOpacity="0.5" />
+                            </linearGradient>
+                        </defs>
+                        <rect x="10" y="10" width="180" height="280" fill="none" stroke={frameColor} strokeWidth="10" rx="4" />
+                        <rect x="20" y="20" width="160" height="125" style={glassStyle} rx="2" />
+                        <rect x="20" y="155" width="160" height="125" style={glassStyle} rx="2" />
+                        <rect x="10" y="145" width="180" height="10" fill={frameColor} />
+                        {grids === '4 over 4' && (
+                            <>
+                                <line x1="100" y1="20" x2="100" y2="145" stroke={frameColor} strokeWidth="2" />
+                                <line x1="20" y1="85" x2="180" y2="85" stroke={frameColor} strokeWidth="2" />
+                                <line x1="100" y1="155" x2="100" y2="280" stroke={frameColor} strokeWidth="2" />
+                                <line x1="20" y1="215" x2="180" y2="215" stroke={frameColor} strokeWidth="2" />
+                            </>
+                        )}
+                        {grids === '6 over 6' && (
+                            <>
+                                <line x1="73" y1="20" x2="73" y2="145" stroke={frameColor} strokeWidth="2" />
+                                <line x1="127" y1="20" x2="127" y2="145" stroke={frameColor} strokeWidth="2" />
+                                <line x1="20" y1="85" x2="180" y2="85" stroke={frameColor} strokeWidth="2" />
+                                <line x1="73" y1="155" x2="73" y2="280" stroke={frameColor} strokeWidth="2" />
+                                <line x1="127" y1="155" x2="127" y2="280" stroke={frameColor} strokeWidth="2" />
+                                <line x1="20" y1="215" x2="180" y2="215" stroke={frameColor} strokeWidth="2" />
+                            </>
+                        )}
                     </svg>
                 )
-
             case 'Two Lites Slider':
                 return (
-                    <svg viewBox="0 0 300 200" className="w-full">
-                        <rect x="20" y="20" width="260" height="160" fill="none" stroke={frameColor} strokeWidth={frameWidth} />
-                        <line x1="150" y1="20" x2="150" y2="180" stroke={frameColor} strokeWidth={frameWidth} />
+                    <svg viewBox="0 0 300 200" className="w-full h-full">
+                        <defs>
+                            <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stopColor="#e3f2fd" stopOpacity="0.9" />
+                                <stop offset="50%" stopColor="#bbdefb" stopOpacity="0.7" />
+                                <stop offset="100%" stopColor="#90caf9" stopOpacity="0.5" />
+                            </linearGradient>
+                        </defs>
+                        <rect x="10" y="10" width="280" height="180" fill="none" stroke={frameColor} strokeWidth="10" rx="4" />
+                        <rect x="20" y="20" width="125" height="160" style={glassStyle} rx="2" />
+                        <rect x="155" y="20" width="125" height="160" style={glassStyle} rx="2" />
+                        <rect x="145" y="10" width="10" height="180" fill={frameColor} />
+                        {grids === '4 over 4' && (
+                            <>
+                                <line x1="82" y1="20" x2="82" y2="180" stroke={frameColor} strokeWidth="2" />
+                                <line x1="20" y1="100" x2="145" y2="100" stroke={frameColor} strokeWidth="2" />
+                                <line x1="218" y1="20" x2="218" y2="180" stroke={frameColor} strokeWidth="2" />
+                                <line x1="155" y1="100" x2="280" y2="100" stroke={frameColor} strokeWidth="2" />
+                            </>
+                        )}
                     </svg>
                 )
-
-            case 'Three Lites Slider':
-                return (
-                    <svg viewBox="0 0 300 200" className="w-full">
-                        <rect x="20" y="20" width="260" height="160" fill="none" stroke={frameColor} strokeWidth={frameWidth} />
-                        <line x1="106" y1="20" x2="106" y2="180" stroke={frameColor} strokeWidth={frameWidth} />
-                        <line x1="193" y1="20" x2="193" y2="180" stroke={frameColor} strokeWidth={frameWidth} />
-                    </svg>
-                )
-
             case 'Picture Window':
                 return (
-                    <svg viewBox="0 0 280 200" className="w-full">
-                        <rect x="20" y="20" width="240" height="160" fill="none" stroke={frameColor} strokeWidth={frameWidth} />
+                    <svg viewBox="0 0 280 200" className="w-full h-full">
+                        <defs>
+                            <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stopColor="#e3f2fd" stopOpacity="0.9" />
+                                <stop offset="50%" stopColor="#bbdefb" stopOpacity="0.7" />
+                                <stop offset="100%" stopColor="#90caf9" stopOpacity="0.5" />
+                            </linearGradient>
+                        </defs>
+                        <rect x="10" y="10" width="260" height="180" fill="none" stroke={frameColor} strokeWidth="10" rx="4" />
+                        <rect x="20" y="20" width="240" height="160" style={glassStyle} rx="2" />
+                        {grids === '2' && (
+                            <>
+                                <line x1="100" y1="20" x2="100" y2="180" stroke={frameColor} strokeWidth="2" />
+                                <line x1="180" y1="20" x2="180" y2="180" stroke={frameColor} strokeWidth="2" />
+                            </>
+                        )}
+                        {grids === '4' && (
+                            <>
+                                <line x1="140" y1="20" x2="140" y2="180" stroke={frameColor} strokeWidth="2" />
+                                <line x1="20" y1="100" x2="260" y2="100" stroke={frameColor} strokeWidth="2" />
+                            </>
+                        )}
                     </svg>
                 )
-
             case 'Casement':
                 return (
-                    <svg viewBox="0 0 200 280" className="w-full">
-                        <rect x="20" y="20" width="160" height="240" fill="none" stroke={frameColor} strokeWidth={frameWidth} />
-                        <circle cx="25" cy="80" r="4" fill={frameColor} />
-                        <circle cx="25" cy="140" r="4" fill={frameColor} />
-                        <circle cx="25" cy="200" r="4" fill={frameColor} />
-                        <rect x="165" y="130" width="10" height="20" fill={frameColor} rx="2" />
+                    <svg viewBox="0 0 200 280" className="w-full h-full">
+                        <defs>
+                            <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stopColor="#e3f2fd" stopOpacity="0.9" />
+                                <stop offset="50%" stopColor="#bbdefb" stopOpacity="0.7" />
+                                <stop offset="100%" stopColor="#90caf9" stopOpacity="0.5" />
+                            </linearGradient>
+                        </defs>
+                        <rect x="10" y="10" width="180" height="260" fill="none" stroke={frameColor} strokeWidth="10" rx="4" />
+                        <rect x="20" y="20" width="160" height="240" style={glassStyle} rx="2" />
+                        <circle cx="25" cy="80" r="5" fill={frameColor} />
+                        <circle cx="25" cy="140" r="5" fill={frameColor} />
+                        <circle cx="25" cy="200" r="5" fill={frameColor} />
+                        <rect x="165" y="130" width="8" height="20" fill={frameColor} rx="2" />
                     </svg>
                 )
-
             case 'Hopper':
                 return (
-                    <svg viewBox="0 0 280 180" className="w-full">
-                        <rect x="20" y="20" width="240" height="140" fill="none" stroke={frameColor} strokeWidth={frameWidth} />
-                        <circle cx="80" cy="25" r="4" fill={frameColor} />
-                        <circle cx="140" cy="25" r="4" fill={frameColor} />
-                        <circle cx="200" cy="25" r="4" fill={frameColor} />
-                        <rect x="130" y="155" width="20" height="10" fill={frameColor} rx="2" />
+                    <svg viewBox="0 0 280 180" className="w-full h-full">
+                        <defs>
+                            <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stopColor="#e3f2fd" stopOpacity="0.9" />
+                                <stop offset="50%" stopColor="#bbdefb" stopOpacity="0.7" />
+                                <stop offset="100%" stopColor="#90caf9" stopOpacity="0.5" />
+                            </linearGradient>
+                        </defs>
+                        <rect x="10" y="10" width="260" height="160" fill="none" stroke={frameColor} strokeWidth="10" rx="4" />
+                        <rect x="20" y="20" width="240" height="140" style={glassStyle} rx="2" />
+                        <circle cx="80" cy="18" r="5" fill={frameColor} />
+                        <circle cx="140" cy="18" r="5" fill={frameColor} />
+                        <circle cx="200" cy="18" r="5" fill={frameColor} />
+                        <rect x="130" y="152" width="20" height="8" fill={frameColor} rx="2" />
                     </svg>
                 )
-
             case 'Awning':
                 return (
-                    <svg viewBox="0 0 280 180" className="w-full">
-                        <rect x="20" y="20" width="240" height="140" fill="none" stroke={frameColor} strokeWidth={frameWidth} />
-                        <circle cx="80" cy="155" r="4" fill={frameColor} />
-                        <circle cx="140" cy="155" r="4" fill={frameColor} />
-                        <circle cx="200" cy="155" r="4" fill={frameColor} />
-                        <rect x="130" y="25" width="20" height="10" fill={frameColor} rx="2" />
+                    <svg viewBox="0 0 280 180" className="w-full h-full">
+                        <defs>
+                            <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stopColor="#e3f2fd" stopOpacity="0.9" />
+                                <stop offset="50%" stopColor="#bbdefb" stopOpacity="0.7" />
+                                <stop offset="100%" stopColor="#90caf9" stopOpacity="0.5" />
+                            </linearGradient>
+                        </defs>
+                        <rect x="10" y="10" width="260" height="160" fill="none" stroke={frameColor} strokeWidth="10" rx="4" />
+                        <rect x="20" y="20" width="240" height="140" style={glassStyle} rx="2" />
+                        <circle cx="80" cy="162" r="5" fill={frameColor} />
+                        <circle cx="140" cy="162" r="5" fill={frameColor} />
+                        <circle cx="200" cy="162" r="5" fill={frameColor} />
+                        <rect x="130" y="22" width="20" height="8" fill={frameColor} rx="2" />
                     </svg>
                 )
-
+            case 'Three Lites Slider':
+                return (
+                    <svg viewBox="0 0 340 200" className="w-full h-full">
+                        <defs>
+                            <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stopColor="#e3f2fd" stopOpacity="0.9" />
+                                <stop offset="50%" stopColor="#bbdefb" stopOpacity="0.7" />
+                                <stop offset="100%" stopColor="#90caf9" stopOpacity="0.5" />
+                            </linearGradient>
+                        </defs>
+                        <rect x="10" y="10" width="320" height="180" fill="none" stroke={frameColor} strokeWidth="10" rx="4" />
+                        <rect x="20" y="20" width="90" height="160" style={glassStyle} rx="2" />
+                        <rect x="120" y="20" width="100" height="160" style={glassStyle} rx="2" />
+                        <rect x="230" y="20" width="90" height="160" style={glassStyle} rx="2" />
+                        <rect x="110" y="10" width="10" height="180" fill={frameColor} />
+                        <rect x="220" y="10" width="10" height="180" fill={frameColor} />
+                    </svg>
+                )
             case 'Bow Window':
                 return (
-                    <svg viewBox="0 0 300 200" className="w-full">
-                        <path d="M 20 180 L 20 30 Q 30 25 40 30 L 40 180" fill="none" stroke={frameColor} strokeWidth="3" />
-                        <path d="M 40 30 Q 50 22 75 22 Q 100 22 110 30 L 110 180" fill="none" stroke={frameColor} strokeWidth="3" />
-                        <path d="M 110 30 Q 125 20 150 20 Q 175 20 190 30 L 190 180" fill="none" stroke={frameColor} strokeWidth="3" />
-                        <path d="M 190 30 Q 200 22 225 22 Q 250 22 260 30 L 260 180" fill="none" stroke={frameColor} strokeWidth="3" />
-                        <path d="M 260 30 Q 270 25 280 30 L 280 180" fill="none" stroke={frameColor} strokeWidth="3" />
-                        <line x1="20" y1="180" x2="280" y2="180" stroke={frameColor} strokeWidth={frameWidth} />
+                    <svg viewBox="0 0 320 200" className="w-full h-full">
+                        <defs>
+                            <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stopColor="#e3f2fd" stopOpacity="0.9" />
+                                <stop offset="50%" stopColor="#bbdefb" stopOpacity="0.7" />
+                                <stop offset="100%" stopColor="#90caf9" stopOpacity="0.5" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M 20 180 L 20 40 Q 50 20 80 30 L 80 180 Z" fill="url(#glassGradient)" stroke={frameColor} strokeWidth="4" />
+                        <path d="M 80 180 L 80 30 Q 120 15 160 15 Q 200 15 240 30 L 240 180 Z" fill="url(#glassGradient)" stroke={frameColor} strokeWidth="4" />
+                        <path d="M 240 180 L 240 30 Q 270 20 300 40 L 300 180 Z" fill="url(#glassGradient)" stroke={frameColor} strokeWidth="4" />
+                        <line x1="20" y1="180" x2="300" y2="180" stroke={frameColor} strokeWidth="6" />
                     </svg>
                 )
-
             case 'Bay Window':
                 return (
-                    <svg viewBox="0 0 300 200" className="w-full">
-                        <line x1="40" y1="180" x2="60" y2="20" stroke={frameColor} strokeWidth={frameWidth} />
-                        <line x1="60" y1="20" x2="100" y2="20" stroke={frameColor} strokeWidth={frameWidth} />
-                        <line x1="100" y1="20" x2="100" y2="180" stroke={frameColor} strokeWidth={frameWidth} />
-                        <line x1="100" y1="20" x2="200" y2="20" stroke={frameColor} strokeWidth={frameWidth} />
-                        <line x1="200" y1="20" x2="200" y2="180" stroke={frameColor} strokeWidth={frameWidth} />
-                        <line x1="200" y1="20" x2="240" y2="20" stroke={frameColor} strokeWidth={frameWidth} />
-                        <line x1="240" y1="20" x2="260" y2="180" stroke={frameColor} strokeWidth={frameWidth} />
-                        <line x1="40" y1="180" x2="260" y2="180" stroke={frameColor} strokeWidth={frameWidth} />
+                    <svg viewBox="0 0 320 200" className="w-full h-full">
+                        <defs>
+                            <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stopColor="#e3f2fd" stopOpacity="0.9" />
+                                <stop offset="50%" stopColor="#bbdefb" stopOpacity="0.7" />
+                                <stop offset="100%" stopColor="#90caf9" stopOpacity="0.5" />
+                            </linearGradient>
+                        </defs>
+                        <polygon points="30,180 50,20 100,20 100,180" fill="url(#glassGradient)" stroke={frameColor} strokeWidth="4" />
+                        <rect x="100" y="20" width="120" height="160" fill="url(#glassGradient)" stroke={frameColor} strokeWidth="4" />
+                        <polygon points="220,180 220,20 270,20 290,180" fill="url(#glassGradient)" stroke={frameColor} strokeWidth="4" />
+                        <line x1="30" y1="180" x2="290" y2="180" stroke={frameColor} strokeWidth="6" />
                     </svg>
                 )
-
             default:
                 return (
-                    <svg viewBox="0 0 200 200" className="w-full">
-                        <rect x="20" y="20" width="160" height="160" fill="none" stroke={frameColor} strokeWidth={frameWidth} />
+                    <svg viewBox="0 0 200 200" className="w-full h-full">
+                        <defs>
+                            <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stopColor="#e3f2fd" stopOpacity="0.9" />
+                                <stop offset="50%" stopColor="#bbdefb" stopOpacity="0.7" />
+                                <stop offset="100%" stopColor="#90caf9" stopOpacity="0.5" />
+                            </linearGradient>
+                        </defs>
+                        <rect x="10" y="10" width="180" height="180" fill="none" stroke={frameColor} strokeWidth="10" rx="4" />
+                        <rect x="20" y="20" width="160" height="160" fill="url(#glassGradient)" rx="2" />
                     </svg>
                 )
         }
-    }
-
-    // Layer 2: Arrow Indicators (only shown when no grids)
-    const ArrowIndicators = () => {
-        const arrowColor = "#666"
-        const arrowWidth = 2
-
-        switch (windowType) {
-            case 'Double Hung':
-                return (
-                    <svg viewBox="0 0 200 300" className="w-full absolute inset-0">
-                        <path d="M 100 60 L 100 120 M 85 105 L 100 120 L 115 105"
-                            fill="none" stroke={arrowColor} strokeWidth={arrowWidth} />
-                        <path d="M 100 240 L 100 180 M 85 195 L 100 180 L 115 195"
-                            fill="none" stroke={arrowColor} strokeWidth={arrowWidth} />
-                    </svg>
-                )
-
-            case 'Two Lites Slider':
-                return (
-                    <svg viewBox="0 0 300 200" className="w-full absolute inset-0">
-                        <path d="M 60 100 L 120 100 M 105 85 L 120 100 L 105 115"
-                            fill="none" stroke={arrowColor} strokeWidth={arrowWidth} />
-                        <path d="M 240 100 L 180 100 M 195 85 L 180 100 L 195 115"
-                            fill="none" stroke={arrowColor} strokeWidth={arrowWidth} />
-                    </svg>
-                )
-
-            case 'Three Lites Slider':
-                return (
-                    <svg viewBox="0 0 300 200" className="w-full absolute inset-0">
-                        {/* Left pane - slides right */}
-                        <path d="M 40 100 L 80 100 M 70 90 L 80 100 L 70 110"
-                            fill="none" stroke={arrowColor} strokeWidth={arrowWidth} />
-                        {/* Middle pane - FIXED (no arrow) */}
-                        {/* Right pane - slides left */}
-                        <path d="M 260 100 L 220 100 M 230 90 L 220 100 L 230 110"
-                            fill="none" stroke={arrowColor} strokeWidth={arrowWidth} />
-                    </svg>
-                )
-
-            case 'Picture Window':
-                return (
-                    <svg viewBox="0 0 280 200" className="w-full absolute inset-0">
-                        <circle cx="140" cy="100" r="20" fill="none" stroke={arrowColor} strokeWidth={arrowWidth} />
-                        <line x1="140" y1="90" x2="140" y2="110" stroke={arrowColor} strokeWidth={arrowWidth} />
-                        <line x1="130" y1="100" x2="150" y2="100" stroke={arrowColor} strokeWidth={arrowWidth} />
-                    </svg>
-                )
-
-            case 'Casement':
-                return (
-                    <svg viewBox="0 0 200 280" className="w-full absolute inset-0">
-                        <path d="M 100 140 L 140 140 M 130 130 L 140 140 L 130 150"
-                            fill="none" stroke={arrowColor} strokeWidth={arrowWidth} />
-                    </svg>
-                )
-
-            case 'Hopper':
-                return (
-                    <svg viewBox="0 0 280 180" className="w-full absolute inset-0">
-                        <path d="M 140 130 L 140 90 M 130 100 L 140 90 L 150 100"
-                            fill="none" stroke={arrowColor} strokeWidth={arrowWidth} />
-                    </svg>
-                )
-
-            case 'Awning':
-                return (
-                    <svg viewBox="0 0 280 180" className="w-full absolute inset-0">
-                        <path d="M 140 60 L 140 100 M 130 90 L 140 100 L 150 90"
-                            fill="none" stroke={arrowColor} strokeWidth={arrowWidth} />
-                    </svg>
-                )
-
-            case 'Bow Window':
-                return (
-                    <svg viewBox="0 0 300 200" className="w-full absolute inset-0">
-                        <circle cx="150" cy="100" r="25" fill="none" stroke={arrowColor} strokeWidth={arrowWidth} />
-                        <path d="M 135 100 L 165 100 M 155 90 L 165 100 L 155 110"
-                            fill="none" stroke={arrowColor} strokeWidth={arrowWidth} />
-                    </svg>
-                )
-
-            case 'Bay Window':
-                return (
-                    <svg viewBox="0 0 300 200" className="w-full absolute inset-0">
-                        <circle cx="150" cy="100" r="25" fill="none" stroke={arrowColor} strokeWidth={arrowWidth} />
-                        <path d="M 135 100 L 165 100 M 155 90 L 165 100 L 155 110"
-                            fill="none" stroke={arrowColor} strokeWidth={arrowWidth} />
-                    </svg>
-                )
-
-            default:
-                return null
-        }
-    }
-
-    // Layer 3: Grids overlay
-    const GridsLayer = () => {
-        const gridColor = "#666"
-        const gridWidth = 1.5
-
-        if (!grids || grids === 'No Grids') return null
-
-        switch (windowType) {
-            case 'Double Hung':
-                if (grids === '4 over 4') {
-                    return (
-                        <svg viewBox="0 0 200 300" className="w-full absolute inset-0">
-                            <line x1="100" y1="20" x2="100" y2="150" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="20" y1="85" x2="180" y2="85" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="100" y1="150" x2="100" y2="280" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="20" y1="215" x2="180" y2="215" stroke={gridColor} strokeWidth={gridWidth} />
-                        </svg>
-                    )
-                } else if (grids === '6 over 6') {
-                    return (
-                        <svg viewBox="0 0 200 300" className="w-full absolute inset-0">
-                            <line x1="73" y1="20" x2="73" y2="150" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="127" y1="20" x2="127" y2="150" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="20" y1="85" x2="180" y2="85" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="73" y1="150" x2="73" y2="280" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="127" y1="150" x2="127" y2="280" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="20" y1="215" x2="180" y2="215" stroke={gridColor} strokeWidth={gridWidth} />
-                        </svg>
-                    )
-                }
-                break
-
-            case 'Two Lites Slider':
-                if (grids === '4 over 4') {
-                    return (
-                        <svg viewBox="0 0 300 200" className="w-full absolute inset-0">
-                            <line x1="85" y1="20" x2="85" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="20" y1="100" x2="150" y2="100" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="215" y1="20" x2="215" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="150" y1="100" x2="280" y2="100" stroke={gridColor} strokeWidth={gridWidth} />
-                        </svg>
-                    )
-                } else if (grids === '6 over 6') {
-                    return (
-                        <svg viewBox="0 0 300 200" className="w-full absolute inset-0">
-                            <line x1="63" y1="20" x2="63" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="106" y1="20" x2="106" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="20" y1="100" x2="150" y2="100" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="193" y1="20" x2="193" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="236" y1="20" x2="236" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="150" y1="100" x2="280" y2="100" stroke={gridColor} strokeWidth={gridWidth} />
-                        </svg>
-                    )
-                }
-                break
-
-            case 'Three Lites Slider':
-                if (grids === '4 over 4') {
-                    return (
-                        <svg viewBox="0 0 300 200" className="w-full absolute inset-0">
-                            <line x1="63" y1="20" x2="63" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="20" y1="100" x2="106" y2="100" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="150" y1="20" x2="150" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="106" y1="100" x2="193" y2="100" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="236" y1="20" x2="236" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="193" y1="100" x2="280" y2="100" stroke={gridColor} strokeWidth={gridWidth} />
-                        </svg>
-                    )
-                } else if (grids === '6 over 6') {
-                    return (
-                        <svg viewBox="0 0 300 200" className="w-full absolute inset-0">
-                            <line x1="47" y1="20" x2="47" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="79" y1="20" x2="79" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="20" y1="100" x2="106" y2="100" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="128" y1="20" x2="128" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="171" y1="20" x2="171" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="106" y1="100" x2="193" y2="100" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="214" y1="20" x2="214" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="257" y1="20" x2="257" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="193" y1="100" x2="280" y2="100" stroke={gridColor} strokeWidth={gridWidth} />
-                        </svg>
-                    )
-                }
-                break
-
-            case 'Picture Window':
-                if (grids === '2') {
-                    return (
-                        <svg viewBox="0 0 280 200" className="w-full absolute inset-0">
-                            <line x1="106" y1="20" x2="106" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="173" y1="20" x2="173" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                        </svg>
-                    )
-                } else if (grids === '4') {
-                    return (
-                        <svg viewBox="0 0 280 200" className="w-full absolute inset-0">
-                            <line x1="140" y1="20" x2="140" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="20" y1="100" x2="260" y2="100" stroke={gridColor} strokeWidth={gridWidth} />
-                        </svg>
-                    )
-                }
-                break
-
-            case 'Casement':
-                if (grids === '4 over 4') {
-                    return (
-                        <svg viewBox="0 0 200 280" className="w-full absolute inset-0">
-                            <line x1="100" y1="20" x2="100" y2="260" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="20" y1="140" x2="180" y2="140" stroke={gridColor} strokeWidth={gridWidth} />
-                        </svg>
-                    )
-                } else if (grids === '6 over 6') {
-                    return (
-                        <svg viewBox="0 0 200 280" className="w-full absolute inset-0">
-                            <line x1="73" y1="20" x2="73" y2="260" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="127" y1="20" x2="127" y2="260" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="20" y1="100" x2="180" y2="100" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="20" y1="180" x2="180" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                        </svg>
-                    )
-                }
-                break
-
-            case 'Hopper':
-                if (grids === '4 over 4') {
-                    return (
-                        <svg viewBox="0 0 280 180" className="w-full absolute inset-0">
-                            <line x1="140" y1="20" x2="140" y2="160" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="20" y1="90" x2="260" y2="90" stroke={gridColor} strokeWidth={gridWidth} />
-                        </svg>
-                    )
-                } else if (grids === '6 over 6') {
-                    return (
-                        <svg viewBox="0 0 280 180" className="w-full absolute inset-0">
-                            <line x1="93" y1="20" x2="93" y2="160" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="187" y1="20" x2="187" y2="160" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="20" y1="90" x2="260" y2="90" stroke={gridColor} strokeWidth={gridWidth} />
-                        </svg>
-                    )
-                }
-                break
-
-            case 'Awning':
-                if (grids === '4 over 4') {
-                    return (
-                        <svg viewBox="0 0 280 180" className="w-full absolute inset-0">
-                            <line x1="140" y1="20" x2="140" y2="160" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="20" y1="90" x2="260" y2="90" stroke={gridColor} strokeWidth={gridWidth} />
-                        </svg>
-                    )
-                } else if (grids === '6 over 6') {
-                    return (
-                        <svg viewBox="0 0 280 180" className="w-full absolute inset-0">
-                            <line x1="93" y1="20" x2="93" y2="160" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="187" y1="20" x2="187" y2="160" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="20" y1="90" x2="260" y2="90" stroke={gridColor} strokeWidth={gridWidth} />
-                        </svg>
-                    )
-                }
-                break
-
-            case 'Bow Window':
-                if (grids === '4 over 4') {
-                    return (
-                        <svg viewBox="0 0 300 200" className="w-full absolute inset-0">
-                            <line x1="30" y1="105" x2="30" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="75" y1="105" x2="75" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="150" y1="105" x2="150" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="225" y1="105" x2="225" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="270" y1="105" x2="270" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                        </svg>
-                    )
-                } else if (grids === '6 over 6') {
-                    return (
-                        <svg viewBox="0 0 300 200" className="w-full absolute inset-0">
-                            <line x1="30" y1="105" x2="30" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="57" y1="105" x2="57" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="93" y1="105" x2="93" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="130" y1="105" x2="130" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="170" y1="105" x2="170" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="207" y1="105" x2="207" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="243" y1="105" x2="243" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="270" y1="105" x2="270" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                        </svg>
-                    )
-                }
-                break
-
-            case 'Bay Window':
-                if (grids === '4 over 4') {
-                    return (
-                        <svg viewBox="0 0 300 200" className="w-full absolute inset-0">
-                            <line x1="70" y1="100" x2="70" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="150" y1="100" x2="150" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="230" y1="100" x2="230" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                        </svg>
-                    )
-                } else if (grids === '6 over 6') {
-                    return (
-                        <svg viewBox="0 0 300 200" className="w-full absolute inset-0">
-                            <line x1="60" y1="100" x2="60" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="80" y1="100" x2="80" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="125" y1="100" x2="125" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="175" y1="100" x2="175" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="220" y1="100" x2="220" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                            <line x1="240" y1="100" x2="240" y2="180" stroke={gridColor} strokeWidth={gridWidth} />
-                        </svg>
-                    )
-                }
-                break
-        }
-
-        return null
     }
 
     if (!windowType) {
         return (
-            <div className="bg-[#f7f8f3] rounded-xl p-8 flex items-center justify-center h-64 border border-gray-200">
-                <p className="text-gray-500">Select window type to see preview</p>
+            <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-8 flex flex-col items-center justify-center h-72 border border-slate-200">
+                <div className="w-20 h-20 rounded-full bg-slate-200 flex items-center justify-center mb-4">
+                    <svg className="w-10 h-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5z" />
+                    </svg>
+                </div>
+                <p className="text-slate-500 font-medium">Select a window type</p>
+                <p className="text-slate-400 text-sm mt-1">Preview will appear here</p>
             </div>
         )
     }
 
     return (
-        <div className="bg-white rounded-xl p-6 border-2 border-[#dce2cd] shadow-sm">
-            <h3 className="font-bold text-[#2d2d2d] text-sm mb-4 text-center">Window Preview</h3>
-            <div
-                className="relative"
-                style={{ filter: getColorFilter() }}
-            >
-                <WindowFrame />
-                {!grids || grids === 'No Grids' ? <ArrowIndicators /> : null}
-                <GridsLayer />
+        <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+            <h3 className="font-semibold text-slate-800 text-sm mb-4 flex items-center gap-2">
+                <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+                Window Preview
+            </h3>
+            <div className="relative h-48 flex items-center justify-center bg-gradient-to-br from-sky-50 to-blue-50 rounded-xl p-4">
+                <div className="w-full max-w-[200px]">
+                    <WindowFrame />
+                </div>
             </div>
-            <div className="mt-4 text-xs text-gray-600 text-center space-y-1">
-                <p><span className="font-medium">Type:</span> {windowType}</p>
-                {grids && <p><span className="font-medium">Grids:</span> {grids}</p>}
-                {color && <p><span className="font-medium">Color:</span> {color}</p>}
+            <div className="mt-4 grid grid-cols-3 gap-2 text-xs">
+                <div className="bg-slate-50 rounded-lg p-2 text-center">
+                    <p className="text-slate-500">Type</p>
+                    <p className="font-medium text-slate-700 truncate">{windowType}</p>
+                </div>
+                <div className="bg-slate-50 rounded-lg p-2 text-center">
+                    <p className="text-slate-500">Grids</p>
+                    <p className="font-medium text-slate-700">{grids || '-'}</p>
+                </div>
+                <div className="bg-slate-50 rounded-lg p-2 text-center">
+                    <p className="text-slate-500">Color</p>
+                    <p className="font-medium text-slate-700">{color || '-'}</p>
+                </div>
             </div>
         </div>
+    )
+}
+
+// Selection Summary Component
+function SelectionSummary({ formData, step }: { formData: FormData; step: number }) {
+    if (step === 1) return null
+
+    const items = [
+        { label: 'Material', value: formData.material, show: !!formData.material },
+        { label: 'Category', value: formData.aluminumCategory, show: !!formData.aluminumCategory },
+        { label: 'Window Type', value: formData.windowType, show: !!formData.windowType },
+        { label: 'Grids', value: formData.grids, show: !!formData.grids },
+        { label: 'Color', value: formData.color, show: !!formData.color },
+        { label: 'Size', value: formData.width && formData.height ? `${formData.width}" x ${formData.height}"` : '', show: !!(formData.width && formData.height) },
+        { label: 'Quantity', value: formData.quantity, show: parseInt(formData.quantity) > 0 },
+    ]
+
+    return (
+        <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl p-5 border border-emerald-100">
+            <h3 className="font-semibold text-slate-800 text-sm mb-4 flex items-center gap-2">
+                <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                Your Selection
+            </h3>
+            <div className="space-y-2">
+                {items.filter(item => item.show).map((item, index) => (
+                    <div key={index} className="flex justify-between items-center py-2 border-b border-emerald-100 last:border-0">
+                        <span className="text-slate-500 text-sm">{item.label}</span>
+                        <span className="font-medium text-slate-700 text-sm capitalize">{item.value}</span>
+                    </div>
+                ))}
+            </div>
+        </div>
+    )
+}
+
+// Window Type Icon
+function WindowTypeIcon({ type }: { type: string }) {
+    const iconClass = "w-8 h-8 text-slate-400 group-hover:text-emerald-600 transition-colors"
+
+    const icons: Record<string, React.ReactElement> = {
+        'Double Hung': (
+            <svg className={iconClass} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <rect x="4" y="2" width="16" height="20" rx="1" />
+                <line x1="4" y1="12" x2="20" y2="12" />
+            </svg>
+        ),
+        'Two Lites Slider': (
+            <svg className={iconClass} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <rect x="2" y="4" width="20" height="16" rx="1" />
+                <line x1="12" y1="4" x2="12" y2="20" />
+            </svg>
+        ),
+        'Three Lites Slider': (
+            <svg className={iconClass} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <rect x="2" y="4" width="20" height="16" rx="1" />
+                <line x1="8" y1="4" x2="8" y2="20" />
+                <line x1="16" y1="4" x2="16" y2="20" />
+            </svg>
+        ),
+        'Picture Window': (
+            <svg className={iconClass} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <rect x="3" y="4" width="18" height="16" rx="1" />
+            </svg>
+        ),
+        'Casement': (
+            <svg className={iconClass} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <rect x="4" y="2" width="16" height="20" rx="1" />
+                <circle cx="6" cy="12" r="1" fill="currentColor" />
+            </svg>
+        ),
+        'Hopper': (
+            <svg className={iconClass} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <rect x="3" y="4" width="18" height="16" rx="1" />
+                <path d="M12 14l-3 4h6l-3-4z" fill="currentColor" />
+            </svg>
+        ),
+        'Awning': (
+            <svg className={iconClass} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <rect x="3" y="4" width="18" height="16" rx="1" />
+                <path d="M12 10l-3-4h6l-3 4z" fill="currentColor" />
+            </svg>
+        ),
+        'Bow Window': (
+            <svg className={iconClass} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M3 18V6c0-1 1-2 3-2h12c2 0 3 1 3 2v12" />
+                <path d="M3 18h18" strokeWidth="2" />
+            </svg>
+        ),
+        'Bay Window': (
+            <svg className={iconClass} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M4 18l2-14h4v14M14 4h4l2 14M8 4h8v14H8z" />
+                <line x1="4" y1="18" x2="20" y2="18" strokeWidth="2" />
+            </svg>
+        ),
+    }
+
+    return icons[type] || (
+        <svg className={iconClass} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <rect x="4" y="4" width="16" height="16" rx="1" />
+        </svg>
     )
 }
 
@@ -504,38 +406,23 @@ export default function QuotationPage() {
     })
     const [isSubmitting, setIsSubmitting] = useState(false)
 
-    const vinylWindowTypes = [
-        'Double Hung', 'Two Lites Slider', 'Three Lites Slider', 'Picture Window',
-        'Casement', 'Hopper', 'Awning', 'Bow Window', 'Bay Window'
-    ]
-
+    const vinylWindowTypes = ['Double Hung', 'Two Lites Slider', 'Three Lites Slider', 'Picture Window', 'Casement', 'Hopper', 'Awning', 'Bow Window', 'Bay Window']
     const aluminumResidentialTypes = ['Double Hung', 'Two Lites Slider', 'Three Lites Slider', 'Picture Window']
     const aluminumCommercialTypes = ['Casement', 'Hopper', 'Awning']
     const aluminumColors = ['White', 'Bronze', 'Black']
 
-    const needsGrids = () => {
-        // All window types can have grids
-        return formData.windowType !== ''
-    }
+    const totalSteps = formData.material === 'vinyl' ? 7 : 8
 
     const getGridsOptions = () => {
-        if (formData.windowType === 'Picture Window') {
-            return ['No Grids', '2', '4']
-        } else if (['Double Hung', 'Two Lites Slider', 'Three Lites Slider', 'Casement', 'Hopper', 'Awning', 'Bow Window', 'Bay Window'].includes(formData.windowType)) {
+        if (formData.windowType === 'Picture Window') return ['No Grids', '2', '4']
+        if (['Double Hung', 'Two Lites Slider', 'Three Lites Slider', 'Casement', 'Hopper', 'Awning', 'Bow Window', 'Bay Window'].includes(formData.windowType)) {
             return ['No Grids', '4 over 4', '6 over 6']
         }
         return ['No Grids']
     }
 
     const handleMaterialSelect = (material: MaterialType) => {
-        setFormData({
-            ...formData,
-            material,
-            aluminumCategory: null,
-            windowType: '',
-            grids: '',
-            color: material === 'vinyl' ? 'White' : ''
-        })
+        setFormData({ ...formData, material, aluminumCategory: null, windowType: '', grids: '', color: material === 'vinyl' ? 'White' : '' })
         setStep(2)
     }
 
@@ -545,33 +432,16 @@ export default function QuotationPage() {
     }
 
     const handleWindowType = (type: string) => {
-        const newFormData = { ...formData, windowType: type, grids: '' }
-        setFormData(newFormData)
-
-        // All window types now support grids, so always go to grids step
-        if (formData.material === 'vinyl') {
-            setStep(3)
-        } else if (formData.aluminumCategory === 'residential') {
-            setStep(4)
-        } else {
-            setStep(4)
-        }
+        setFormData({ ...formData, windowType: type, grids: '' })
+        setStep(formData.material === 'vinyl' ? 3 : 4)
     }
 
     const handleGridsSelect = (grids: string) => {
         setFormData({ ...formData, grids })
-        if (formData.material === 'vinyl') {
-            setStep(4)
-        } else {
-            setStep(5)
-        }
+        setStep(formData.material === 'vinyl' ? 4 : 5)
     }
 
-    const handleColorContinue = () => {
-        if (formData.material === 'vinyl') {
-            setStep(5)
-        }
-    }
+    const handleColorContinue = () => { if (formData.material === 'vinyl') setStep(5) }
 
     const handleColorSelect = (color: string) => {
         setFormData({ ...formData, color })
@@ -579,318 +449,339 @@ export default function QuotationPage() {
     }
 
     const handleSizeSubmit = () => {
-        if (formData.width && formData.height) {
-            if (formData.material === 'vinyl') {
-                setStep(6)
-            } else {
-                setStep(7)
-            }
-        }
+        if (formData.width && formData.height) setStep(formData.material === 'vinyl' ? 6 : 7)
     }
 
     const handleQuantitySubmit = () => {
-        if (formData.quantity && parseInt(formData.quantity) > 0) {
-            if (formData.material === 'vinyl') {
-                setStep(7)
-            } else {
-                setStep(8)
-            }
-        }
+        if (formData.quantity && parseInt(formData.quantity) > 0) setStep(formData.material === 'vinyl' ? 7 : 8)
     }
 
     const handleSubmit = async () => {
         if (!formData.email || !formData.phone) return
-
         setIsSubmitting(true)
-
         setTimeout(() => {
             setIsSubmitting(false)
-            if (formData.material === 'vinyl') {
-                setStep(8)
-            } else {
-                setStep(9)
-            }
+            setStep(formData.material === 'vinyl' ? 8 : 9)
         }, 1500)
     }
 
     const resetForm = () => {
-        setFormData({
-            material: null,
-            aluminumCategory: null,
-            windowType: '',
-            grids: '',
-            color: '',
-            width: '',
-            height: '',
-            quantity: '1',
-            email: '',
-            phone: ''
-        })
+        setFormData({ material: null, aluminumCategory: null, windowType: '', grids: '', color: '', width: '', height: '', quantity: '1', email: '', phone: '' })
         setStep(1)
     }
 
-    const SelectionSummary = () => {
-        if (step === 1) return null
+    const isComplete = (formData.material === 'vinyl' && step === 8) || (formData.material === 'aluminum' && step === 9)
 
-        return (
-            <div className="bg-[#f7f8f3] rounded-lg p-4 border-2 border-[#dce2cd] mb-4">
-                <h3 className="font-bold text-gray-900 text-sm mb-3">📋 Your Selection</h3>
-                <div className="space-y-2 text-xs">
-                    {formData.material && (
-                        <div className="flex justify-between py-1 border-b border-[#dce2cd]">
-                            <span className="text-gray-600">Material:</span>
-                            <span className="font-medium capitalize">{formData.material}</span>
-                        </div>
-                    )}
-                    {formData.aluminumCategory && (
-                        <div className="flex justify-between py-1 border-b border-[#dce2cd]">
-                            <span className="text-gray-600">Category:</span>
-                            <span className="font-medium capitalize">{formData.aluminumCategory}</span>
-                        </div>
-                    )}
-                    {formData.windowType && (
-                        <div className="flex justify-between py-1 border-b border-[#dce2cd]">
-                            <span className="text-gray-600">Window Type:</span>
-                            <span className="font-medium">{formData.windowType}</span>
-                        </div>
-                    )}
-                    {formData.grids && (
-                        <div className="flex justify-between py-1 border-b border-[#dce2cd]">
-                            <span className="text-gray-600">Grids:</span>
-                            <span className="font-medium">{formData.grids}</span>
-                        </div>
-                    )}
-                    {formData.color && (
-                        <div className="flex justify-between py-1 border-b border-[#dce2cd]">
-                            <span className="text-gray-600">Color:</span>
-                            <span className="font-medium">{formData.color}</span>
-                        </div>
-                    )}
-                    {formData.width && formData.height && (
-                        <div className="flex justify-between py-1 border-b border-[#dce2cd]">
-                            <span className="text-gray-600">Size:</span>
-                            <span className="font-medium">{formData.width}" × {formData.height}"</span>
-                        </div>
-                    )}
-                    {formData.quantity && (
-                        <div className="flex justify-between py-1">
-                            <span className="text-gray-600">Quantity:</span>
-                            <span className="font-medium">{formData.quantity}</span>
-                        </div>
-                    )}
-                </div>
-            </div>
-        )
-    }
+    // Back button component
+    const BackButton = ({ onClick }: { onClick: () => void }) => (
+        <button onClick={onClick} className="mt-4 w-full inline-flex items-center justify-center gap-2 text-slate-500 hover:text-emerald-600 font-medium transition-colors py-2">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Back
+        </button>
+    )
+
+    // Primary button component
+    const PrimaryButton = ({ onClick, disabled, loading, children }: { onClick: () => void; disabled?: boolean; loading?: boolean; children: React.ReactNode }) => (
+        <button
+            onClick={onClick}
+            disabled={disabled || loading}
+            className="w-full py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold rounded-xl hover:from-emerald-600 hover:to-teal-600 hover:shadow-lg hover:shadow-emerald-200 transition-all duration-300 disabled:from-slate-300 disabled:to-slate-300 disabled:cursor-not-allowed disabled:shadow-none flex items-center justify-center gap-2"
+        >
+            {loading ? (
+                <>
+                    <svg className="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Submitting...
+                </>
+            ) : children}
+        </button>
+    )
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-[#f7f8f3] via-white to-[#f7f8f3] py-12">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="mb-10 animate-fade-in">
-                    <div className="flex justify-between text-sm font-medium text-gray-600 mb-3">
-                        <span className="text-[#738751]">Step {step} of 8</span>
-                        <span className="bg-gradient-to-r from-[#738751] to-[#5a6a42] bg-clip-text text-transparent font-semibold">{Math.round((step / 8) * 100)}% Complete</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-3 shadow-inner overflow-hidden">
-                        <div className="bg-gradient-to-r from-[#738751] to-[#5a6a42] h-3 rounded-full transition-all duration-500 shadow-lg" style={{ width: `${(step / 8) * 100}%` }}></div>
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/30">
+            {/* Header */}
+            <div className="bg-white border-b border-slate-100 sticky top-0 z-10">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <h1 className="text-xl font-bold text-slate-800">Window Quote</h1>
+                            <p className="text-sm text-slate-500">Get your custom window estimate</p>
+                        </div>
+                        {!isComplete && (
+                            <div className="flex items-center gap-4">
+                                <div className="text-right hidden sm:block">
+                                    <p className="text-sm font-medium text-slate-700">Step {step} of {totalSteps}</p>
+                                    <p className="text-xs text-emerald-600 font-medium">{Math.round((step / totalSteps) * 100)}% Complete</p>
+                                </div>
+                                <div className="w-32 h-2 bg-slate-100 rounded-full overflow-hidden">
+                                    <div className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full transition-all duration-500 ease-out" style={{ width: `${(step / totalSteps) * 100}%` }} />
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
+            </div>
 
-                <div className="grid lg:grid-cols-3 gap-6">
-                    {/* Left Column - Form Content */}
-                    <div className="lg:col-span-1">
+            {/* Main Content */}
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div className="grid lg:grid-cols-5 gap-8">
+                    {/* Left Column - Form */}
+                    <div className="lg:col-span-3">
 
+                        {/* Step 1: Material */}
                         {step === 1 && (
-                            <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100 animate-scale-in">
-                                <h2 className="text-3xl font-bold text-[#2d2d2d] mb-2">Choose Window Material</h2>
-                                <p className="text-gray-600 mb-8">Select the type of window material you prefer</p>
-                                <div className="grid md:grid-cols-2 gap-6">
-                                    <button onClick={() => handleMaterialSelect('vinyl')} className="p-8 border-2 border-gray-200 rounded-2xl hover:border-[#738751] hover:bg-gradient-to-br hover:from-[#f7f8f3] hover:to-white transition-all duration-300 text-left group hover:shadow-lg hover:-translate-y-1">
-                                        <h3 className="text-xl font-bold text-[#2d2d2d] mb-2 group-hover:text-[#738751] transition-colors">Vinyl Windows</h3>
-                                        <p className="text-gray-600 text-sm">Energy efficient, low maintenance</p>
-                                    </button>
-                                    <button onClick={() => handleMaterialSelect('aluminum')} className="p-8 border-2 border-gray-200 rounded-2xl hover:border-[#738751] hover:bg-gradient-to-br hover:from-[#f7f8f3] hover:to-white transition-all duration-300 text-left group hover:shadow-lg hover:-translate-y-1">
-                                        <h3 className="text-xl font-bold text-[#2d2d2d] mb-2 group-hover:text-[#738751] transition-colors">Aluminum Windows</h3>
-                                        <p className="text-gray-600 text-sm">Durable, modern design</p>
-                                    </button>
+                            <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 p-8 border border-slate-100">
+                                <div className="mb-8">
+                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 mb-4">Step 1</span>
+                                    <h2 className="text-2xl font-bold text-slate-800 mb-2">Choose Window Material</h2>
+                                    <p className="text-slate-500">Select the type of window material you prefer</p>
+                                </div>
+                                <div className="grid sm:grid-cols-2 gap-4">
+                                    {[
+                                        { id: 'vinyl', name: 'Vinyl Windows', desc: 'Energy efficient & low maintenance', tags: ['Affordable', 'Durable'], color: 'blue' },
+                                        { id: 'aluminum', name: 'Aluminum Windows', desc: 'Modern design & durability', tags: ['Premium', 'Sleek'], color: 'slate' }
+                                    ].map((mat) => (
+                                        <button key={mat.id} onClick={() => handleMaterialSelect(mat.id as MaterialType)} className="group relative p-6 bg-gradient-to-br from-slate-50 to-white border-2 border-slate-200 rounded-2xl hover:border-emerald-400 hover:shadow-lg hover:shadow-emerald-100 transition-all duration-300 text-left">
+                                            <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                                            </div>
+                                            <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${mat.color === 'blue' ? 'from-blue-100 to-blue-50' : 'from-slate-200 to-slate-100'} flex items-center justify-center mb-4`}>
+                                                <svg className={`w-7 h-7 ${mat.color === 'blue' ? 'text-blue-600' : 'text-slate-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5z" />
+                                                </svg>
+                                            </div>
+                                            <h3 className="text-lg font-bold text-slate-800 mb-1 group-hover:text-emerald-700 transition-colors">{mat.name}</h3>
+                                            <p className="text-sm text-slate-500">{mat.desc}</p>
+                                            <div className="mt-4 flex flex-wrap gap-2">
+                                                {mat.tags.map((tag) => <span key={tag} className="text-xs px-2 py-1 bg-slate-100 text-slate-600 rounded-full">{tag}</span>)}
+                                            </div>
+                                        </button>
+                                    ))}
                                 </div>
                             </div>
                         )}
 
+                        {/* Step 2 (Aluminum): Category */}
                         {step === 2 && formData.material === 'aluminum' && (
-                            <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100 animate-scale-in">
-                                <h2 className="text-3xl font-bold text-gray-900 mb-2">Choose Window Category</h2>
-                                <p className="text-gray-600 mb-8">Select residential or commercial windows</p>
-                                <div className="grid md:grid-cols-2 gap-6">
-                                    <button onClick={() => handleAluminumCategory('residential')} className="p-8 border-2 border-gray-200 rounded-2xl hover:border-[#738751] hover:bg-gradient-to-br hover:from-[#f7f8f3] hover:to-white transition-all duration-300 hover:shadow-lg hover:-translate-y-1 flex flex-col items-center justify-center text-center">
-                                        <h3 className="text-xl font-bold text-gray-900 mb-2">Residential Windows</h3>
-                                        <p className="text-gray-600 text-sm">For homes and apartments</p>
-                                    </button>
-                                    <button onClick={() => handleAluminumCategory('commercial')} className="p-8 border-2 border-gray-200 rounded-2xl hover:border-[#738751] hover:bg-gradient-to-br hover:from-[#f7f8f3] hover:to-white transition-all duration-300 hover:shadow-lg hover:-translate-y-1 flex flex-col items-center justify-center text-center">
-                                        <h3 className="text-xl font-bold text-gray-900 mb-2">Commercial Windows</h3>
-                                        <p className="text-gray-600 text-sm">For offices and business spaces</p>
-                                    </button>
+                            <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 p-8 border border-slate-100">
+                                <div className="mb-8">
+                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 mb-4">Step 2</span>
+                                    <h2 className="text-2xl font-bold text-slate-800 mb-2">Choose Window Category</h2>
+                                    <p className="text-slate-500">Select residential or commercial windows</p>
                                 </div>
-                                <button onClick={() => setStep(1)} className="mt-6 text-[#738751] hover:text-[#5a6a42] font-medium transition-colors hover:underline">← Back</button>
+                                <div className="grid sm:grid-cols-2 gap-4">
+                                    {[
+                                        { id: 'residential', name: 'Residential', desc: 'For homes & apartments', icon: 'home', color: 'amber' },
+                                        { id: 'commercial', name: 'Commercial', desc: 'For offices & businesses', icon: 'building', color: 'indigo' }
+                                    ].map((cat) => (
+                                        <button key={cat.id} onClick={() => handleAluminumCategory(cat.id as AluminumCategory)} className="group p-6 bg-gradient-to-br from-slate-50 to-white border-2 border-slate-200 rounded-2xl hover:border-emerald-400 hover:shadow-lg transition-all duration-300 text-left">
+                                            <div className={`w-12 h-12 rounded-xl ${cat.color === 'amber' ? 'bg-amber-100' : 'bg-indigo-100'} flex items-center justify-center mb-4`}>
+                                                <svg className={`w-6 h-6 ${cat.color === 'amber' ? 'text-amber-600' : 'text-indigo-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    {cat.icon === 'home' ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /> : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />}
+                                                </svg>
+                                            </div>
+                                            <h3 className="text-lg font-bold text-slate-800 mb-1">{cat.name}</h3>
+                                            <p className="text-sm text-slate-500">{cat.desc}</p>
+                                        </button>
+                                    ))}
+                                </div>
+                                <BackButton onClick={() => setStep(1)} />
                             </div>
                         )}
 
+                        {/* Window Type Selection */}
                         {((step === 2 && formData.material === 'vinyl') || (step === 3 && formData.material === 'aluminum')) && (
-                            <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100 animate-scale-in">
-                                <h2 className="text-3xl font-bold text-gray-900 mb-2">Choose Window Style</h2>
-                                <p className="text-gray-600 mb-8">Select the window type that fits your needs</p>
-                                <div className="grid md:grid-cols-2 gap-4">
-                                    {formData.material === 'vinyl' && vinylWindowTypes.map((type) => (
-                                        <button key={type} onClick={() => handleWindowType(type)} className="p-5 border-2 border-gray-200 rounded-xl hover:border-[#738751] hover:bg-gradient-to-r hover:from-[#f7f8f3] hover:to-white transition-all duration-300 text-left font-medium hover:shadow-md hover:-translate-y-0.5">
-                                            {type}
-                                        </button>
-                                    ))}
-                                    {formData.material === 'aluminum' && formData.aluminumCategory === 'residential' && aluminumResidentialTypes.map((type) => (
-                                        <button key={type} onClick={() => handleWindowType(type)} className="p-5 border-2 border-gray-200 rounded-xl hover:border-[#738751] hover:bg-gradient-to-r hover:from-[#f7f8f3] hover:to-white transition-all duration-300 text-left font-medium hover:shadow-md hover:-translate-y-0.5">
-                                            {type}
-                                        </button>
-                                    ))}
-                                    {formData.material === 'aluminum' && formData.aluminumCategory === 'commercial' && aluminumCommercialTypes.map((type) => (
-                                        <button key={type} onClick={() => handleWindowType(type)} className="p-5 border-2 border-gray-200 rounded-xl hover:border-[#738751] hover:bg-gradient-to-r hover:from-[#f7f8f3] hover:to-white transition-all duration-300 text-left font-medium hover:shadow-md hover:-translate-y-0.5">
-                                            {type}
+                            <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 p-8 border border-slate-100">
+                                <div className="mb-8">
+                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 mb-4">Step {formData.material === 'vinyl' ? 2 : 3}</span>
+                                    <h2 className="text-2xl font-bold text-slate-800 mb-2">Choose Window Style</h2>
+                                    <p className="text-slate-500">Select the window type that fits your needs</p>
+                                </div>
+                                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                    {(formData.material === 'vinyl' ? vinylWindowTypes : formData.aluminumCategory === 'residential' ? aluminumResidentialTypes : aluminumCommercialTypes).map((type) => (
+                                        <button key={type} onClick={() => handleWindowType(type)} className="group p-4 bg-slate-50 border-2 border-transparent rounded-xl hover:bg-white hover:border-emerald-400 hover:shadow-md transition-all duration-200 text-left">
+                                            <WindowTypeIcon type={type} />
+                                            <p className="mt-2 text-sm font-medium text-slate-700 group-hover:text-emerald-700">{type}</p>
                                         </button>
                                     ))}
                                 </div>
-                                <button onClick={() => setStep(formData.material === 'vinyl' ? 1 : 2)} className="mt-6 text-[#738751] hover:text-[#5a6a42] font-medium transition-colors hover:underline">← Back</button>
+                                <BackButton onClick={() => setStep(formData.material === 'vinyl' ? 1 : 2)} />
                             </div>
                         )}
 
-                        {((step === 3 && formData.material === 'vinyl' && needsGrids()) || (step === 4 && formData.material === 'aluminum' && needsGrids())) && (
-                            <div className="bg-white rounded-xl shadow-lg p-8">
-                                <h2 className="text-3xl font-bold text-gray-900 mb-2">Choose Grids</h2>
-                                <p className="text-gray-600 mb-8">Select window grid pattern (optional)</p>
-                                <div className="grid md:grid-cols-3 gap-4">
+                        {/* Grids Selection */}
+                        {((step === 3 && formData.material === 'vinyl') || (step === 4 && formData.material === 'aluminum')) && (
+                            <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 p-8 border border-slate-100">
+                                <div className="mb-8">
+                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 mb-4">Step {formData.material === 'vinyl' ? 3 : 4}</span>
+                                    <h2 className="text-2xl font-bold text-slate-800 mb-2">Choose Grid Pattern</h2>
+                                    <p className="text-slate-500">Select window grid pattern (optional)</p>
+                                </div>
+                                <div className="grid grid-cols-3 gap-4">
                                     {getGridsOptions().map((grid) => (
-                                        <button key={grid} onClick={() => handleGridsSelect(grid)} className="p-6 border-2 border-gray-200 rounded-lg hover:border-[#738751] hover:bg-[#f7f8f3] transition-all text-center font-medium">
-                                            <div className="text-2xl mb-2">⊞</div>
-                                            {grid}
+                                        <button key={grid} onClick={() => handleGridsSelect(grid)} className="group p-5 bg-slate-50 border-2 border-transparent rounded-xl hover:bg-white hover:border-emerald-400 hover:shadow-md transition-all duration-200 text-center">
+                                            <div className="w-12 h-12 mx-auto mb-3 rounded-lg bg-white border-2 border-slate-200 flex items-center justify-center group-hover:border-emerald-300">
+                                                <svg className="w-6 h-6 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                                    <rect x="4" y="4" width="16" height="16" rx="1" />
+                                                    {grid !== 'No Grids' && <line x1="12" y1="4" x2="12" y2="20" />}
+                                                    {(grid === '4' || grid === '4 over 4' || grid === '6 over 6') && <line x1="4" y1="12" x2="20" y2="12" />}
+                                                </svg>
+                                            </div>
+                                            <p className="text-sm font-medium text-slate-700 group-hover:text-emerald-700">{grid}</p>
                                         </button>
                                     ))}
                                 </div>
-                                <button onClick={() => setStep(formData.material === 'vinyl' ? 2 : 3)} className="mt-6 text-[#738751] hover:text-[#5a6a42] font-medium">← Back</button>
+                                <BackButton onClick={() => setStep(formData.material === 'vinyl' ? 2 : 3)} />
                             </div>
                         )}
 
+                        {/* Vinyl Color */}
                         {step === 4 && formData.material === 'vinyl' && (
-                            <div className="bg-white rounded-xl shadow-lg p-8">
-                                <h2 className="text-3xl font-bold text-gray-900 mb-2">Window Color</h2>
-                                <p className="text-gray-600 mb-8">Vinyl windows come in white color</p>
-                                <div className="p-6 border-2 border-[#738751] bg-[#f7f8f3] rounded-lg">
-                                    <div className="flex items-center justify-center">
-                                        <div className="w-16 h-16 rounded-full bg-white border-2 border-gray-300 mr-4"></div>
-                                        <div>
-                                            <p className="font-bold text-lg">White</p>
-                                            <p className="text-sm text-gray-600">Standard color for vinyl windows</p>
+                            <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 p-8 border border-slate-100">
+                                <div className="mb-8">
+                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 mb-4">Step 4</span>
+                                    <h2 className="text-2xl font-bold text-slate-800 mb-2">Window Color</h2>
+                                    <p className="text-slate-500">Vinyl windows are available in white</p>
+                                </div>
+                                <div className="p-6 bg-gradient-to-br from-slate-50 to-white border-2 border-emerald-200 rounded-2xl">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-16 h-16 rounded-full bg-white border-4 border-slate-200 shadow-inner"></div>
+                                        <div className="flex-1">
+                                            <p className="font-bold text-lg text-slate-800">White</p>
+                                            <p className="text-sm text-slate-500">Standard color for vinyl windows</p>
+                                        </div>
+                                        <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center">
+                                            <svg className="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
                                         </div>
                                     </div>
                                 </div>
-                                <button onClick={handleColorContinue} className="w-full mt-6 py-3 bg-gradient-to-r from-[#738751] to-[#5a6a42] text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5">Continue</button>
-                                <button onClick={() => setStep(needsGrids() ? 3 : 2)} className="mt-4 text-[#738751] hover:text-[#5a6a42] font-medium">← Back</button>
+                                <div className="mt-6">
+                                    <PrimaryButton onClick={handleColorContinue}>Continue</PrimaryButton>
+                                </div>
+                                <BackButton onClick={() => setStep(3)} />
                             </div>
                         )}
 
+                        {/* Aluminum Color */}
                         {step === 5 && formData.material === 'aluminum' && (
-                            <div className="bg-white rounded-xl shadow-lg p-8">
-                                <h2 className="text-3xl font-bold text-gray-900 mb-2">Choose Color</h2>
-                                <p className="text-gray-600 mb-8">Select your preferred window color</p>
-                                <div className="grid md:grid-cols-3 gap-4">
+                            <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 p-8 border border-slate-100">
+                                <div className="mb-8">
+                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 mb-4">Step 5</span>
+                                    <h2 className="text-2xl font-bold text-slate-800 mb-2">Choose Color</h2>
+                                    <p className="text-slate-500">Select your preferred window color</p>
+                                </div>
+                                <div className="grid grid-cols-3 gap-4">
                                     {aluminumColors.map((color) => (
-                                        <button key={color} onClick={() => handleColorSelect(color)} className="p-6 border-2 border-gray-200 rounded-lg hover:border-[#738751] hover:bg-[#f7f8f3] transition-all">
-                                            <div className={`w-16 h-16 rounded-full mx-auto mb-3 ${color === 'White' ? 'bg-white border-2 border-gray-300' : color === 'Bronze' ? 'bg-amber-700' : 'bg-black'}`}></div>
-                                            <p className="font-medium text-center">{color}</p>
+                                        <button key={color} onClick={() => handleColorSelect(color)} className="group p-5 bg-slate-50 border-2 border-transparent rounded-xl hover:bg-white hover:border-emerald-400 hover:shadow-md transition-all duration-200 text-center">
+                                            <div className={`w-14 h-14 rounded-full mx-auto mb-3 shadow-md ${color === 'White' ? 'bg-white border-4 border-slate-200' : color === 'Bronze' ? 'bg-amber-800' : 'bg-slate-900'}`}></div>
+                                            <p className="text-sm font-medium text-slate-700 group-hover:text-emerald-700">{color}</p>
                                         </button>
                                     ))}
                                 </div>
-                                <button onClick={() => setStep(needsGrids() ? 4 : 3)} className="mt-6 text-[#738751] hover:text-[#5a6a42] font-medium">← Back</button>
+                                <BackButton onClick={() => setStep(4)} />
                             </div>
                         )}
 
+                        {/* Dimensions */}
                         {((step === 5 && formData.material === 'vinyl') || (step === 6 && formData.material === 'aluminum')) && (
-                            <div className="bg-white rounded-xl shadow-lg p-8">
-                                <h2 className="text-3xl font-bold text-gray-900 mb-2">Enter Window Dimensions</h2>
-                                <p className="text-gray-600 mb-8">Provide the width and height in inches</p>
-                                <div className="space-y-6">
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Width (inches)</label>
-                                        <input type="number" min="1" value={formData.width} onChange={(e) => setFormData({ ...formData, width: e.target.value })} className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#738751] focus:outline-none" placeholder="e.g., 36" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Height (inches)</label>
-                                        <input type="number" min="1" value={formData.height} onChange={(e) => setFormData({ ...formData, height: e.target.value })} className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#738751] focus:outline-none" placeholder="e.g., 48" />
-                                    </div>
-                                    <button onClick={handleSizeSubmit} disabled={!formData.width || !formData.height} className="w-full py-3 bg-gradient-to-r from-[#738751] to-[#5a6a42] text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:shadow-none disabled:hover:translate-y-0">Continue</button>
+                            <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 p-8 border border-slate-100">
+                                <div className="mb-8">
+                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 mb-4">Step {formData.material === 'vinyl' ? 5 : 6}</span>
+                                    <h2 className="text-2xl font-bold text-slate-800 mb-2">Window Dimensions</h2>
+                                    <p className="text-slate-500">Enter the width and height in inches</p>
                                 </div>
-                                <button onClick={() => setStep(formData.material === 'vinyl' ? 4 : 5)} className="mt-6 text-[#738751] hover:text-[#5a6a42] font-medium">← Back</button>
+                                <div className="grid sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-slate-700 mb-2">Width (inches)</label>
+                                        <input type="number" min="1" value={formData.width} onChange={(e) => setFormData({ ...formData, width: e.target.value })} className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-emerald-400 focus:bg-white focus:outline-none transition-all text-lg" placeholder="36" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-slate-700 mb-2">Height (inches)</label>
+                                        <input type="number" min="1" value={formData.height} onChange={(e) => setFormData({ ...formData, height: e.target.value })} className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-emerald-400 focus:bg-white focus:outline-none transition-all text-lg" placeholder="48" />
+                                    </div>
+                                </div>
+                                <div className="mt-6">
+                                    <PrimaryButton onClick={handleSizeSubmit} disabled={!formData.width || !formData.height}>Continue</PrimaryButton>
+                                </div>
+                                <BackButton onClick={() => setStep(formData.material === 'vinyl' ? 4 : 5)} />
                             </div>
                         )}
 
+                        {/* Quantity */}
                         {((step === 6 && formData.material === 'vinyl') || (step === 7 && formData.material === 'aluminum')) && (
-                            <div className="bg-white rounded-xl shadow-lg p-8">
-                                <h2 className="text-3xl font-bold text-gray-900 mb-2">How Many Windows?</h2>
-                                <p className="text-gray-600 mb-8">Enter the quantity you need</p>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
-                                    <input type="number" min="1" value={formData.quantity} onChange={(e) => setFormData({ ...formData, quantity: e.target.value })} className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#738751] focus:outline-none text-lg" />
-                                    <button onClick={handleQuantitySubmit} disabled={!formData.quantity || parseInt(formData.quantity) < 1} className="w-full mt-6 py-3 bg-gradient-to-r from-[#738751] to-[#5a6a42] text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:shadow-none disabled:hover:translate-y-0">Continue</button>
+                            <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 p-8 border border-slate-100">
+                                <div className="mb-8">
+                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 mb-4">Step {formData.material === 'vinyl' ? 6 : 7}</span>
+                                    <h2 className="text-2xl font-bold text-slate-800 mb-2">How Many Windows?</h2>
+                                    <p className="text-slate-500">Enter the quantity you need</p>
                                 </div>
-                                <button onClick={() => setStep(formData.material === 'vinyl' ? 5 : 6)} className="mt-6 text-[#738751] hover:text-[#5a6a42] font-medium">← Back</button>
+                                <div className="flex items-center justify-center gap-4">
+                                    <button onClick={() => setFormData({ ...formData, quantity: Math.max(1, parseInt(formData.quantity) - 1).toString() })} className="w-14 h-14 rounded-xl bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-2xl font-bold text-slate-600 transition-colors">-</button>
+                                    <input type="number" min="1" value={formData.quantity} onChange={(e) => setFormData({ ...formData, quantity: e.target.value })} className="w-24 px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-emerald-400 focus:bg-white focus:outline-none transition-all text-2xl font-bold text-center" />
+                                    <button onClick={() => setFormData({ ...formData, quantity: (parseInt(formData.quantity) + 1).toString() })} className="w-14 h-14 rounded-xl bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-2xl font-bold text-slate-600 transition-colors">+</button>
+                                </div>
+                                <div className="mt-6">
+                                    <PrimaryButton onClick={handleQuantitySubmit} disabled={!formData.quantity || parseInt(formData.quantity) < 1}>Continue</PrimaryButton>
+                                </div>
+                                <BackButton onClick={() => setStep(formData.material === 'vinyl' ? 5 : 6)} />
                             </div>
                         )}
 
+                        {/* Contact */}
                         {((step === 7 && formData.material === 'vinyl') || (step === 8 && formData.material === 'aluminum')) && (
-                            <div className="bg-white rounded-xl shadow-lg p-8">
-                                <h2 className="text-3xl font-bold text-gray-900 mb-2">Your Contact Information</h2>
-                                <p className="text-gray-600 mb-8">We'll send your quote to this email</p>
-                                <div className="space-y-6">
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Email *</label>
-                                        <input type="email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#738751] focus:outline-none" placeholder="your@email.com" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
-                                        <input type="tel" required value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-[#738751] focus:outline-none" placeholder="(123) 456-7890" />
-                                    </div>
-                                    <button onClick={handleSubmit} disabled={isSubmitting || !formData.email || !formData.phone} className="w-full py-4 bg-gradient-to-r from-[#738751] to-[#5a6a42] text-white font-semibold rounded-xl hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5 disabled:bg-gray-400 text-lg disabled:hover:shadow-none disabled:hover:translate-y-0">
-                                        {isSubmitting ? '⏳ Submitting...' : '✨ Submit Quote Request'}
-                                    </button>
+                            <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 p-8 border border-slate-100">
+                                <div className="mb-8">
+                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 mb-4">Final Step</span>
+                                    <h2 className="text-2xl font-bold text-slate-800 mb-2">Contact Information</h2>
+                                    <p className="text-slate-500">We will send your quote to this email</p>
                                 </div>
-                                <button onClick={() => setStep(formData.material === 'vinyl' ? 6 : 7)} className="mt-6 text-[#738751] hover:text-[#5a6a42] font-medium">← Back</button>
-                            </div>
-                        )}
-
-                        {((step === 8 && formData.material === 'vinyl') || (step === 9 && formData.material === 'aluminum')) && (
-                            <div className="bg-white rounded-xl shadow-lg p-8 text-center">
-                                <div className="text-6xl mb-6">✅</div>
-                                <h2 className="text-3xl font-bold text-gray-900 mb-4">Quote Request Submitted!</h2>
-                                <p className="text-gray-600 mb-8">Thank you! We've received your request and will send a detailed quote to <span className="font-medium text-[#738751]">{formData.email}</span> within 24 hours.</p>
                                 <div className="space-y-4">
-                                    <button onClick={resetForm} className="w-full py-3 bg-gradient-to-r from-[#738751] to-[#5a6a42] text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5">Submit Another Quote</button>
-                                    <button onClick={() => router.push('/')} className="w-full py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-all duration-300 hover:border-[#738751]">Back to Home</button>
+                                    <div>
+                                        <label className="block text-sm font-medium text-slate-700 mb-2">Email Address *</label>
+                                        <input type="email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-emerald-400 focus:bg-white focus:outline-none transition-all" placeholder="your@email.com" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-slate-700 mb-2">Phone Number *</label>
+                                        <input type="tel" required value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-xl focus:border-emerald-400 focus:bg-white focus:outline-none transition-all" placeholder="(123) 456-7890" />
+                                    </div>
+                                </div>
+                                <div className="mt-6">
+                                    <PrimaryButton onClick={handleSubmit} disabled={!formData.email || !formData.phone} loading={isSubmitting}>
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                        Submit Quote Request
+                                    </PrimaryButton>
+                                </div>
+                                <BackButton onClick={() => setStep(formData.material === 'vinyl' ? 6 : 7)} />
+                            </div>
+                        )}
+
+                        {/* Success */}
+                        {isComplete && (
+                            <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 p-8 border border-slate-100 text-center">
+                                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center mx-auto mb-6">
+                                    <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                                </div>
+                                <h2 className="text-2xl font-bold text-slate-800 mb-2">Quote Request Submitted!</h2>
+                                <p className="text-slate-500 mb-8">Thank you! We will send a detailed quote to <span className="font-medium text-emerald-600">{formData.email}</span> within 24 hours.</p>
+                                <div className="space-y-3">
+                                    <button onClick={resetForm} className="w-full py-4 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold rounded-xl hover:from-emerald-600 hover:to-teal-600 hover:shadow-lg transition-all duration-300">Request Another Quote</button>
+                                    <button onClick={() => router.push('/')} className="w-full py-4 bg-slate-100 text-slate-700 font-semibold rounded-xl hover:bg-slate-200 transition-all duration-300">Back to Home</button>
                                 </div>
                             </div>
                         )}
                     </div>
 
-                    {/* Middle Column - Window Preview */}
-                    <div className="lg:col-span-1">
-                        <div className="sticky top-8">
-                            <WindowPreview
-                                windowType={formData.windowType}
-                                grids={formData.grids}
-                                color={formData.color}
-                            />
-                        </div>
-                    </div>
-
-                    {/* Right Column - Selection Summary */}
-                    <div className="lg:col-span-1">
-                        <div className="sticky top-8">
-                            <SelectionSummary />
+                    {/* Right Column */}
+                    <div className="lg:col-span-2 space-y-6">
+                        <div className="sticky top-24">
+                            <WindowPreview windowType={formData.windowType} grids={formData.grids} color={formData.color} />
+                            <div className="mt-6">
+                                <SelectionSummary formData={formData} step={step} />
+                            </div>
                         </div>
                     </div>
                 </div>
