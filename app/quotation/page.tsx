@@ -12,6 +12,8 @@ interface FormData {
     windowType: string
     grids: string
     color: string
+    glassType: string
+    glassThickness: string
     width: string
     height: string
     quantity: string
@@ -297,6 +299,8 @@ function SelectionSummary({ formData, step }: { formData: FormData; step: number
         { label: 'Window Type', value: formData.windowType, show: !!formData.windowType },
         { label: 'Grids', value: formData.grids, show: !!formData.grids },
         { label: 'Color', value: formData.color, show: !!formData.color },
+        { label: 'Glass Type', value: formData.glassType, show: !!formData.glassType },
+        { label: 'Glass Thickness', value: formData.glassThickness, show: !!formData.glassThickness },
         { label: 'Size', value: formData.width && formData.height ? `${formData.width}" x ${formData.height}"` : '', show: !!(formData.width && formData.height) },
         { label: 'Quantity', value: formData.quantity, show: parseInt(formData.quantity) > 0 },
     ]
@@ -398,6 +402,8 @@ export default function QuotationPage() {
         windowType: '',
         grids: '',
         color: '',
+        glassType: '',
+        glassThickness: '',
         width: '',
         height: '',
         quantity: '1',
@@ -411,11 +417,15 @@ export default function QuotationPage() {
     const aluminumCommercialTypes = ['Casement', 'Hopper', 'Awning']
     const aluminumColors = ['White', 'Bronze', 'Black']
 
-    const totalSteps = formData.material === 'vinyl' ? 7 : 8
+    const totalSteps = formData.material === 'vinyl' ? 6 : 7
+
+    const shouldShowGrids = () => {
+        return ['Double Hung', 'Two Lites Slider', 'Picture Window'].includes(formData.windowType)
+    }
 
     const getGridsOptions = () => {
         if (formData.windowType === 'Picture Window') return ['No Grids', '2', '4']
-        if (['Double Hung', 'Two Lites Slider', 'Three Lites Slider', 'Casement', 'Hopper', 'Awning', 'Bow Window', 'Bay Window'].includes(formData.windowType)) {
+        if (['Double Hung', 'Two Lites Slider'].includes(formData.windowType)) {
             return ['No Grids', '4 over 4', '6 over 6']
         }
         return ['No Grids']
@@ -433,27 +443,27 @@ export default function QuotationPage() {
 
     const handleWindowType = (type: string) => {
         setFormData({ ...formData, windowType: type, grids: '' })
-        setStep(formData.material === 'vinyl' ? 3 : 4)
+        setStep(3) // Go to Design Options (merged grids+color)
     }
 
-    const handleGridsSelect = (grids: string) => {
-        setFormData({ ...formData, grids })
-        setStep(formData.material === 'vinyl' ? 4 : 5)
+    const handleDesignOptionsSubmit = () => {
+        // Validate that required fields are filled
+        if (formData.material === 'aluminum' && !formData.color) return
+        if (shouldShowGrids() && !formData.grids) return
+        setStep(4) // Go to Glass Options
     }
 
-    const handleColorContinue = () => { if (formData.material === 'vinyl') setStep(5) }
-
-    const handleColorSelect = (color: string) => {
-        setFormData({ ...formData, color })
-        setStep(6)
+    const handleGlassOptionsSubmit = () => {
+        if (!formData.glassType || !formData.glassThickness) return
+        setStep(formData.material === 'vinyl' ? 5 : 5) // Go to Dimensions
     }
 
     const handleSizeSubmit = () => {
-        if (formData.width && formData.height) setStep(formData.material === 'vinyl' ? 6 : 7)
+        if (formData.width && formData.height) setStep(formData.material === 'vinyl' ? 6 : 6)
     }
 
     const handleQuantitySubmit = () => {
-        if (formData.quantity && parseInt(formData.quantity) > 0) setStep(formData.material === 'vinyl' ? 7 : 8)
+        if (formData.quantity && parseInt(formData.quantity) > 0) setStep(formData.material === 'vinyl' ? 7 : 7)
     }
 
     const handleSubmit = async () => {
@@ -461,12 +471,12 @@ export default function QuotationPage() {
         setIsSubmitting(true)
         setTimeout(() => {
             setIsSubmitting(false)
-            setStep(formData.material === 'vinyl' ? 8 : 9)
+            setStep(formData.material === 'vinyl' ? 8 : 8)
         }, 1500)
     }
 
     const resetForm = () => {
-        setFormData({ material: null, aluminumCategory: null, windowType: '', grids: '', color: '', width: '', height: '', quantity: '1', email: '', phone: '' })
+        setFormData({ material: null, aluminumCategory: null, windowType: '', grids: '', color: '', glassType: '', glassThickness: '', width: '', height: '', quantity: '1', email: '', phone: '' })
         setStep(1)
     }
 
@@ -613,84 +623,154 @@ export default function QuotationPage() {
                             </div>
                         )}
 
-                        {/* Grids Selection */}
-                        {((step === 3 && formData.material === 'vinyl') || (step === 4 && formData.material === 'aluminum')) && (
+
+                        {/* Design Options (Merged Grids + Color) */}
+                        {step === 3 && (
                             <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 p-8 border border-slate-100">
                                 <div className="mb-8">
-                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 mb-4">Step {formData.material === 'vinyl' ? 3 : 4}</span>
-                                    <h2 className="text-2xl font-bold text-slate-800 mb-2">Choose Grid Pattern</h2>
-                                    <p className="text-slate-500">Select window grid pattern (optional)</p>
+                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 mb-4">Step 3</span>
+                                    <h2 className="text-2xl font-bold text-slate-800 mb-2">Design Options</h2>
+                                    <p className="text-slate-500">Customize your window design</p>
                                 </div>
-                                <div className="grid grid-cols-3 gap-4">
-                                    {getGridsOptions().map((grid) => (
-                                        <button key={grid} onClick={() => handleGridsSelect(grid)} className="group p-5 bg-slate-50 border-2 border-transparent rounded-xl hover:bg-white hover:border-emerald-400 hover:shadow-md transition-all duration-200 text-center">
-                                            <div className="w-12 h-12 mx-auto mb-3 rounded-lg bg-white border-2 border-slate-200 flex items-center justify-center group-hover:border-emerald-300">
-                                                <svg className="w-6 h-6 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                                                    <rect x="4" y="4" width="16" height="16" rx="1" />
-                                                    {grid !== 'No Grids' && <line x1="12" y1="4" x2="12" y2="20" />}
-                                                    {(grid === '4' || grid === '4 over 4' || grid === '6 over 6') && <line x1="4" y1="12" x2="20" y2="12" />}
-                                                </svg>
+
+                                {/* Grid Options - Conditional */}
+                                {shouldShowGrids() && (
+                                    <div className="mb-8">
+                                        <h3 className="font-semibold text-slate-700 mb-4">Grid Pattern</h3>
+                                        <div className="grid grid-cols-3 gap-4">
+                                            {getGridsOptions().map((grid) => (
+                                                <button
+                                                    key={grid}
+                                                    onClick={() => setFormData({ ...formData, grids: grid })}
+                                                    className={`group p-5 bg-slate-50 border-2 rounded-xl hover:bg-white hover:border-emerald-400 hover:shadow-md transition-all duration-200 text-center ${formData.grids === grid ? 'border-emerald-400 bg-white' : 'border-transparent'}`}
+                                                >
+                                                    <div className="w-12 h-12 mx-auto mb-3 rounded-lg bg-white border-2 border-slate-200 flex items-center justify-center group-hover:border-emerald-300">
+                                                        <svg className="w-6 h-6 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                                            <rect x="4" y="4" width="16" height="16" rx="1" />
+                                                            {grid !== 'No Grids' && <line x1="12" y1="4" x2="12" y2="20" />}
+                                                            {(grid === '4' || grid === '4 over 4' || grid === '6 over 6') && <line x1="4" y1="12" x2="20" y2="12" />}
+                                                        </svg>
+                                                    </div>
+                                                    <p className="text-sm font-medium text-slate-700 group-hover:text-emerald-700">{grid}</p>
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Color Options */}
+                                <div>
+                                    <h3 className="font-semibold text-slate-700 mb-4">Window Color</h3>
+                                    {formData.material === 'vinyl' ? (
+                                        <div className="p-6 bg-gradient-to-br from-slate-50 to-white border-2 border-emerald-200 rounded-2xl">
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-16 h-16 rounded-full bg-white border-4 border-slate-200 shadow-inner"></div>
+                                                <div className="flex-1">
+                                                    <p className="font-bold text-lg text-slate-800">White</p>
+                                                    <p className="text-sm text-slate-500">Standard color for vinyl windows</p>
+                                                </div>
+                                                <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center">
+                                                    <svg className="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                                                </div>
                                             </div>
-                                            <p className="text-sm font-medium text-slate-700 group-hover:text-emerald-700">{grid}</p>
-                                        </button>
-                                    ))}
+                                        </div>
+                                    ) : (
+                                        <div className="grid grid-cols-3 gap-4">
+                                            {aluminumColors.map((color) => (
+                                                <button
+                                                    key={color}
+                                                    onClick={() => setFormData({ ...formData, color })}
+                                                    className={`group p-5 bg-slate-50 border-2 rounded-xl hover:bg-white hover:border-emerald-400 hover:shadow-md transition-all duration-200 text-center ${formData.color === color ? 'border-emerald-400 bg-white' : 'border-transparent'}`}
+                                                >
+                                                    <div className={`w-14 h-14 rounded-full mx-auto mb-3 shadow-md ${color === 'White' ? 'bg-white border-4 border-slate-200' : color === 'Bronze' ? 'bg-amber-800' : 'bg-slate-900'}`}></div>
+                                                    <p className="text-sm font-medium text-slate-700 group-hover:text-emerald-700">{color}</p>
+                                                </button>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="mt-6">
+                                    <PrimaryButton
+                                        onClick={handleDesignOptionsSubmit}
+                                        disabled={
+                                            (formData.material === 'aluminum' && !formData.color) ||
+                                            (shouldShowGrids() && !formData.grids)
+                                        }
+                                    >
+                                        Continue
+                                    </PrimaryButton>
                                 </div>
                                 <BackButton onClick={() => setStep(formData.material === 'vinyl' ? 2 : 3)} />
                             </div>
                         )}
 
-                        {/* Vinyl Color */}
-                        {step === 4 && formData.material === 'vinyl' && (
+                        {/* Glass Options (New Step) */}
+                        {step === 4 && (
                             <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 p-8 border border-slate-100">
                                 <div className="mb-8">
                                     <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 mb-4">Step 4</span>
-                                    <h2 className="text-2xl font-bold text-slate-800 mb-2">Window Color</h2>
-                                    <p className="text-slate-500">Vinyl windows are available in white</p>
+                                    <h2 className="text-2xl font-bold text-slate-800 mb-2">Glass Options</h2>
+                                    <p className="text-slate-500">Select your glass specifications</p>
                                 </div>
-                                <div className="p-6 bg-gradient-to-br from-slate-50 to-white border-2 border-emerald-200 rounded-2xl">
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-16 h-16 rounded-full bg-white border-4 border-slate-200 shadow-inner"></div>
-                                        <div className="flex-1">
-                                            <p className="font-bold text-lg text-slate-800">White</p>
-                                            <p className="text-sm text-slate-500">Standard color for vinyl windows</p>
-                                        </div>
-                                        <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center">
-                                            <svg className="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                                        </div>
+
+                                {/* Glass Type */}
+                                <div className="mb-8">
+                                    <h3 className="font-semibold text-slate-700 mb-4">Glass Type *</h3>
+                                    <div className="grid grid-cols-3 gap-4">
+                                        {['Clear Glass', 'Low-E Glass', 'Tempered Glass'].map((type) => (
+                                            <button
+                                                key={type}
+                                                onClick={() => setFormData({ ...formData, glassType: type })}
+                                                className={`group p-5 bg-slate-50 border-2 rounded-xl hover:bg-white hover:border-emerald-400 hover:shadow-md transition-all duration-200 text-center ${formData.glassType === type ? 'border-emerald-400 bg-white' : 'border-transparent'}`}
+                                            >
+                                                <div className="w-12 h-12 mx-auto mb-3 rounded-lg bg-white border-2 border-slate-200 flex items-center justify-center group-hover:border-emerald-300">
+                                                    <svg className="w-6 h-6 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                                        <rect x="6" y="4" width="12" height="16" rx="1" />
+                                                        {type === 'Low-E Glass' && <path d="M9 8h6M9 12h6M9 16h6" strokeWidth="1" />}
+                                                        {type === 'Tempered Glass' && <circle cx="12" cy="12" r="3" strokeWidth="1" />}
+                                                    </svg>
+                                                </div>
+                                                <p className="text-sm font-medium text-slate-700 group-hover:text-emerald-700">{type}</p>
+                                            </button>
+                                        ))}
                                     </div>
                                 </div>
+
+                                {/* Glass Thickness */}
+                                <div>
+                                    <h3 className="font-semibold text-slate-700 mb-4">Glass Thickness *</h3>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        {['Standard', '1/8 inch'].map((thickness) => (
+                                            <button
+                                                key={thickness}
+                                                onClick={() => setFormData({ ...formData, glassThickness: thickness })}
+                                                className={`group p-5 bg-slate-50 border-2 rounded-xl hover:bg-white hover:border-emerald-400 hover:shadow-md transition-all duration-200 text-center ${formData.glassThickness === thickness ? 'border-emerald-400 bg-white' : 'border-transparent'}`}
+                                            >
+                                                <p className="text-sm font-medium text-slate-700 group-hover:text-emerald-700">{thickness}</p>
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
                                 <div className="mt-6">
-                                    <PrimaryButton onClick={handleColorContinue}>Continue</PrimaryButton>
+                                    <PrimaryButton
+                                        onClick={handleGlassOptionsSubmit}
+                                        disabled={!formData.glassType || !formData.glassThickness}
+                                    >
+                                        Continue
+                                    </PrimaryButton>
                                 </div>
                                 <BackButton onClick={() => setStep(3)} />
                             </div>
                         )}
 
-                        {/* Aluminum Color */}
-                        {step === 5 && formData.material === 'aluminum' && (
+
+                        {/* Dimensions */}
+                        {step === 5 && (
                             <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 p-8 border border-slate-100">
                                 <div className="mb-8">
                                     <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 mb-4">Step 5</span>
-                                    <h2 className="text-2xl font-bold text-slate-800 mb-2">Choose Color</h2>
-                                    <p className="text-slate-500">Select your preferred window color</p>
-                                </div>
-                                <div className="grid grid-cols-3 gap-4">
-                                    {aluminumColors.map((color) => (
-                                        <button key={color} onClick={() => handleColorSelect(color)} className="group p-5 bg-slate-50 border-2 border-transparent rounded-xl hover:bg-white hover:border-emerald-400 hover:shadow-md transition-all duration-200 text-center">
-                                            <div className={`w-14 h-14 rounded-full mx-auto mb-3 shadow-md ${color === 'White' ? 'bg-white border-4 border-slate-200' : color === 'Bronze' ? 'bg-amber-800' : 'bg-slate-900'}`}></div>
-                                            <p className="text-sm font-medium text-slate-700 group-hover:text-emerald-700">{color}</p>
-                                        </button>
-                                    ))}
-                                </div>
-                                <BackButton onClick={() => setStep(4)} />
-                            </div>
-                        )}
-
-                        {/* Dimensions */}
-                        {((step === 5 && formData.material === 'vinyl') || (step === 6 && formData.material === 'aluminum')) && (
-                            <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 p-8 border border-slate-100">
-                                <div className="mb-8">
-                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 mb-4">Step {formData.material === 'vinyl' ? 5 : 6}</span>
                                     <h2 className="text-2xl font-bold text-slate-800 mb-2">Window Dimensions</h2>
                                     <p className="text-slate-500">Enter the width and height in inches</p>
                                 </div>
@@ -707,15 +787,15 @@ export default function QuotationPage() {
                                 <div className="mt-6">
                                     <PrimaryButton onClick={handleSizeSubmit} disabled={!formData.width || !formData.height}>Continue</PrimaryButton>
                                 </div>
-                                <BackButton onClick={() => setStep(formData.material === 'vinyl' ? 4 : 5)} />
+                                <BackButton onClick={() => setStep(4)} />
                             </div>
                         )}
 
                         {/* Quantity */}
-                        {((step === 6 && formData.material === 'vinyl') || (step === 7 && formData.material === 'aluminum')) && (
+                        {step === 6 && (
                             <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 p-8 border border-slate-100">
                                 <div className="mb-8">
-                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 mb-4">Step {formData.material === 'vinyl' ? 6 : 7}</span>
+                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 mb-4">Step 6</span>
                                     <h2 className="text-2xl font-bold text-slate-800 mb-2">How Many Windows?</h2>
                                     <p className="text-slate-500">Enter the quantity you need</p>
                                 </div>
@@ -727,12 +807,12 @@ export default function QuotationPage() {
                                 <div className="mt-6">
                                     <PrimaryButton onClick={handleQuantitySubmit} disabled={!formData.quantity || parseInt(formData.quantity) < 1}>Continue</PrimaryButton>
                                 </div>
-                                <BackButton onClick={() => setStep(formData.material === 'vinyl' ? 5 : 6)} />
+                                <BackButton onClick={() => setStep(5)} />
                             </div>
                         )}
 
                         {/* Contact */}
-                        {((step === 7 && formData.material === 'vinyl') || (step === 8 && formData.material === 'aluminum')) && (
+                        {step === 7 && (
                             <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 p-8 border border-slate-100">
                                 <div className="mb-8">
                                     <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 mb-4">Final Step</span>
@@ -755,12 +835,12 @@ export default function QuotationPage() {
                                         Submit Quote Request
                                     </PrimaryButton>
                                 </div>
-                                <BackButton onClick={() => setStep(formData.material === 'vinyl' ? 6 : 7)} />
+                                <BackButton onClick={() => setStep(6)} />
                             </div>
                         )}
 
                         {/* Success */}
-                        {isComplete && (
+                        {step === 8 && (
                             <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 p-8 border border-slate-100 text-center">
                                 <div className="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center mx-auto mb-6">
                                     <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
