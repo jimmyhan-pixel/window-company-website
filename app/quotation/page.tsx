@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { WINDOW_FRAME_MAP, GRID_OVERLAY_MAP } from '@/components/window-preview'
 
 type MaterialType = 'vinyl' | 'aluminum' | null
 type AluminumCategory = 'residential' | 'commercial' | null
@@ -34,215 +35,6 @@ function WindowPreview({ windowType, grids, color }: { windowType: string; grids
 
     const frameColor = getFrameColor()
 
-    const WindowFrame = () => {
-        const glassStyle = { fill: 'url(#glassGradient)' }
-
-        switch (windowType) {
-            case 'Double Hung':
-                return (
-                    <svg viewBox="0 0 200 300" className="w-full h-full">
-                        <defs>
-                            <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stopColor="#e3f2fd" stopOpacity="0.9" />
-                                <stop offset="50%" stopColor="#bbdefb" stopOpacity="0.7" />
-                                <stop offset="100%" stopColor="#90caf9" stopOpacity="0.5" />
-                            </linearGradient>
-                        </defs>
-                        <rect x="10" y="10" width="180" height="280" fill="none" stroke={frameColor} strokeWidth="10" rx="4" />
-                        <rect x="20" y="20" width="160" height="125" style={glassStyle} rx="2" />
-                        <rect x="20" y="155" width="160" height="125" style={glassStyle} rx="2" />
-                        <rect x="10" y="145" width="180" height="10" fill={frameColor} />
-                        {grids === '4 over 4' && (
-                            <>
-                                <line x1="100" y1="20" x2="100" y2="145" stroke={frameColor} strokeWidth="2" />
-                                <line x1="20" y1="85" x2="180" y2="85" stroke={frameColor} strokeWidth="2" />
-                                <line x1="100" y1="155" x2="100" y2="280" stroke={frameColor} strokeWidth="2" />
-                                <line x1="20" y1="215" x2="180" y2="215" stroke={frameColor} strokeWidth="2" />
-                            </>
-                        )}
-                        {grids === '6 over 6' && (
-                            <>
-                                <line x1="73" y1="20" x2="73" y2="145" stroke={frameColor} strokeWidth="2" />
-                                <line x1="127" y1="20" x2="127" y2="145" stroke={frameColor} strokeWidth="2" />
-                                <line x1="20" y1="85" x2="180" y2="85" stroke={frameColor} strokeWidth="2" />
-                                <line x1="73" y1="155" x2="73" y2="280" stroke={frameColor} strokeWidth="2" />
-                                <line x1="127" y1="155" x2="127" y2="280" stroke={frameColor} strokeWidth="2" />
-                                <line x1="20" y1="215" x2="180" y2="215" stroke={frameColor} strokeWidth="2" />
-                            </>
-                        )}
-                    </svg>
-                )
-            case 'Two Lites Slider':
-                return (
-                    <svg viewBox="0 0 300 200" className="w-full h-full">
-                        <defs>
-                            <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stopColor="#e3f2fd" stopOpacity="0.9" />
-                                <stop offset="50%" stopColor="#bbdefb" stopOpacity="0.7" />
-                                <stop offset="100%" stopColor="#90caf9" stopOpacity="0.5" />
-                            </linearGradient>
-                        </defs>
-                        <rect x="10" y="10" width="280" height="180" fill="none" stroke={frameColor} strokeWidth="10" rx="4" />
-                        <rect x="20" y="20" width="125" height="160" style={glassStyle} rx="2" />
-                        <rect x="155" y="20" width="125" height="160" style={glassStyle} rx="2" />
-                        <rect x="145" y="10" width="10" height="180" fill={frameColor} />
-                        {grids === '4 over 4' && (
-                            <>
-                                <line x1="82" y1="20" x2="82" y2="180" stroke={frameColor} strokeWidth="2" />
-                                <line x1="20" y1="100" x2="145" y2="100" stroke={frameColor} strokeWidth="2" />
-                                <line x1="218" y1="20" x2="218" y2="180" stroke={frameColor} strokeWidth="2" />
-                                <line x1="155" y1="100" x2="280" y2="100" stroke={frameColor} strokeWidth="2" />
-                            </>
-                        )}
-                    </svg>
-                )
-            case 'Picture Window':
-                return (
-                    <svg viewBox="0 0 280 200" className="w-full h-full">
-                        <defs>
-                            <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stopColor="#e3f2fd" stopOpacity="0.9" />
-                                <stop offset="50%" stopColor="#bbdefb" stopOpacity="0.7" />
-                                <stop offset="100%" stopColor="#90caf9" stopOpacity="0.5" />
-                            </linearGradient>
-                        </defs>
-                        <rect x="10" y="10" width="260" height="180" fill="none" stroke={frameColor} strokeWidth="10" rx="4" />
-                        <rect x="20" y="20" width="240" height="160" style={glassStyle} rx="2" />
-                        {grids === '2' && (
-                            <>
-                                <line x1="100" y1="20" x2="100" y2="180" stroke={frameColor} strokeWidth="2" />
-                                <line x1="180" y1="20" x2="180" y2="180" stroke={frameColor} strokeWidth="2" />
-                            </>
-                        )}
-                        {grids === '4' && (
-                            <>
-                                <line x1="140" y1="20" x2="140" y2="180" stroke={frameColor} strokeWidth="2" />
-                                <line x1="20" y1="100" x2="260" y2="100" stroke={frameColor} strokeWidth="2" />
-                            </>
-                        )}
-                    </svg>
-                )
-            case 'Casement':
-                return (
-                    <svg viewBox="0 0 200 280" className="w-full h-full">
-                        <defs>
-                            <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stopColor="#e3f2fd" stopOpacity="0.9" />
-                                <stop offset="50%" stopColor="#bbdefb" stopOpacity="0.7" />
-                                <stop offset="100%" stopColor="#90caf9" stopOpacity="0.5" />
-                            </linearGradient>
-                        </defs>
-                        <rect x="10" y="10" width="180" height="260" fill="none" stroke={frameColor} strokeWidth="10" rx="4" />
-                        <rect x="20" y="20" width="160" height="240" style={glassStyle} rx="2" />
-                        <circle cx="25" cy="80" r="5" fill={frameColor} />
-                        <circle cx="25" cy="140" r="5" fill={frameColor} />
-                        <circle cx="25" cy="200" r="5" fill={frameColor} />
-                        <rect x="165" y="130" width="8" height="20" fill={frameColor} rx="2" />
-                    </svg>
-                )
-            case 'Hopper':
-                return (
-                    <svg viewBox="0 0 280 180" className="w-full h-full">
-                        <defs>
-                            <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stopColor="#e3f2fd" stopOpacity="0.9" />
-                                <stop offset="50%" stopColor="#bbdefb" stopOpacity="0.7" />
-                                <stop offset="100%" stopColor="#90caf9" stopOpacity="0.5" />
-                            </linearGradient>
-                        </defs>
-                        <rect x="10" y="10" width="260" height="160" fill="none" stroke={frameColor} strokeWidth="10" rx="4" />
-                        <rect x="20" y="20" width="240" height="140" style={glassStyle} rx="2" />
-                        <circle cx="80" cy="18" r="5" fill={frameColor} />
-                        <circle cx="140" cy="18" r="5" fill={frameColor} />
-                        <circle cx="200" cy="18" r="5" fill={frameColor} />
-                        <rect x="130" y="152" width="20" height="8" fill={frameColor} rx="2" />
-                    </svg>
-                )
-            case 'Awning':
-                return (
-                    <svg viewBox="0 0 280 180" className="w-full h-full">
-                        <defs>
-                            <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stopColor="#e3f2fd" stopOpacity="0.9" />
-                                <stop offset="50%" stopColor="#bbdefb" stopOpacity="0.7" />
-                                <stop offset="100%" stopColor="#90caf9" stopOpacity="0.5" />
-                            </linearGradient>
-                        </defs>
-                        <rect x="10" y="10" width="260" height="160" fill="none" stroke={frameColor} strokeWidth="10" rx="4" />
-                        <rect x="20" y="20" width="240" height="140" style={glassStyle} rx="2" />
-                        <circle cx="80" cy="162" r="5" fill={frameColor} />
-                        <circle cx="140" cy="162" r="5" fill={frameColor} />
-                        <circle cx="200" cy="162" r="5" fill={frameColor} />
-                        <rect x="130" y="22" width="20" height="8" fill={frameColor} rx="2" />
-                    </svg>
-                )
-            case 'Three Lites Slider':
-                return (
-                    <svg viewBox="0 0 340 200" className="w-full h-full">
-                        <defs>
-                            <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stopColor="#e3f2fd" stopOpacity="0.9" />
-                                <stop offset="50%" stopColor="#bbdefb" stopOpacity="0.7" />
-                                <stop offset="100%" stopColor="#90caf9" stopOpacity="0.5" />
-                            </linearGradient>
-                        </defs>
-                        <rect x="10" y="10" width="320" height="180" fill="none" stroke={frameColor} strokeWidth="10" rx="4" />
-                        <rect x="20" y="20" width="90" height="160" style={glassStyle} rx="2" />
-                        <rect x="120" y="20" width="100" height="160" style={glassStyle} rx="2" />
-                        <rect x="230" y="20" width="90" height="160" style={glassStyle} rx="2" />
-                        <rect x="110" y="10" width="10" height="180" fill={frameColor} />
-                        <rect x="220" y="10" width="10" height="180" fill={frameColor} />
-                    </svg>
-                )
-            case 'Bow Window':
-                return (
-                    <svg viewBox="0 0 320 200" className="w-full h-full">
-                        <defs>
-                            <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stopColor="#e3f2fd" stopOpacity="0.9" />
-                                <stop offset="50%" stopColor="#bbdefb" stopOpacity="0.7" />
-                                <stop offset="100%" stopColor="#90caf9" stopOpacity="0.5" />
-                            </linearGradient>
-                        </defs>
-                        <path d="M 20 180 L 20 40 Q 50 20 80 30 L 80 180 Z" fill="url(#glassGradient)" stroke={frameColor} strokeWidth="4" />
-                        <path d="M 80 180 L 80 30 Q 120 15 160 15 Q 200 15 240 30 L 240 180 Z" fill="url(#glassGradient)" stroke={frameColor} strokeWidth="4" />
-                        <path d="M 240 180 L 240 30 Q 270 20 300 40 L 300 180 Z" fill="url(#glassGradient)" stroke={frameColor} strokeWidth="4" />
-                        <line x1="20" y1="180" x2="300" y2="180" stroke={frameColor} strokeWidth="6" />
-                    </svg>
-                )
-            case 'Bay Window':
-                return (
-                    <svg viewBox="0 0 320 200" className="w-full h-full">
-                        <defs>
-                            <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stopColor="#e3f2fd" stopOpacity="0.9" />
-                                <stop offset="50%" stopColor="#bbdefb" stopOpacity="0.7" />
-                                <stop offset="100%" stopColor="#90caf9" stopOpacity="0.5" />
-                            </linearGradient>
-                        </defs>
-                        <polygon points="30,180 50,20 100,20 100,180" fill="url(#glassGradient)" stroke={frameColor} strokeWidth="4" />
-                        <rect x="100" y="20" width="120" height="160" fill="url(#glassGradient)" stroke={frameColor} strokeWidth="4" />
-                        <polygon points="220,180 220,20 270,20 290,180" fill="url(#glassGradient)" stroke={frameColor} strokeWidth="4" />
-                        <line x1="30" y1="180" x2="290" y2="180" stroke={frameColor} strokeWidth="6" />
-                    </svg>
-                )
-            default:
-                return (
-                    <svg viewBox="0 0 200 200" className="w-full h-full">
-                        <defs>
-                            <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stopColor="#e3f2fd" stopOpacity="0.9" />
-                                <stop offset="50%" stopColor="#bbdefb" stopOpacity="0.7" />
-                                <stop offset="100%" stopColor="#90caf9" stopOpacity="0.5" />
-                            </linearGradient>
-                        </defs>
-                        <rect x="10" y="10" width="180" height="180" fill="none" stroke={frameColor} strokeWidth="10" rx="4" />
-                        <rect x="20" y="20" width="160" height="160" fill="url(#glassGradient)" rx="2" />
-                    </svg>
-                )
-        }
-    }
-
     if (!windowType) {
         return (
             <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-8 flex flex-col items-center justify-center h-72 border border-slate-200">
@@ -257,6 +49,13 @@ function WindowPreview({ windowType, grids, color }: { windowType: string; grids
         )
     }
 
+    // Get window frame component
+    const WindowFrameComponent = WINDOW_FRAME_MAP[windowType]
+
+    // Get grid overlay component if applicable
+    const gridMap = GRID_OVERLAY_MAP[windowType]
+    const GridOverlayComponent = gridMap?.[grids] || null
+
     return (
         <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
             <h3 className="font-semibold text-slate-800 text-sm mb-4 flex items-center gap-2">
@@ -267,8 +66,9 @@ function WindowPreview({ windowType, grids, color }: { windowType: string; grids
                 Window Preview
             </h3>
             <div className="relative h-48 flex items-center justify-center bg-gradient-to-br from-sky-50 to-blue-50 rounded-xl p-4">
-                <div className="w-full max-w-[200px]">
-                    <WindowFrame />
+                <div className="w-full max-w-[200px] relative">
+                    {WindowFrameComponent && <WindowFrameComponent frameColor={frameColor} />}
+                    {GridOverlayComponent && <GridOverlayComponent frameColor={frameColor} />}
                 </div>
             </div>
             <div className="mt-4 grid grid-cols-3 gap-2 text-xs">
