@@ -1,3 +1,20 @@
+// 统一的窗户组件系统
+// 所有窗户组件支持：frameColor, grids, className, showGlass
+
+export { default as DoubleHungWindow } from './windows/DoubleHungWindow'
+export { default as TwoLiteSliderWindow } from './windows/TwoLiteSliderWindow'
+export { default as ThreeLiteSliderWindow } from './windows/ThreeLiteSliderWindow'
+export { default as PictureWindow } from './windows/PictureWindow'
+export { default as CasementWindow } from './windows/CasementWindow'
+export { default as HopperWindow } from './windows/HopperWindow'
+export { default as AwningWindow } from './windows/AwningWindow'
+export { default as BowWindow } from './windows/BowWindow'
+export { default as BayWindow } from './windows/BayWindow'
+
+export type { WindowProps } from './types'
+export { GlassGradient } from './types'
+
+// 窗户组件映射
 import DoubleHungWindow from './windows/DoubleHungWindow'
 import TwoLiteSliderWindow from './windows/TwoLiteSliderWindow'
 import ThreeLiteSliderWindow from './windows/ThreeLiteSliderWindow'
@@ -7,14 +24,9 @@ import HopperWindow from './windows/HopperWindow'
 import AwningWindow from './windows/AwningWindow'
 import BowWindow from './windows/BowWindow'
 import BayWindow from './windows/BayWindow'
-import Grid4Over4DoubleHung from './grids/Grid4Over4DoubleHung'
-import Grid6Over6DoubleHung from './grids/Grid6Over6DoubleHung'
-import Grid4Over4TwoLiteSlider from './grids/Grid4Over4TwoLiteSlider'
-import Grid2Picture from './grids/Grid2Picture'
-import Grid4Picture from './grids/Grid4Picture'
+import { WindowProps } from './types'
 
-// Window frame component mapping
-export const WINDOW_FRAME_MAP: Record<string, React.ComponentType<{ frameColor: string }>> = {
+export const WINDOW_COMPONENTS: Record<string, React.ComponentType<WindowProps>> = {
     'Double Hung': DoubleHungWindow,
     'Two Lites Slider': TwoLiteSliderWindow,
     'Three Lites Slider': ThreeLiteSliderWindow,
@@ -24,23 +36,4 @@ export const WINDOW_FRAME_MAP: Record<string, React.ComponentType<{ frameColor: 
     'Awning': AwningWindow,
     'Bow Window': BowWindow,
     'Bay Window': BayWindow,
-}
-
-// Grid overlay component mapping
-export const GRID_OVERLAY_MAP: Record<string, Record<string, React.ComponentType<{ frameColor: string }> | null>> = {
-    'Double Hung': {
-        'No Grids': null,
-        '4 over 4': Grid4Over4DoubleHung,
-        '6 over 6': Grid6Over6DoubleHung,
-    },
-    'Two Lites Slider': {
-        'No Grids': null,
-        '4 over 4': Grid4Over4TwoLiteSlider,
-        '6 over 6': null, // Not implemented in original
-    },
-    'Picture Window': {
-        'No Grids': null,
-        '2': Grid2Picture,
-        '4': Grid4Picture,
-    },
 }

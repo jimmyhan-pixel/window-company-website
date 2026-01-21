@@ -37,6 +37,11 @@ import {
 } from 'lucide-react'
 
 // ============================================
+// 窗户组件导入
+// ============================================
+import { WINDOW_COMPONENTS } from '@/components/window-preview'
+
+// ============================================
 // 类型定义
 // ============================================
 type MaterialType = 'vinyl' | 'aluminum' | null
@@ -69,151 +74,9 @@ function WindowPreview({ windowType, grids, color }: { windowType: string; grids
     }
 
     const frameColor = getFrameColor()
+    const WindowComponent = WINDOW_COMPONENTS[windowType]
 
-    const WindowFrame = () => {
-        const glassStyle = { fill: 'url(#glassGradient)' }
-
-        const GlassDef = () => (
-            <defs>
-                <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#e3f2fd" stopOpacity="0.9" />
-                    <stop offset="50%" stopColor="#bbdefb" stopOpacity="0.7" />
-                    <stop offset="100%" stopColor="#90caf9" stopOpacity="0.5" />
-                </linearGradient>
-            </defs>
-        )
-
-        switch (windowType) {
-            case 'Double Hung':
-                return (
-                    <svg viewBox="0 0 200 300" className="w-full h-full">
-                        <GlassDef />
-                        <rect x="10" y="10" width="180" height="280" fill="none" stroke={frameColor} strokeWidth="10" rx="4" />
-                        <rect x="20" y="20" width="160" height="125" style={glassStyle} rx="2" />
-                        <rect x="20" y="155" width="160" height="125" style={glassStyle} rx="2" />
-                        <rect x="10" y="145" width="180" height="10" fill={frameColor} />
-                        {grids === '4 over 4' && (
-                            <>
-                                <line x1="100" y1="20" x2="100" y2="145" stroke={frameColor} strokeWidth="2" />
-                                <line x1="20" y1="85" x2="180" y2="85" stroke={frameColor} strokeWidth="2" />
-                                <line x1="100" y1="155" x2="100" y2="280" stroke={frameColor} strokeWidth="2" />
-                                <line x1="20" y1="215" x2="180" y2="215" stroke={frameColor} strokeWidth="2" />
-                            </>
-                        )}
-                        {grids === '6 over 6' && (
-                            <>
-                                <line x1="73" y1="20" x2="73" y2="145" stroke={frameColor} strokeWidth="2" />
-                                <line x1="127" y1="20" x2="127" y2="145" stroke={frameColor} strokeWidth="2" />
-                                <line x1="20" y1="85" x2="180" y2="85" stroke={frameColor} strokeWidth="2" />
-                                <line x1="73" y1="155" x2="73" y2="280" stroke={frameColor} strokeWidth="2" />
-                                <line x1="127" y1="155" x2="127" y2="280" stroke={frameColor} strokeWidth="2" />
-                                <line x1="20" y1="215" x2="180" y2="215" stroke={frameColor} strokeWidth="2" />
-                            </>
-                        )}
-                    </svg>
-                )
-            case 'Two Lites Slider':
-                return (
-                    <svg viewBox="0 0 300 200" className="w-full h-full">
-                        <GlassDef />
-                        <rect x="10" y="10" width="280" height="180" fill="none" stroke={frameColor} strokeWidth="10" rx="4" />
-                        <rect x="20" y="20" width="125" height="160" style={glassStyle} rx="2" />
-                        <rect x="155" y="20" width="125" height="160" style={glassStyle} rx="2" />
-                        <rect x="145" y="10" width="10" height="180" fill={frameColor} />
-                    </svg>
-                )
-            case 'Three Lites Slider':
-                return (
-                    <svg viewBox="0 0 340 200" className="w-full h-full">
-                        <GlassDef />
-                        <rect x="10" y="10" width="320" height="180" fill="none" stroke={frameColor} strokeWidth="10" rx="4" />
-                        <rect x="20" y="20" width="90" height="160" style={glassStyle} rx="2" />
-                        <rect x="120" y="20" width="100" height="160" style={glassStyle} rx="2" />
-                        <rect x="230" y="20" width="90" height="160" style={glassStyle} rx="2" />
-                        <rect x="110" y="10" width="10" height="180" fill={frameColor} />
-                        <rect x="220" y="10" width="10" height="180" fill={frameColor} />
-                    </svg>
-                )
-            case 'Picture Window':
-                return (
-                    <svg viewBox="0 0 280 200" className="w-full h-full">
-                        <GlassDef />
-                        <rect x="10" y="10" width="260" height="180" fill="none" stroke={frameColor} strokeWidth="10" rx="4" />
-                        <rect x="20" y="20" width="240" height="160" style={glassStyle} rx="2" />
-                        {grids === '4' && (
-                            <>
-                                <line x1="140" y1="20" x2="140" y2="180" stroke={frameColor} strokeWidth="2" />
-                                <line x1="20" y1="100" x2="260" y2="100" stroke={frameColor} strokeWidth="2" />
-                            </>
-                        )}
-                    </svg>
-                )
-            case 'Casement':
-                return (
-                    <svg viewBox="0 0 200 280" className="w-full h-full">
-                        <GlassDef />
-                        <rect x="10" y="10" width="180" height="260" fill="none" stroke={frameColor} strokeWidth="10" rx="4" />
-                        <rect x="20" y="20" width="160" height="240" style={glassStyle} rx="2" />
-                        <circle cx="25" cy="80" r="5" fill={frameColor} />
-                        <circle cx="25" cy="140" r="5" fill={frameColor} />
-                        <circle cx="25" cy="200" r="5" fill={frameColor} />
-                        <rect x="165" y="130" width="8" height="20" fill={frameColor} rx="2" />
-                    </svg>
-                )
-            case 'Hopper':
-                return (
-                    <svg viewBox="0 0 280 180" className="w-full h-full">
-                        <GlassDef />
-                        <rect x="10" y="10" width="260" height="160" fill="none" stroke={frameColor} strokeWidth="10" rx="4" />
-                        <rect x="20" y="20" width="240" height="140" style={glassStyle} rx="2" />
-                        <circle cx="80" cy="18" r="5" fill={frameColor} />
-                        <circle cx="140" cy="18" r="5" fill={frameColor} />
-                        <circle cx="200" cy="18" r="5" fill={frameColor} />
-                    </svg>
-                )
-            case 'Awning':
-                return (
-                    <svg viewBox="0 0 280 180" className="w-full h-full">
-                        <GlassDef />
-                        <rect x="10" y="10" width="260" height="160" fill="none" stroke={frameColor} strokeWidth="10" rx="4" />
-                        <rect x="20" y="20" width="240" height="140" style={glassStyle} rx="2" />
-                        <circle cx="80" cy="162" r="5" fill={frameColor} />
-                        <circle cx="140" cy="162" r="5" fill={frameColor} />
-                        <circle cx="200" cy="162" r="5" fill={frameColor} />
-                    </svg>
-                )
-            case 'Bow Window':
-                return (
-                    <svg viewBox="0 0 320 200" className="w-full h-full">
-                        <GlassDef />
-                        <path d="M 20 180 L 20 40 Q 50 20 80 30 L 80 180 Z" fill="url(#glassGradient)" stroke={frameColor} strokeWidth="4" />
-                        <path d="M 80 180 L 80 30 Q 120 15 160 15 Q 200 15 240 30 L 240 180 Z" fill="url(#glassGradient)" stroke={frameColor} strokeWidth="4" />
-                        <path d="M 240 180 L 240 30 Q 270 20 300 40 L 300 180 Z" fill="url(#glassGradient)" stroke={frameColor} strokeWidth="4" />
-                        <line x1="20" y1="180" x2="300" y2="180" stroke={frameColor} strokeWidth="6" />
-                    </svg>
-                )
-            case 'Bay Window':
-                return (
-                    <svg viewBox="0 0 320 200" className="w-full h-full">
-                        <GlassDef />
-                        <polygon points="30,180 50,20 100,20 100,180" fill="url(#glassGradient)" stroke={frameColor} strokeWidth="4" />
-                        <rect x="100" y="20" width="120" height="160" fill="url(#glassGradient)" stroke={frameColor} strokeWidth="4" />
-                        <polygon points="220,180 220,20 270,20 290,180" fill="url(#glassGradient)" stroke={frameColor} strokeWidth="4" />
-                        <line x1="30" y1="180" x2="290" y2="180" stroke={frameColor} strokeWidth="6" />
-                    </svg>
-                )
-            default:
-                return (
-                    <svg viewBox="0 0 200 200" className="w-full h-full">
-                        <GlassDef />
-                        <rect x="10" y="10" width="180" height="180" fill="none" stroke={frameColor} strokeWidth="10" rx="4" />
-                        <rect x="20" y="20" width="160" height="160" fill="url(#glassGradient)" rx="2" />
-                    </svg>
-                )
-        }
-    }
-
-    if (!windowType) {
+    if (!windowType || !WindowComponent) {
         return (
             <Card className="border-dashed">
                 <CardContent className="flex flex-col items-center justify-center h-72 text-muted-foreground">
@@ -238,7 +101,11 @@ function WindowPreview({ windowType, grids, color }: { windowType: string; grids
             <CardContent>
                 <div className="h-48 flex items-center justify-center bg-gradient-to-br from-sky-50 to-blue-50 rounded-lg p-4">
                     <div className="w-full max-w-[180px]">
-                        <WindowFrame />
+                        <WindowComponent
+                            frameColor={frameColor}
+                            grids={grids}
+                            showGlass={true}
+                        />
                     </div>
                 </div>
                 <div className="mt-4 grid grid-cols-3 gap-2 text-xs">
@@ -343,14 +210,24 @@ function OptionCard({ title, description, icon, tags, selected, onClick }: Optio
 // 窗型选项组件
 // ============================================
 function WindowTypeOption({ type, onClick }: { type: string; onClick: () => void }) {
+    const WindowComponent = WINDOW_COMPONENTS[type]
+
     return (
         <Card
             className="cursor-pointer transition-all hover:border-primary hover:shadow-sm group"
             onClick={onClick}
         >
             <CardContent className="p-4 text-center">
-                <div className="w-10 h-10 mx-auto mb-2 rounded-lg bg-muted flex items-center justify-center group-hover:bg-primary/10 transition-colors">
-                    <LayoutGrid className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                <div className="w-12 h-12 mx-auto mb-2 rounded-lg bg-muted flex items-center justify-center group-hover:bg-primary/10 transition-colors">
+                    {WindowComponent ? (
+                        <WindowComponent
+                            frameColor="#64748b"
+                            showGlass={false}
+                            className="w-8 h-8"
+                        />
+                    ) : (
+                        <LayoutGrid className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                    )}
                 </div>
                 <p className="text-sm font-medium group-hover:text-primary transition-colors">{type}</p>
             </CardContent>
