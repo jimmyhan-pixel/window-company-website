@@ -372,13 +372,38 @@ export default function QuotationPage() {
     }
 
     const handleSubmit = async () => {
-        if (!formData.email || !formData.phone) return
-        setIsSubmitting(true)
-        setTimeout(() => {
-            setIsSubmitting(false)
-            setStep(formData.material === 'vinyl' ? 8 : 9)
-        }, 1500)
+    if (!formData.email || !formData.phone) return
+
+    setIsSubmitting(true)
+
+    try {
+        const response = await fetch('/api/quote/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        })
+
+        const data = await response.json()
+
+        if (!response.ok) {
+            throw new Error(data.error || 'Failed to submit quote')
+        }
+
+        // Success - go to success page
+        if (formData.material === 'vinyl') {
+            setStep(8)
+        } else {
+            setStep(9)
+        }
+    } catch (error) {
+        console.error('Submit error:', error)
+        alert('Failed to submit quote request. Please try again.')
+    } finally {
+        setIsSubmitting(false)
     }
+}
 
     const resetForm = () => {
         setFormData({ material: null, aluminumCategory: null, windowType: '', grids: '', color: '', width: '', height: '', quantity: '1', email: '', phone: '' })
