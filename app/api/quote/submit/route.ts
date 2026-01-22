@@ -5,36 +5,36 @@ import { NextResponse } from 'next/server'
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function POST(request: Request) {
-  try {
-    const body = await request.json()
-    
-    const {
-      material,
-      aluminumCategory,
-      windowType,
-      grids,
-      color,
-      width,
-      height,
-      quantity,
-      email,
-      phone
-    } = body
+    try {
+        const body = await request.json()
 
-    // Validate required fields
-    if (!email || !phone || !windowType) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      )
-    }
+        const {
+            material,
+            aluminumCategory,
+            windowType,
+            grids,
+            color,
+            width,
+            height,
+            quantity,
+            email,
+            phone
+        } = body
 
-    // Send email to company
-    const { data, error } = await resend.emails.send({
-      from: 'Quote Request <onboarding@resend.dev>', // Use verified domain later
-      to: process.env.COMPANY_EMAIL || 'your@email.com',
-      subject: `New Quote Request - ${windowType}`,
-      html: `
+        // Validate required fields
+        if (!email || !phone || !windowType) {
+            return NextResponse.json(
+                { error: 'Missing required fields' },
+                { status: 400 }
+            )
+        }
+
+        // Send email to company
+        const { data, error } = await resend.emails.send({
+            from: 'Quote Request <onboarding@resend.dev>', // Use verified domain later
+            to: process.env.COMPANY_EMAIL || 'your@email.com',
+            subject: `New Quote Request - ${windowType}`,
+            html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #738751;">New Quote Request</h2>
           
@@ -87,50 +87,49 @@ export async function POST(request: Request) {
           </p>
         </div>
       `
-    })
+        })
 
-    if (error) {
-      console.error('Resend error:', error)
-      return NextResponse.json(
-        { error: 'Failed to send email' },
-        { status: 500 }
-      )
-    }
+        if (error) {
+            console.error('Resend error:', error)
+            return NextResponse.json(
+                { error: 'Failed to send email' },
+                { status: 500 }
+            )
+        }
 
-    // Save to database
-try {
-  const { error: dbError } = await supabase
-    .from('quotes')
-    .insert([
-      {
-        material,
-        aluminum_category: aluminumCategory,
-        window_type: windowType,
-        grids,
-        color,
-        width,
-        height,
-        quantity,
-        customer_email: email,
-        customer_phone: phone,
-        status: 'pending'
-      }
-    ])
+        // Save to database
+        try {
+            const { error: dbError } = await supabase
+                .from('quotes')
+                .insert([
+                    {
+                        material,
+                        aluminum_category: aluminumCategory,
+                        window_type: windowType,
+                        grids,
+                        color,
+                        width,
+                        height,
+                        quantity,
+                        customer_email: email,
+                        customer_phone: phone
+                    }
+                ])
 
-  if (dbError) {
-    console.error('Database error:', dbError)
-    // 邮件已发送，数据库保存失败不影响用户体验
-  }
-} catch (dbError) {
-  console.error('Database error:', dbError)
-}
+            if (dbError) {
+                console.error('Database error:', dbError)
+                // 邮件已发送，数据库保存失败不影响用户体验
+            }
+        } catch (dbError) {
+            console.error('Database error:', dbError)
+        }
 
-    // Optional: Send confirmation email to customer
-    await resend.emails.send({
-      from: 'City Windows <onboarding@resend.dev>',
-      to: email,
-      subject: 'Quote Request Received - City Windows',
-      html: `
+        // Optional: Send confirmation email to customer
+        await resend.emails.send({
+            from: 'City Windows <onboarding@resend.dev>',
+            to: email,
+            subject: 'Quote Request Received - City Windows',
+            html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #738751;">Thank You for Your Quote Request!</h2>
           <p>We've received your request for:</p>
@@ -143,18 +142,18 @@ try {
           <p style="margin-top: 30px;">Best regards,<br><strong>City Windows Team</strong></p>
         </div>
       `
-    })
+        })
 
-    return NextResponse.json(
-      { success: true, message: 'Quote request sent successfully' },
-      { status: 200 }
-    )
+        return NextResponse.json(
+            { success: true, message: 'Quote request sent successfully' },
+            { status: 200 }
+        )
 
-  } catch (error) {
-    console.error('API error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
-  }
+    } catch (error) {
+        console.error('API error:', error)
+        return NextResponse.json(
+            { error: 'Internal server error' },
+            { status: 500 }
+        )
+    }
 }

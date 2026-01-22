@@ -42,10 +42,10 @@ export default function Navbar() {
                             <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#738751] group-hover:w-3/4 transition-all duration-300 rounded-full"></span>
                         </Link>
                         <Link
-                            href="/login"
+                            href="/dashboard/login"
                             className="ml-3 px-6 py-2.5 bg-gradient-to-r from-[#738751] to-[#5a6a42] text-white rounded-lg hover:shadow-lg transition-all duration-300 font-medium hover:-translate-y-0.5 hover:shadow-[#738751]/30"
                         >
-                            Login
+                            Dashboard
                         </Link>
                     </div>
 
@@ -97,11 +97,11 @@ export default function Navbar() {
                             Contact
                         </Link>
                         <Link
-                            href="/login"
+                            href="/dashboard/login"
                             className="block px-4 py-3 bg-gradient-to-r from-[#738751] to-[#5a6a42] text-white rounded-lg text-center font-medium shadow-md transition-all duration-300 hover:shadow-lg mt-2"
                             onClick={() => setIsMenuOpen(false)}
                         >
-                            Login
+                            Dashboard
                         </Link>
                     </div>
                 )}

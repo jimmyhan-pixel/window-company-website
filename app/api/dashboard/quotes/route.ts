@@ -13,27 +13,11 @@ export async function GET(request: Request) {
             )
         }
 
-        // Get query parameters
-        const { searchParams } = new URL(request.url)
-        const status = searchParams.get('status')
-        const search = searchParams.get('search')
-
-        // Build query
-        let query = supabase
+        // Build query - exclude customer information for privacy
+        const { data, error } = await supabase
             .from('quotes')
-            .select('*')
+            .select('id, quote_number, created_at, material, aluminum_category, window_type, grids, color, width, height, quantity')
             .order('created_at', { ascending: false })
-
-        // Apply filters
-        if (status && status !== 'all') {
-            query = query.eq('status', status)
-        }
-
-        if (search) {
-            query = query.or(`customer_email.ilike.%${search}%,customer_phone.ilike.%${search}%`)
-        }
-
-        const { data, error } = await query
 
         if (error) {
             console.error('Database error:', error)
