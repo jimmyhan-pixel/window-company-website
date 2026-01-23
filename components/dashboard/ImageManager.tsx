@@ -1,29 +1,74 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { getAllProducts } from '@/config/products'
 
 export default function ImageManager() {
     const products = getAllProducts()
     const [uploading, setUploading] = useState<string | null>(null)
+    const [imageUrls, setImageUrls] = useState<Record<string, string>>({})
+
+    // Get Supabase public URL for an image
+    const getImageUrl = (productId: string) => {
+        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+        return `${supabaseUrl}/storage/v1/object/public/product-images/${productId}.jpg`
+    }
+
+    // Load image URLs on mount
+    useEffect(() => {
+        const urls: Record<string, string> = {}
+
+        // Home products
+        products.home.forEach(p => {
+            urls[p.id] = getImageUrl(p.id)
+        })
+
+        // Vinyl products
+        products.vinyl.forEach(p => {
+            urls[p.id] = getImageUrl(p.id)
+        })
+
+        // Aluminum products
+        products.aluminum.forEach(p => {
+            urls[p.id] = getImageUrl(p.id)
+        })
+
+        // Commercial products
+        products.commercial.forEach(p => {
+            urls[p.id] = getImageUrl(p.id)
+        })
+
+        setImageUrls(urls)
+    }, [])
 
     const handleImageUpload = async (productId: string, file: File) => {
         setUploading(productId)
 
         try {
-            // TODO: 实现图片上传逻辑
-            // 1. 上传到 Supabase Storage 或其他存储服务
-            // 2. 更新图片路径到数据库或配置文件
+            // Create form data
+            const formData = new FormData()
+            formData.append('file', file)
+            formData.append('productId', productId)
 
-            console.log('Uploading image for:', productId, file.name)
+            // Upload to server
+            const response = await fetch('/api/upload/image', {
+                method: 'POST',
+                body: formData
+            })
 
-            // 模拟上传延迟
-            await new Promise(resolve => setTimeout(resolve, 1000))
+            const data = await response.json()
 
-            alert(`图片上传成功: ${file.name}`)
+            if (!response.ok) {
+                throw new Error(data.error || 'Upload failed')
+            }
+
+            alert(`图片上传成功！\n文件: ${file.name}\nURL: ${data.url}`)
+
+            // Refresh the page to show new image
+            window.location.reload()
         } catch (error) {
             console.error('Upload error:', error)
-            alert('上传失败，请重试')
+            alert(`上传失败: ${error instanceof Error ? error.message : '未知错误'}`)
         } finally {
             setUploading(null)
         }
@@ -60,10 +105,20 @@ export default function ImageManager() {
                             <p className="text-sm text-gray-600 mb-4">{product.nameZh}</p>
 
                             {/* 图片预览 */}
-                            <div className="bg-gray-100 rounded-lg h-48 mb-4 flex items-center justify-center border-2 border-dashed border-gray-300">
-                                <div className="text-center">
+                            <div className="bg-gray-100 rounded-lg h-48 mb-4 flex items-center justify-center border-2 border-dashed border-gray-300 overflow-hidden">
+                                <img
+                                    src={imageUrls[product.id]}
+                                    alt={product.name}
+                                    className="w-full h-full object-cover"
+                                    onError={(e) => {
+                                        // Fallback to placeholder if image doesn't exist
+                                        e.currentTarget.style.display = 'none'
+                                        e.currentTarget.nextElementSibling?.classList.remove('hidden')
+                                    }}
+                                />
+                                <div className="hidden text-center">
                                     <span className="text-6xl mb-2 block">🪟</span>
-                                    <p className="text-sm text-gray-500">{product.name}</p>
+                                    <p className="text-sm text-gray-500">未上传</p>
                                 </div>
                             </div>
 
@@ -101,8 +156,19 @@ export default function ImageManager() {
                             <h4 className="font-medium text-gray-900 mb-1 text-sm">{product.name}</h4>
                             <p className="text-xs text-gray-600 mb-3">{product.nameZh}</p>
 
-                            <div className="bg-gray-100 rounded h-32 mb-3 flex items-center justify-center border border-dashed border-gray-300">
-                                <span className="text-3xl">🪟</span>
+                            <div className="bg-gray-100 rounded h-32 mb-3 flex items-center justify-center border border-dashed border-gray-300 overflow-hidden">
+                                <img
+                                    src={imageUrls[product.id]}
+                                    alt={product.name}
+                                    className="w-full h-full object-cover"
+                                    onError={(e) => {
+                                        e.currentTarget.style.display = 'none'
+                                        e.currentTarget.nextElementSibling?.classList.remove('hidden')
+                                    }}
+                                />
+                                <div className="hidden text-center">
+                                    <span className="text-3xl">🪟</span>
+                                </div>
                             </div>
 
                             <label className="block">
@@ -198,7 +264,6 @@ export default function ImageManager() {
                     <div className="text-sm text-blue-800">
                         <p className="font-medium mb-1">图片管理说明</p>
                         <ul className="list-disc list-inside space-y-1">
-                            <li>图片会自动根据产品配置文件动态生成</li>
                             <li>如果在代码中添加新产品，这里会自动显示对应的上传框</li>
                             <li>推荐图片尺寸: 800×600px，格式: JPG/PNG，大小: 最大 5MB</li>
                             <li>上传后图片会立即在网站上更新</li>

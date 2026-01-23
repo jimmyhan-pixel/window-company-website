@@ -30,15 +30,19 @@ export async function GET() {
             .eq('page_path', '/')
             .gte('viewed_at', startOfMonth.toISOString())
 
-        // 获取询价总数
-        const { count: totalQuotes } = await supabase
+        // 获取今日询价数量
+        const startOfToday = new Date()
+        startOfToday.setHours(0, 0, 0, 0)
+
+        const { count: todayQuotes } = await supabase
             .from('quotes')
             .select('*', { count: 'exact', head: true })
+            .gte('created_at', startOfToday.toISOString())
 
         return NextResponse.json({
             totalViews: totalViews || 0,
             monthlyViews: monthlyViews || 0,
-            totalQuotes: totalQuotes || 0
+            todayQuotes: todayQuotes || 0
         })
     } catch (error) {
         console.error('Stats API error:', error)

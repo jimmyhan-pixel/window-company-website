@@ -24,13 +24,13 @@ interface Quote {
 interface Stats {
   totalViews: number
   monthlyViews: number
-  totalQuotes: number
+  todayQuotes: number
 }
 
 export default function DashboardPage() {
   const router = useRouter()
   const [quotes, setQuotes] = useState<Quote[]>([])
-  const [stats, setStats] = useState<Stats>({ totalViews: 0, monthlyViews: 0, totalQuotes: 0 })
+  const [stats, setStats] = useState<Stats>({ totalViews: 0, monthlyViews: 0, todayQuotes: 0 })
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState<'quotes' | 'images'>('quotes')
 
@@ -155,9 +155,9 @@ export default function DashboardPage() {
           />
           <StatCard
             icon="📩"
-            title="新询价"
-            value={stats.totalQuotes}
-            subtitle="总计"
+            title="今日新询价"
+            value={stats.todayQuotes}
+            subtitle="今天"
             color="amber"
           />
         </div>
@@ -169,8 +169,8 @@ export default function DashboardPage() {
               <button
                 onClick={() => setActiveTab('quotes')}
                 className={`px-6 py-4 text-sm font-medium border-b-2 transition ${activeTab === 'quotes'
-                    ? 'border-[#738751] text-[#738751]'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  ? 'border-[#738751] text-[#738751]'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   }`}
               >
                 📋 询价列表
@@ -178,8 +178,8 @@ export default function DashboardPage() {
               <button
                 onClick={() => setActiveTab('images')}
                 className={`px-6 py-4 text-sm font-medium border-b-2 transition ${activeTab === 'images'
-                    ? 'border-[#738751] text-[#738751]'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  ? 'border-[#738751] text-[#738751]'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   }`}
               >
                 🖼️ 图片管理
