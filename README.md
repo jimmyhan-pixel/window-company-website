@@ -211,15 +211,42 @@ npm start
 
 参考 [Next.js 部署文档](https://nextjs.org/docs/app/building-your-application/deploying)
 
+## 待修复问题
+
+### 严重（上线前必须修复）
+
+- [ ] **密钥泄露**：`.env.local` 已提交到仓库，Resend API Key、Supabase Service Role Key、Dashboard 密码全部暴露。需从 Git 历史中删除，更换所有密钥，改用 Vercel 环境变量
+- [ ] **Dashboard 认证过弱**：默认账号密码 `admin/admin`（`lib/session.ts`），无登录失败次数限制，无 CSRF 防护
+- [ ] **API 无输入校验**：`/api/quote/submit` 不验证邮箱格式、电话格式、尺寸范围，所有接口无 rate limiting
+- [ ] **邮件发送用测试域名**：`api/quote/submit/route.ts:34` 使用 `onboarding@resend.dev`，生产环境会失败，需在 Resend 验证自有域名
+
+### 高优先级
+
+- [ ] **产品图片全用 Unsplash 外链**：`/public/images/products/` 是空的，所有页面用外链图片，未使用 Next.js `<Image>` 组件，无懒加载
+- [ ] **SEO 严重不足**：只有首页有 metadata，产品页/报价页/联系页全部缺失。无 Open Graph 标签、无 `sitemap.xml`、无 `robots.txt`、无 Schema.org 结构化数据
+- [ ] **i18n 不完整**：首页英文为主，Dashboard 中英混合，无语言切换功能，无 `/en`、`/zh` 路由
+- [ ] **文件上传安全**：`/api/upload/image` 文件名未做清理，无内容校验
+
+### 中优先级
+
+- [ ] **缺少 404/500 错误页**：用户访问错误路径看到 Next.js 默认页面
+- [ ] **Dashboard 功能不完整**：只能看报价列表，不能查看详情、修改状态、联系客户
+- [ ] **报价表单无持久化**：刷新页面数据丢失，无 localStorage 缓存
+- [ ] **无障碍性不足**：多个组件缺少 ARIA 标签、键盘导航支持
+- [ ] **缺少隐私政策/服务条款页**：收集用户数据但无法律页面
+- [ ] **数据库无文档**：无 Supabase schema 文件、无迁移系统、无索引说明
+
 ## 待开发功能
 
-- [ ] 管理后台完整功能
-- [ ] 用户认证系统
+- [ ] 管理后台完整功能（报价详情、状态修改、客户联系）
+- [ ] 用户认证系统加强（强密码、登录锁定、CSRF）
 - [ ] 报价历史记录
 - [ ] 在线支付集成
-- [ ] 多语言支持
-- [ ] 产品图片上传
+- [ ] 多语言支持（next-intl 或 next-i18n-router）
+- [ ] 产品图片本地化 + Next.js Image 优化
 - [ ] 客户评价系统
+- [ ] PDF 报价单生成
+- [ ] API rate limiting
 
 ## 许可证
 
