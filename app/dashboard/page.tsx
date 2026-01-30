@@ -2,268 +2,248 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
+import { formatDistanceToNow } from 'date-fns'
+import { zhCN } from 'date-fns/locale'
+import StatCard from '@/components/dashboard/StatCard'
+import ImageManager from '@/components/dashboard/ImageManager'
+
+interface Quote {
+  id: string
+  quote_number: string
+  created_at: string
+  material: string
+  aluminum_category?: string
+  window_type: string
+  grids?: string
+  color: string
+  width: number
+  height: number
+  quantity: number
+}
+
+interface Stats {
+  totalViews: number
+  monthlyViews: number
+  todayQuotes: number
+}
 
 export default function DashboardPage() {
   const router = useRouter()
-  const [isLoading, setIsLoading] = useState(true)
+  const [quotes, setQuotes] = useState<Quote[]>([])
+  const [stats, setStats] = useState<Stats>({ totalViews: 0, monthlyViews: 0, todayQuotes: 0 })
+  const [loading, setLoading] = useState(true)
+  const [activeTab, setActiveTab] = useState<'quotes' | 'images'>('quotes')
 
+  // Check authentication
   useEffect(() => {
-    // Check if user is logged in
-    const isLoggedIn = localStorage.getItem('isLoggedIn')
+    checkAuth()
+  }, [])
 
-    if (!isLoggedIn) {
-      router.push('/login')
-    } else {
-      setIsLoading(false)
+  const checkAuth = async () => {
+    try {
+      const response = await fetch('/api/auth/check')
+      const data = await response.json()
+
+      if (!data.isLoggedIn) {
+        router.push('/dashboard/login')
+      }
+    } catch (error) {
+      console.error('Auth check error:', error)
+      router.push('/dashboard/login')
     }
-  }, [router])
-
-  const handleLogout = () => {
-    localStorage.removeItem('isLoggedIn')
-    router.push('/login')
   }
 
-  if (isLoading) {
+  // Fetch data
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+  const fetchData = async () => {
+    try {
+      setLoading(true)
+
+      // Fetch stats
+      const statsResponse = await fetch('/api/dashboard/stats')
+      const statsData = await statsResponse.json()
+      if (statsResponse.ok) {
+        setStats(statsData)
+      }
+
+      // Fetch quotes
+      const quotesResponse = await fetch('/api/dashboard/quotes')
+      const quotesData = await quotesResponse.json()
+      if (quotesResponse.ok) {
+        setQuotes(quotesData.quotes || [])
+      }
+    } catch (error) {
+      console.error('Fetch error:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // Logout
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' })
+      router.push('/dashboard/login')
+      router.refresh()
+    } catch (error) {
+      console.error('Logout error:', error)
+    }
+  }
+
+  // Format relative time
+  const formatRelativeTime = (date: string) => {
+    try {
+      return formatDistanceToNow(new Date(date), { addSuffix: true, locale: zhCN })
+    } catch {
+      return date
+    }
+  }
+
+  if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="min-h-screen flex items-center justify-center bg-[#F7F8F3]">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading...</p>
+          <div className="text-4xl mb-4">🪟</div>
+          <p className="text-gray-600">加载中...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Dashboard Header */}
-      <div className="bg-white shadow">
+    <div className="min-h-screen bg-[#F7F8F3]">
+      {/* Header */}
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center space-x-4">
-              <Link href="/" className="text-2xl font-bold text-gray-900">
-                City<span className="text-green-600">Windows</span>
-              </Link>
-              <span className="text-gray-400">|</span>
-              <h1 className="text-xl font-semibold text-gray-700">Admin Dashboard</h1>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <span className="text-3xl">🪟</span>
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+                <p className="text-sm text-gray-600">管理系统</p>
+              </div>
             </div>
             <button
               onClick={handleLogout}
-              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium"
+              className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition"
             >
-              Logout
+              登出
             </button>
           </div>
         </div>
-      </div>
+      </header>
 
-      {/* Dashboard Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-
-        {/* Welcome Section */}
-        <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-lg shadow-lg p-8 mb-8 text-white">
-          <h2 className="text-3xl font-bold mb-2">Welcome Back!</h2>
-          <p className="text-green-100">Here's your business overview</p>
-        </div>
-
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats Cards */}
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
-          {/* Stats Card 1 */}
-          <div className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
-            <div className="flex items-center">
-              <div className="flex-shrink-0 bg-green-100 rounded-lg p-3">
-                <span className="text-3xl">📋</span>
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Total Quotes</p>
-                <p className="text-3xl font-bold text-gray-900">24</p>
-                <p className="text-xs text-green-600 mt-1">+3 this week</p>
-              </div>
-            </div>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <StatCard
+            icon="📊"
+            title="历史访问量"
+            value={stats.totalViews.toLocaleString()}
+            subtitle="总计"
+            color="blue"
+          />
+          <StatCard
+            icon="📅"
+            title="本月访问量"
+            value={stats.monthlyViews.toLocaleString()}
+            subtitle="本月"
+            color="green"
+          />
+          <StatCard
+            icon="📩"
+            title="今日新询价"
+            value={stats.todayQuotes}
+            subtitle="今天"
+            color="amber"
+          />
+        </div>
 
-          {/* Stats Card 2 */}
-          <div className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
-            <div className="flex items-center">
-              <div className="flex-shrink-0 bg-blue-100 rounded-lg p-3">
-                <span className="text-3xl">⏳</span>
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Pending</p>
-                <p className="text-3xl font-bold text-gray-900">8</p>
-                <p className="text-xs text-blue-600 mt-1">Need response</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Stats Card 3 */}
-          <div className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
-            <div className="flex items-center">
-              <div className="flex-shrink-0 bg-purple-100 rounded-lg p-3">
-                <span className="text-3xl">✅</span>
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Completed</p>
-                <p className="text-3xl font-bold text-gray-900">16</p>
-                <p className="text-xs text-purple-600 mt-1">This month</p>
-              </div>
-            </div>
+        {/* Tabs */}
+        <div className="bg-white rounded-lg shadow-sm mb-6">
+          <div className="border-b border-gray-200">
+            <nav className="flex -mb-px">
+              <button
+                onClick={() => setActiveTab('quotes')}
+                className={`px-6 py-4 text-sm font-medium border-b-2 transition ${activeTab === 'quotes'
+                  ? 'border-[#738751] text-[#738751]'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }`}
+              >
+                📋 询价列表
+              </button>
+              <button
+                onClick={() => setActiveTab('images')}
+                className={`px-6 py-4 text-sm font-medium border-b-2 transition ${activeTab === 'images'
+                  ? 'border-[#738751] text-[#738751]'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }`}
+              >
+                🖼️ 图片管理
+              </button>
+            </nav>
           </div>
         </div>
 
-
-        {/* Quote Requests Table */}
-        <div className="bg-white rounded-lg shadow mb-8">
-          <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-            <h2 className="text-xl font-bold text-gray-900">Recent Quote Requests</h2>
-            <span className="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
-              MVP Version
-            </span>
-          </div>
-          <div className="p-6">
-            <div className="text-center py-12">
-              <div className="text-6xl mb-4">📧</div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                Quote Management Coming in v1
-              </h3>
-              <p className="text-gray-600 mb-6">
-                For now, all quote requests are sent directly to your email.<br />
-                Database integration and quote management features will be added in the next version.
-              </p>
-              <div className="inline-flex items-center space-x-4">
-                <div className="flex items-center text-sm text-gray-600">
-                  <span className="w-3 h-3 bg-green-500 rounded-full mr-2"></span>
-                  Email notifications working
-                </div>
-                <div className="flex items-center text-sm text-gray-600">
-                  <span className="w-3 h-3 bg-yellow-500 rounded-full mr-2"></span>
-                  Database coming soon
-                </div>
-              </div>
+        {/* Content */}
+        {activeTab === 'quotes' ? (
+          /* Quotes Table */
+          <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      询价 ID
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      窗户配置
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      提交时间
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {quotes.length === 0 ? (
+                    <tr>
+                      <td colSpan={3} className="px-6 py-12 text-center text-gray-500">
+                        暂无询价记录
+                      </td>
+                    </tr>
+                  ) : (
+                    quotes.map((quote) => (
+                      <tr key={quote.id} className="hover:bg-gray-50 transition">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-[#738751] font-medium">
+                          #{quote.quote_number || quote.id.slice(0, 8)}
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="text-sm text-gray-900">
+                            {quote.window_type} ({quote.material})
+                          </div>
+                          <div className="text-sm text-gray-500">
+                            {quote.width}" × {quote.height}" × {quote.quantity} · {quote.color}
+                            {quote.grids && ` · ${quote.grids}`}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {formatRelativeTime(quote.created_at)}
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
             </div>
           </div>
-        </div>
-
-        {/* Product Images Management */}
-        <div className="bg-white rounded-lg shadow mb-8">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-xl font-bold text-gray-900 flex items-center">
-              <span className="mr-2">📸</span>
-              Product Images Management
-            </h2>
-            <p className="text-sm text-gray-600 mt-1">每个子页面的产品图片可以在这里上传</p>
-          </div>
-
-          <div className="p-6 space-y-6">
-            {/* Vinyl Windows */}
-            <div className="border-2 border-gray-200 rounded-lg p-6 hover:border-green-500 transition-colors">
-              <h3 className="font-semibold text-gray-900 mb-4 text-lg">Vinyl Windows - Homepage Image</h3>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <p className="text-sm text-gray-600 mb-3">Current Image Preview</p>
-                  <div className="bg-gray-100 rounded-lg h-48 flex items-center justify-center border-2 border-dashed border-gray-300">
-                    <div className="text-center">
-                      <span className="text-6xl mb-2 block">🪟</span>
-                      <p className="text-sm text-gray-500">Vinyl Window Preview</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex flex-col justify-center space-y-3">
-                  <button className="w-full py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium">
-                    Upload New Image
-                  </button>
-                  <button className="w-full py-3 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors font-medium">
-                    Remove Image
-                  </button>
-                  <p className="text-xs text-gray-500 mt-2">
-                    Recommended: 800x600px, JPG or PNG
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Aluminum Windows */}
-            <div className="border-2 border-gray-200 rounded-lg p-6 hover:border-green-500 transition-colors">
-              <h3 className="font-semibold text-gray-900 mb-4 text-lg">Aluminum Windows - Homepage Image</h3>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <p className="text-sm text-gray-600 mb-3">Current Image Preview</p>
-                  <div className="bg-gray-100 rounded-lg h-48 flex items-center justify-center border-2 border-dashed border-gray-300">
-                    <div className="text-center">
-                      <span className="text-6xl mb-2 block">🏢</span>
-                      <p className="text-sm text-gray-500">Aluminum Window Preview</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex flex-col justify-center space-y-3">
-                  <button className="w-full py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium">
-                    Upload New Image
-                  </button>
-                  <button className="w-full py-3 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors font-medium">
-                    Remove Image
-                  </button>
-                  <p className="text-xs text-gray-500 mt-2">
-                    Recommended: 800x600px, JPG or PNG
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Commercial Windows */}
-            <div className="border-2 border-gray-200 rounded-lg p-6 hover:border-green-500 transition-colors">
-              <h3 className="font-semibold text-gray-900 mb-4 text-lg">Commercial Windows - Homepage Image</h3>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <p className="text-sm text-gray-600 mb-3">Current Image Preview</p>
-                  <div className="bg-gray-100 rounded-lg h-48 flex items-center justify-center border-2 border-dashed border-gray-300">
-                    <div className="text-center">
-                      <span className="text-6xl mb-2 block">🏗️</span>
-                      <p className="text-sm text-gray-500">Commercial Window Preview</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex flex-col justify-center space-y-3">
-                  <button className="w-full py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium">
-                    Upload New Image
-                  </button>
-                  <button className="w-full py-3 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors font-medium">
-                    Remove Image
-                  </button>
-                  <p className="text-xs text-gray-500 mt-2">
-                    Recommended: 800x600px, JPG or PNG
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <div className="flex items-start">
-                <span className="text-xl mr-2">ℹ️</span>
-                <div className="text-sm text-blue-800">
-                  <p className="font-medium mb-1">Image Upload Feature</p>
-                  <p>Upload and replace product images for the homepage. Changes will be reflected immediately after upload.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Footer Info */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-          <div className="flex items-start">
-            <span className="text-2xl mr-3">💡</span>
-            <div>
-              <h3 className="font-bold text-blue-900 mb-1">MVP Features</h3>
-              <p className="text-sm text-blue-800">
-                This is the MVP (Minimum Viable Product) version. Full features including:
-                database storage, quote management, CSV export, and media management
-                will be implemented in v1.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+        ) : (
+          /* Image Manager */
+          <ImageManager />
+        )}
+      </main>
     </div>
   )
 }
