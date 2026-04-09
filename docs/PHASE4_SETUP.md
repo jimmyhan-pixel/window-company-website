@@ -27,37 +27,23 @@
 在 SQL Editor 中执行以下 SQL：
 
 ```sql
--- 允许公开读取图片
-CREATE POLICY "Public Access"
+-- 先清理可能存在的宽松策略
+DROP POLICY IF EXISTS "Public Access" ON storage.objects;
+DROP POLICY IF EXISTS "Authenticated users can upload" ON storage.objects;
+DROP POLICY IF EXISTS "Authenticated users can delete" ON storage.objects;
+DROP POLICY IF EXISTS "Authenticated users can update" ON storage.objects;
+DROP POLICY IF EXISTS "Public can view product images" ON storage.objects;
+
+-- 只允许公开读取这个 bucket 里的图片
+CREATE POLICY "Public can view product images"
 ON storage.objects FOR SELECT
 USING ( bucket_id = 'product-images' );
-
--- 允许认证用户上传图片
-CREATE POLICY "Authenticated users can upload"
-ON storage.objects FOR INSERT
-WITH CHECK (
-  bucket_id = 'product-images' 
-  AND auth.role() = 'authenticated'
-);
-
--- 允许认证用户删除图片
-CREATE POLICY "Authenticated users can delete"
-ON storage.objects FOR DELETE
-USING (
-  bucket_id = 'product-images' 
-  AND auth.role() = 'authenticated'
-);
-
--- 允许认证用户更新图片
-CREATE POLICY "Authenticated users can update"
-ON storage.objects FOR UPDATE
-USING (
-  bucket_id = 'product-images' 
-  AND auth.role() = 'authenticated'
-);
 ```
 
-**注意**: 由于我们使用的是简单的用户名+密码认证（不是 Supabase Auth），需要使用 Service Role Key。
+**注意**:
+- 我们现在通过服务器端 API + `SUPABASE_SERVICE_ROLE_KEY` 上传和删除图片
+- 所以 **不要** 再给 `anon` 或 `authenticated` 开放 `INSERT / UPDATE / DELETE` 策略
+- bucket 仍然保持 `Public`，这样产品展示页可以直接读取图片
 
 ### **1.4 获取 Service Role Key**
 
@@ -98,6 +84,7 @@ SUPABASE_SERVICE_ROLE_KEY=你的_service_role_key
 - 在服务器端 API 中使用
 - 绕过 RLS 策略
 - 更安全（key 不暴露给客户端）
+- 公开网站只能读图片，不能直接写入或删除
 
 ### **方案 B: 修改 RLS 策略为公开**
 ```sql

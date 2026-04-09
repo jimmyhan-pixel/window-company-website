@@ -1,17 +1,21 @@
 import { NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 
 export async function POST(request: Request) {
     try {
         const { page_path = '/' } = await request.json()
+        const userAgent = request.headers.get('user-agent')
+        const ipAddress = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? null
 
         // 记录访问
-        const { error } = await supabase
+        const { error } = await supabaseAdmin
             .from('page_views')
             .insert([
                 {
                     page_path,
-                    viewed_at: new Date().toISOString()
+                    viewed_at: new Date().toISOString(),
+                    user_agent: userAgent,
+                    ip_address: ipAddress,
                 }
             ])
 

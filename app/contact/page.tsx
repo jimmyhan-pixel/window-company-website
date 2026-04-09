@@ -1,6 +1,42 @@
 'use client'
 
+import { useLanguage } from '@/components/i18n/LanguageProvider'
+
 export default function ContactPage() {
+  const { language } = useLanguage()
+  const isZh = language === 'zh'
+  const t = isZh
+    ? {
+      heroTitle: '联系我们',
+      heroSubtitle: '无论是住宅还是商用门窗需求，我们都愿意为你提供建议与报价。',
+      infoTitle: '联系信息',
+      infoDescription: '欢迎随时联系我们获取免费咨询与报价，我们会尽快回复你的问题。',
+      address: '地址',
+      phone: '电话',
+      email: '邮箱',
+      hours: '营业时间',
+      weekdays: '周一至周五：',
+      saturday: '周六：',
+      sunday: '周日：',
+      closed: '休息',
+      quote: '免费获取报价',
+    }
+    : {
+      heroTitle: 'Get In Touch',
+      heroSubtitle: "We're here to help with all your window and door needs",
+      infoTitle: 'Contact Information',
+      infoDescription: "Reach out to us for a free consultation or quote. We're available to answer all your questions.",
+      address: 'Address',
+      phone: 'Phone',
+      email: 'Email',
+      hours: 'Business Hours',
+      weekdays: 'Monday - Friday:',
+      saturday: 'Saturday:',
+      sunday: 'Sunday:',
+      closed: 'Closed',
+      quote: 'Get Free Quote',
+    }
+
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -8,9 +44,9 @@ export default function ContactPage() {
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0gMTAwIDAgTCAwIDAgMCAxMDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjAzKSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-40"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center animate-fade-in">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">Get In Touch</h1>
+            <h1 className="text-5xl md:text-7xl font-bold mb-6">{t.heroTitle}</h1>
             <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto">
-              We're here to help with all your window and door needs
+              {t.heroSubtitle}
             </p>
           </div>
         </div>
@@ -23,9 +59,9 @@ export default function ContactPage() {
             {/* Contact Information */}
             <div className="space-y-8">
               <div>
-                <h2 className="text-4xl font-bold text-gray-900 mb-8">Contact Information</h2>
+                <h2 className="text-4xl font-bold text-gray-900 mb-8">{t.infoTitle}</h2>
                 <p className="text-lg text-gray-600 mb-12">
-                  Reach out to us for a free consultation or quote. We're available to answer all your questions.
+                  {t.infoDescription}
                 </p>
               </div>
 
@@ -41,7 +77,7 @@ export default function ContactPage() {
                     </div>
                   </div>
                   <div className="ml-6">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">Address</h3>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">{t.address}</h3>
                     <p className="text-gray-600 leading-relaxed">
                       123 Window Street<br />
                       New York, NY 10001
@@ -59,7 +95,7 @@ export default function ContactPage() {
                     </div>
                   </div>
                   <div className="ml-6">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">Phone</h3>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">{t.phone}</h3>
                     <a
                       href="tel:+12125551234"
                       className="text-[#738751] hover:text-[#5a6a42] font-semibold text-lg transition-colors"
@@ -79,7 +115,7 @@ export default function ContactPage() {
                     </div>
                   </div>
                   <div className="ml-6">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">Email</h3>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">{t.email}</h3>
                     <a
                       href="mailto:info@citywindows.com"
                       className="text-[#738751] hover:text-[#5a6a42] font-semibold text-lg transition-colors"
@@ -99,19 +135,19 @@ export default function ContactPage() {
                     </div>
                   </div>
                   <div className="ml-6">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">Business Hours</h3>
+                    <h3 className="text-xl font-bold text-gray-900 mb-3">{t.hours}</h3>
                     <div className="text-gray-600 space-y-2">
                       <div className="flex justify-between items-center">
-                        <span className="font-medium">Monday - Friday:</span>
+                        <span className="font-medium">{t.weekdays}</span>
                         <span className="ml-4">8:00 AM - 6:00 PM</span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="font-medium">Saturday:</span>
+                        <span className="font-medium">{t.saturday}</span>
                         <span className="ml-4">9:00 AM - 4:00 PM</span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="font-medium">Sunday:</span>
-                        <span className="ml-4 text-red-500 font-semibold">Closed</span>
+                        <span className="font-medium">{t.sunday}</span>
+                        <span className="ml-4 text-red-500 font-semibold">{t.closed}</span>
                       </div>
                     </div>
                   </div>
@@ -124,7 +160,7 @@ export default function ContactPage() {
                   onClick={() => window.location.href = '/quotation'}
                   className="w-full py-5 bg-gradient-to-r from-[#738751] to-[#5a6a42] text-white text-lg font-bold hover:shadow-2xl transition-all duration-300 hover:scale-105 uppercase tracking-wider"
                 >
-                  Get Free Quote
+                  {t.quote}
                 </button>
               </div>
             </div>

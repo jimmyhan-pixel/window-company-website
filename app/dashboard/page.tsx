@@ -6,81 +6,137 @@ import { formatDistanceToNow } from 'date-fns'
 import { zhCN } from 'date-fns/locale'
 import StatCard from '@/components/dashboard/StatCard'
 import ImageManager from '@/components/dashboard/ImageManager'
+import { useLanguage } from '@/components/i18n/LanguageProvider'
 
 interface Quote {
   id: string
-  quote_number: string
-  created_at: string
-  material: string
-  aluminum_category?: string
-  window_type: string
-  grids?: string
-  color: string
-  width: number
-  height: number
-  quantity: number
+  quoteNumber: string
+  createdAt: string
+  customerName: string
+  itemCount: number
+  materials: string[]
+  groupNames: string[]
+  title: string
+  description: string
 }
 
 interface Stats {
   totalViews: number
-  monthlyViews: number
+  todayViews: number
   todayQuotes: number
 }
 
 export default function DashboardPage() {
   const router = useRouter()
+  const { language } = useLanguage()
+  const isZh = language === 'zh'
   const [quotes, setQuotes] = useState<Quote[]>([])
-  const [stats, setStats] = useState<Stats>({ totalViews: 0, monthlyViews: 0, todayQuotes: 0 })
+  const [stats, setStats] = useState<Stats>({ totalViews: 0, todayViews: 0, todayQuotes: 0 })
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState<'quotes' | 'images'>('quotes')
 
+  const t = isZh
+    ? {
+      title: 'Dashboard',
+      subtitle: '管理系统',
+      logout: '登出',
+      loading: '加载中...',
+      totalViews: '历史访问量',
+      totalViewsSub: '总计',
+      todayViews: '今日访问量',
+      todayViewsSub: '今天',
+      todayQuotes: '今日新询价',
+      todayQuotesSub: '今天',
+      quotesTab: '📋 今日询价',
+      imagesTab: '🖼️ 图片管理',
+      quoteId: '询价 ID',
+      config: '窗户配置',
+      submittedAt: '提交时间',
+      empty: '今日暂无询价记录',
+      clickToView: '点击打开详情页',
+    }
+    : {
+      title: 'Dashboard',
+      subtitle: 'Management',
+      logout: 'Logout',
+      loading: 'Loading...',
+      totalViews: 'Total Visits',
+      totalViewsSub: 'All time',
+      todayViews: 'Visits Today',
+      todayViewsSub: 'Today',
+      todayQuotes: 'Quotes Today',
+      todayQuotesSub: 'Today',
+      quotesTab: '📋 Today Quotes',
+      imagesTab: '🖼️ Image Manager',
+      quoteId: 'Quote ID',
+      config: 'Window Config',
+      submittedAt: 'Submitted',
+      empty: 'No quotes submitted today',
+      clickToView: 'Click to open detail page',
+    }
+
   // Check authentication
   useEffect(() => {
-    checkAuth()
-  }, [])
+    const checkAuth = async () => {
+      try {
+        const response = await fetch('/api/auth/check', { cache: 'no-store' })
+        const data = await response.json()
 
-  const checkAuth = async () => {
-    try {
-      const response = await fetch('/api/auth/check')
-      const data = await response.json()
-
-      if (!data.isLoggedIn) {
+        if (!data.isLoggedIn) {
+          router.push('/dashboard/login')
+        }
+      } catch (error) {
+        console.error('Auth check error:', error)
         router.push('/dashboard/login')
       }
-    } catch (error) {
-      console.error('Auth check error:', error)
-      router.push('/dashboard/login')
     }
-  }
+
+    void checkAuth()
+  }, [router])
 
   // Fetch data
   useEffect(() => {
-    fetchData()
-  }, [])
+    let isMounted = true
 
-  const fetchData = async () => {
-    try {
-      setLoading(true)
+    const fetchData = async (showLoader = true) => {
+      try {
+        if (showLoader) {
+          setLoading(true)
+        }
 
-      // Fetch stats
-      const statsResponse = await fetch('/api/dashboard/stats')
-      const statsData = await statsResponse.json()
-      if (statsResponse.ok) {
-        setStats(statsData)
+        // Fetch stats
+        const statsResponse = await fetch('/api/dashboard/stats', { cache: 'no-store' })
+        const statsData = await statsResponse.json()
+        if (statsResponse.ok && isMounted) {
+          setStats(statsData)
+        }
+
+        // Fetch today's quotes
+        const quotesResponse = await fetch('/api/dashboard/quotes?scope=today', { cache: 'no-store' })
+        const quotesData = await quotesResponse.json()
+        if (quotesResponse.ok && isMounted) {
+          setQuotes(quotesData.quotes || [])
+        }
+      } catch (error) {
+        console.error('Fetch error:', error)
+      } finally {
+        if (showLoader && isMounted) {
+          setLoading(false)
+        }
       }
-
-      // Fetch quotes
-      const quotesResponse = await fetch('/api/dashboard/quotes')
-      const quotesData = await quotesResponse.json()
-      if (quotesResponse.ok) {
-        setQuotes(quotesData.quotes || [])
-      }
-    } catch (error) {
-      console.error('Fetch error:', error)
-    } finally {
-      setLoading(false)
     }
-  }
+
+    void fetchData()
+
+    const intervalId = window.setInterval(() => {
+      void fetchData(false)
+    }, 30000)
+
+    return () => {
+      isMounted = false
+      window.clearInterval(intervalId)
+    }
+  }, [])
 
   // Logout
   const handleLogout = async () => {
@@ -96,10 +152,14 @@ export default function DashboardPage() {
   // Format relative time
   const formatRelativeTime = (date: string) => {
     try {
-      return formatDistanceToNow(new Date(date), { addSuffix: true, locale: zhCN })
+      return formatDistanceToNow(new Date(date), { addSuffix: true, locale: isZh ? zhCN : undefined })
     } catch {
       return date
     }
+  }
+
+  const handleQuoteClick = (quoteId: string) => {
+    router.push(`/dashboard/quotes/${quoteId}`)
   }
 
   if (loading) {
@@ -107,7 +167,7 @@ export default function DashboardPage() {
       <div className="min-h-screen flex items-center justify-center bg-[#F7F8F3]">
         <div className="text-center">
           <div className="text-4xl mb-4">🪟</div>
-          <p className="text-gray-600">加载中...</p>
+          <p className="text-gray-600">{t.loading}</p>
         </div>
       </div>
     )
@@ -122,15 +182,15 @@ export default function DashboardPage() {
             <div className="flex items-center gap-3">
               <span className="text-3xl">🪟</span>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-                <p className="text-sm text-gray-600">管理系统</p>
+                <h1 className="text-2xl font-bold text-gray-900">{t.title}</h1>
+                <p className="text-sm text-gray-600">{t.subtitle}</p>
               </div>
             </div>
             <button
               onClick={handleLogout}
               className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition"
             >
-              登出
+              {t.logout}
             </button>
           </div>
         </div>
@@ -141,23 +201,23 @@ export default function DashboardPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <StatCard
             icon="📊"
-            title="历史访问量"
+            title={t.totalViews}
             value={stats.totalViews.toLocaleString()}
-            subtitle="总计"
+            subtitle={t.totalViewsSub}
             color="blue"
           />
           <StatCard
             icon="📅"
-            title="本月访问量"
-            value={stats.monthlyViews.toLocaleString()}
-            subtitle="本月"
+            title={t.todayViews}
+            value={stats.todayViews.toLocaleString()}
+            subtitle={t.todayViewsSub}
             color="green"
           />
           <StatCard
             icon="📩"
-            title="今日新询价"
+            title={t.todayQuotes}
             value={stats.todayQuotes}
-            subtitle="今天"
+            subtitle={t.todayQuotesSub}
             color="amber"
           />
         </div>
@@ -173,7 +233,7 @@ export default function DashboardPage() {
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   }`}
               >
-                📋 询价列表
+                {t.quotesTab}
               </button>
               <button
                 onClick={() => setActiveTab('images')}
@@ -182,7 +242,7 @@ export default function DashboardPage() {
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   }`}
               >
-                🖼️ 图片管理
+                {t.imagesTab}
               </button>
             </nav>
           </div>
@@ -197,13 +257,13 @@ export default function DashboardPage() {
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      询价 ID
+                      {t.quoteId}
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      窗户配置
+                      {t.config}
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      提交时间
+                      {t.submittedAt}
                     </th>
                   </tr>
                 </thead>
@@ -211,26 +271,36 @@ export default function DashboardPage() {
                   {quotes.length === 0 ? (
                     <tr>
                       <td colSpan={3} className="px-6 py-12 text-center text-gray-500">
-                        暂无询价记录
+                        {t.empty}
                       </td>
                     </tr>
                   ) : (
                     quotes.map((quote) => (
-                      <tr key={quote.id} className="hover:bg-gray-50 transition">
+                      <tr
+                        key={quote.id}
+                        className="hover:bg-gray-50 transition cursor-pointer"
+                        onClick={() => handleQuoteClick(quote.id)}
+                      >
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-[#738751] font-medium">
-                          #{quote.quote_number || quote.id.slice(0, 8)}
+                          #{quote.quoteNumber || quote.id.slice(0, 8)}
                         </td>
                         <td className="px-6 py-4">
                           <div className="text-sm text-gray-900">
-                            {quote.window_type} ({quote.material})
+                            {quote.title}
                           </div>
                           <div className="text-sm text-gray-500">
-                            {quote.width}" × {quote.height}" × {quote.quantity} · {quote.color}
-                            {quote.grids && ` · ${quote.grids}`}
+                            {quote.description}
+                          </div>
+                          <div className="text-xs text-gray-400 mt-1">
+                            {quote.itemCount} item{quote.itemCount === 1 ? '' : 's'}
+                            {quote.customerName ? ` · ${quote.customerName}` : ''}
+                          </div>
+                          <div className="text-xs text-[#738751] mt-1">
+                            {t.clickToView}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {formatRelativeTime(quote.created_at)}
+                          {formatRelativeTime(quote.createdAt)}
                         </td>
                       </tr>
                     ))

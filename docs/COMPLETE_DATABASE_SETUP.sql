@@ -34,7 +34,8 @@ CREATE TABLE IF NOT EXISTS quotes (
   -- 客户联系信息（用于邮件，Dashboard 不显示）
   customer_email TEXT NOT NULL,
   customer_phone TEXT NOT NULL,
-  customer_name TEXT
+  customer_name TEXT,
+  project_address TEXT
 );
 
 -- 创建索引
@@ -113,21 +114,19 @@ ALTER TABLE quotes ENABLE ROW LEVEL SECURITY;
 
 -- 删除旧策略（如果存在）
 DROP POLICY IF EXISTS "Allow public insert" ON quotes;
+DROP POLICY IF EXISTS "Allow public read" ON quotes;
 DROP POLICY IF EXISTS "Allow authenticated read" ON quotes;
 DROP POLICY IF EXISTS "Allow authenticated update" ON quotes;
 DROP POLICY IF EXISTS "Allow authenticated delete" ON quotes;
+DROP POLICY IF EXISTS "Allow service role all" ON quotes;
 
--- 策略 1: 允许公开插入（网站表单提交）
-CREATE POLICY "Allow public insert" ON quotes
-  FOR INSERT 
-  TO public
+-- 安全版策略：
+-- 所有 quotes 访问都通过服务器端 API + Service Role Key 完成
+CREATE POLICY "Allow service role all" ON quotes
+  FOR ALL
+  TO service_role
+  USING (true)
   WITH CHECK (true);
-
--- 策略 2: 允许公开查看（Dashboard 需要）
-CREATE POLICY "Allow public read" ON quotes
-  FOR SELECT 
-  TO public
-  USING (true);
 
 -- ============================================
 -- 6. 创建访问量统计表
@@ -154,18 +153,15 @@ ALTER TABLE page_views ENABLE ROW LEVEL SECURITY;
 -- 删除旧策略（如果存在）
 DROP POLICY IF EXISTS "Allow public insert" ON page_views;
 DROP POLICY IF EXISTS "Allow public read" ON page_views;
+DROP POLICY IF EXISTS "Allow service role all" ON page_views;
 
--- 策略 1: 允许公开插入（记录访问）
-CREATE POLICY "Allow public insert" ON page_views
-  FOR INSERT 
-  TO public
+-- 安全版策略：
+-- 访问统计也只允许服务器端 API 通过 Service Role Key 读写
+CREATE POLICY "Allow service role all" ON page_views
+  FOR ALL
+  TO service_role
+  USING (true)
   WITH CHECK (true);
-
--- 策略 2: 允许公开查看（Dashboard 统计）
-CREATE POLICY "Allow public read" ON page_views
-  FOR SELECT 
-  TO public
-  USING (true);
 
 -- ============================================
 -- 8. 创建统计视图（方便查询）
