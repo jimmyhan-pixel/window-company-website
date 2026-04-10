@@ -19,7 +19,7 @@ export const homeProducts: Product[] = [
         name: 'Vinyl Windows',
         nameZh: '塑钢窗',
         description: 'Residential · Energy Efficient',
-        image: '/images/products/vinyl-windows.jpg',
+        image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop',
         route: '/products/vinyl'
     },
     {
@@ -27,7 +27,7 @@ export const homeProducts: Product[] = [
         name: 'Aluminum Windows',
         nameZh: '铝合金窗',
         description: 'Residential · Premium Quality',
-        image: '/images/products/aluminum-windows.jpg',
+        image: 'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&h=600&fit=crop',
         route: '/products/aluminum'
     },
     {
@@ -35,7 +35,7 @@ export const homeProducts: Product[] = [
         name: 'Commercial Windows',
         nameZh: '商用窗',
         description: 'Office Buildings · Large Scale',
-        image: '/images/products/commercial-windows.jpg',
+        image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop',
         route: '/products/commercial'
     }
 ]
@@ -49,63 +49,63 @@ export const vinylProducts: Product[] = [
         name: 'Double Hung',
         nameZh: '双悬窗',
         description: 'Classic design with two operable sashes',
-        image: '/images/products/vinyl/double-hung.jpg'
+        image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop'
     },
     {
         id: 'vinyl-two-lites-slider',
         name: 'Two Lites Slider',
         nameZh: '双扇推拉窗',
         description: 'Horizontal sliding windows',
-        image: '/images/products/vinyl/two-lites-slider.jpg'
+        image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&h=600&fit=crop'
     },
     {
         id: 'vinyl-three-lites-slider',
         name: 'Three Lites Slider',
         nameZh: '三扇推拉窗',
         description: 'Triple-panel sliding window',
-        image: '/images/products/vinyl/three-lites-slider.jpg'
+        image: 'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=800&h=600&fit=crop'
     },
     {
         id: 'vinyl-picture',
         name: 'Picture Window',
         nameZh: '固定窗',
         description: 'Fixed window for maximum light',
-        image: '/images/products/vinyl/picture.jpg'
+        image: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&h=600&fit=crop'
     },
     {
         id: 'vinyl-casement',
         name: 'Casement',
         nameZh: '平开窗',
         description: 'Side-hinged windows',
-        image: '/images/products/vinyl/casement.jpg'
+        image: 'https://images.unsplash.com/photo-1600607687644-c7171b42498b?w=800&h=600&fit=crop'
     },
     {
         id: 'vinyl-hopper',
         name: 'Hopper',
         nameZh: '上悬窗',
         description: 'Top-hinged window',
-        image: '/images/products/vinyl/hopper.jpg'
+        image: 'https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=800&h=600&fit=crop'
     },
     {
         id: 'vinyl-awning',
         name: 'Awning',
         nameZh: '下悬窗',
         description: 'Bottom-hinged window',
-        image: '/images/products/vinyl/awning.jpg'
+        image: 'https://images.unsplash.com/photo-1600573472592-401b489a3cdc?w=800&h=600&fit=crop'
     },
     {
         id: 'vinyl-bow',
         name: 'Bow Window',
         nameZh: '弓形窗',
         description: 'Curved window configuration',
-        image: '/images/products/vinyl/bow.jpg'
+        image: 'https://images.unsplash.com/photo-1600585152915-d208bec867a1?w=800&h=600&fit=crop'
     },
     {
         id: 'vinyl-bay',
         name: 'Bay Window',
         nameZh: '凸窗',
         description: 'Angular projection window',
-        image: '/images/products/vinyl/bay.jpg'
+        image: 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=800&h=600&fit=crop'
     }
 ]
 
@@ -118,28 +118,28 @@ export const aluminumProducts: Product[] = [
         name: 'Double Hung',
         nameZh: '双悬窗',
         description: 'Premium aluminum double hung windows',
-        image: '/images/products/aluminum/double-hung.jpg'
+        image: 'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&h=600&fit=crop'
     },
     {
         id: 'aluminum-two-lites-slider',
         name: 'Two Lites Slider',
         nameZh: '双扇推拉窗',
         description: 'Smooth-operating aluminum sliding windows',
-        image: '/images/products/aluminum/two-lites-slider.jpg'
+        image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&h=600&fit=crop'
     },
     {
         id: 'aluminum-three-lites-slider',
         name: 'Three Lites Slider',
         nameZh: '三扇推拉窗',
         description: 'Triple-panel aluminum slider',
-        image: '/images/products/aluminum/three-lites-slider.jpg'
+        image: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&h=600&fit=crop'
     },
     {
         id: 'aluminum-picture',
         name: 'Picture Window',
         nameZh: '固定窗',
         description: 'Fixed aluminum picture window',
-        image: '/images/products/aluminum/picture.jpg'
+        image: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&h=600&fit=crop'
     }
 ]
 
@@ -152,21 +152,21 @@ export const commercialProducts: Product[] = [
         name: 'Casement',
         nameZh: '平开窗',
         description: 'Commercial-grade casement windows',
-        image: '/images/products/commercial/casement.jpg'
+        image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop'
     },
     {
         id: 'commercial-hopper',
         name: 'Hopper',
         nameZh: '上悬窗',
         description: 'Top-hinged commercial hopper windows',
-        image: '/images/products/commercial/hopper.jpg'
+        image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop'
     },
     {
         id: 'commercial-awning',
         name: 'Awning',
         nameZh: '下悬窗',
         description: 'Commercial awning windows',
-        image: '/images/products/commercial/awning.jpg'
+        image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop'
     }
 ]
 

@@ -52,6 +52,7 @@ CREATE TABLE IF NOT EXISTS quotes (
   -- 客户联系信息
   customer_email TEXT NOT NULL,              -- 客户邮箱
   customer_phone TEXT NOT NULL,              -- 客户电话
+  project_address TEXT,                      -- 项目地址（整张 quotation 级别）
   
   -- 状态管理
   status TEXT DEFAULT 'pending' CHECK (status IN (
@@ -103,29 +104,18 @@ DROP POLICY IF EXISTS "Allow anonymous insert" ON quotes;
 DROP POLICY IF EXISTS "Allow authenticated read" ON quotes;
 DROP POLICY IF EXISTS "Allow service role all" ON quotes;
 
--- 策略 1: 允许匿名用户插入（用于网站表单提交）
-CREATE POLICY "Allow anonymous insert" ON quotes
-  FOR INSERT 
-  TO anon
-  WITH CHECK (true);
+-- 删除旧策略（如果存在）
+DROP POLICY IF EXISTS "Allow anonymous insert" ON quotes;
+DROP POLICY IF EXISTS "Allow authenticated read" ON quotes;
+DROP POLICY IF EXISTS "Allow authenticated update" ON quotes;
+DROP POLICY IF EXISTS "Allow service role all" ON quotes;
 
--- 策略 2: 允许认证用户查看所有记录（为 Dashboard 准备）
-CREATE POLICY "Allow authenticated read" ON quotes
-  FOR SELECT 
-  TO authenticated
-  USING (true);
-
--- 策略 3: 允许认证用户更新记录（为 Dashboard 准备）
-CREATE POLICY "Allow authenticated update" ON quotes
-  FOR UPDATE 
-  TO authenticated
-  USING (true);
-
--- 策略 4: 允许服务角色完全访问
+-- 安全版策略：所有数据库读写都通过服务器端 API + Service Role Key 完成
 CREATE POLICY "Allow service role all" ON quotes
   FOR ALL 
   TO service_role
-  USING (true);
+  USING (true)
+  WITH CHECK (true);
 
 -- ============================================
 -- 插入测试数据（可选）
@@ -167,6 +157,7 @@ COMPANY_EMAIL=your@email.com
 # Supabase Configuration
 NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 ```
 
 ### 2.2 获取 Supabase 凭证
@@ -242,8 +233,10 @@ npm run dev
 **解决方案：**
 确保执行了 SQL 中的 RLS 策略部分，特别是：
 ```sql
-CREATE POLICY "Allow anonymous insert" ON quotes
-  FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "Allow service role all" ON quotes
+  FOR ALL TO service_role
+  USING (true)
+  WITH CHECK (true);
 ```
 
 ### ❌ 问题 3: 数据插入成功但看不到记录

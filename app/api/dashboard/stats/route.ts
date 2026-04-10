@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase-admin'
 import { getSession } from '@/lib/session'
+import { getStartOfTodayIso } from '@/lib/dashboard-time'
 
 export async function GET() {
     try {
@@ -13,35 +14,32 @@ export async function GET() {
             )
         }
 
-        // 获取总访问量（首页）
-        const { count: totalViews } = await supabase
+        const startOfToday = getStartOfTodayIso()
+
+        // 获取总访问量
+        const { count: totalViews } = await supabaseAdmin
             .from('page_views')
             .select('*', { count: 'exact', head: true })
-            .eq('page_path', '/')
 
-        // 获取本月访问量（首页）
-        const startOfMonth = new Date()
-        startOfMonth.setDate(1)
-        startOfMonth.setHours(0, 0, 0, 0)
-
-        const { count: monthlyViews } = await supabase
+        // 获取今日访问量
+        const { count: todayViews } = await supabaseAdmin
             .from('page_views')
             .select('*', { count: 'exact', head: true })
-            .eq('page_path', '/')
-            .gte('viewed_at', startOfMonth.toISOString())
+            .gte('viewed_at', startOfToday)
 
-        // 获取今日询价数量
-        const startOfToday = new Date()
-        startOfToday.setHours(0, 0, 0, 0)
-
-        const { count: todayQuotes } = await supabase
+        // 获取今日询价记录，并按 quote_number 去重统计
+        const { data: todayQuoteRows } = await supabaseAdmin
             .from('quotes')
-            .select('*', { count: 'exact', head: true })
-            .gte('created_at', startOfToday.toISOString())
+            .select('id, quote_number')
+            .gte('created_at', startOfToday)
+
+        const todayQuotes = new Set(
+            (todayQuoteRows || []).map((row) => row.quote_number || row.id)
+        ).size
 
         return NextResponse.json({
             totalViews: totalViews || 0,
-            monthlyViews: monthlyViews || 0,
+            todayViews: todayViews || 0,
             todayQuotes: todayQuotes || 0
         })
     } catch (error) {
