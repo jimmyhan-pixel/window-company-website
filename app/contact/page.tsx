@@ -5,6 +5,8 @@ import { useLanguage } from '@/components/i18n/LanguageProvider'
 export default function ContactPage() {
   const { language } = useLanguage()
   const isZh = language === 'zh'
+  const companyAddress = '67 Seabring St, Brooklyn, NY 11231'
+  const googleMapsEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(companyAddress)}&z=16&output=embed`
   const t = isZh
     ? {
       heroTitle: '联系我们',
@@ -79,8 +81,8 @@ export default function ContactPage() {
                   <div className="ml-6">
                     <h3 className="text-xl font-bold text-gray-900 mb-2">{t.address}</h3>
                     <p className="text-gray-600 leading-relaxed">
-                      123 Window Street<br />
-                      New York, NY 10001
+                      67 Seabring St<br />
+                      Brooklyn, NY 11231
                     </p>
                   </div>
                 </div>
@@ -170,7 +172,7 @@ export default function ContactPage() {
               <div className="sticky top-8">
                 <div className="bg-white shadow-2xl overflow-hidden h-[600px] border-4 border-gray-100">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.15830869428!2d-74.11976379575477!3d40.69766374874431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY!5e0!3m2!1sen!2sus!4v1234567890123!5m2!1sen!2sus"
+                    src={googleMapsEmbedUrl}
                     width="100%"
                     height="100%"
                     style={{ border: 0 }}

@@ -6,6 +6,7 @@ const contentSecurityPolicy = [
     "form-action 'self'",
     "frame-ancestors 'none'",
     "object-src 'none'",
+    "frame-src 'self' https://www.google.com https://maps.google.com",
     "img-src 'self' data: blob: https:",
     "font-src 'self' data: https:",
     "style-src 'self' 'unsafe-inline' https:",
