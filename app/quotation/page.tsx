@@ -135,6 +135,18 @@ const GLASS_MATERIAL_OPTIONS = ['Clear', 'Frosted', 'Tempered']
 const GLASS_THICKNESS_OPTIONS = ['Standard 1/16"', '1/8"', '3/16"']
 const GLASS_UNIT_TOTAL_THICKNESS = '7/8"'
 
+const GLASS_MATERIAL_LABELS: Record<string, { en: string; zh: string }> = {
+    Clear: { en: 'Clear', zh: '普通' },
+    Frosted: { en: 'Frosted', zh: '磨砂' },
+    Tempered: { en: 'Tempered', zh: '钢化' },
+}
+
+const GLASS_THICKNESS_LABELS: Record<string, { en: string; zh: string }> = {
+    'Standard 1/16"': { en: 'Standard 1/16"', zh: '普通 1/16"' },
+    '1/8"': { en: '1/8"', zh: '1/8"' },
+    '3/16"': { en: '3/16"', zh: '3/16"' },
+}
+
 function createEmptyFormData(): FormData {
     return {
         material: null,
@@ -197,6 +209,14 @@ function localizeColor(color: string, language: Language) {
     return COLOR_LABELS[color]?.[language] || color
 }
 
+function localizeGlassMaterial(material: string, language: Language) {
+    return GLASS_MATERIAL_LABELS[material]?.[language] || material
+}
+
+function localizeGlassThickness(thickness: string, language: Language) {
+    return GLASS_THICKNESS_LABELS[thickness]?.[language] || thickness
+}
+
 function localizeMaterial(material: string | null, language: Language) {
     if (material === 'vinyl') return language === 'zh' ? '塑钢窗' : 'Vinyl'
     if (material === 'aluminum') return language === 'zh' ? '铝合金窗' : 'Aluminum'
@@ -225,15 +245,15 @@ function getGridWindowType(windowType: string, casementDesign: FormData['casemen
     return windowType
 }
 
-function getCasementDesignLabel(casementDesign: FormData['casementDesign']) {
-    if (casementDesign === 'double') return 'Double Casement'
-    if (casementDesign === 'single') return 'Single Casement'
+function getCasementDesignLabel(casementDesign: FormData['casementDesign'], language: Language = 'en') {
+    if (casementDesign === 'double') return language === 'zh' ? '双扇平开窗' : 'Double Casement'
+    if (casementDesign === 'single') return language === 'zh' ? '单扇平开窗' : 'Single Casement'
     return ''
 }
 
-function getCasementDirectionLabel(direction: FormData['casementOpenDirection']) {
-    if (direction === 'left') return 'Stand Inside Open From Left'
-    if (direction === 'right') return 'Stand Inside Open From Right'
+function getCasementDirectionLabel(direction: FormData['casementOpenDirection'], language: Language = 'en') {
+    if (direction === 'left') return language === 'zh' ? '站在室内从左侧开启' : 'Stand Inside Open From Left'
+    if (direction === 'right') return language === 'zh' ? '站在室内从右侧开启' : 'Stand Inside Open From Right'
     return ''
 }
 
@@ -386,14 +406,14 @@ function SelectionSummary({ formData, step }: { formData: FormData; step: number
         { label: language === 'zh' ? '材质' : 'Material', value: localizeMaterial(formData.material, language) },
         { label: language === 'zh' ? '分类' : 'Category', value: localizeCategory(formData.aluminumCategory, language) },
         { label: language === 'zh' ? '窗型' : 'Window Type', value: localizeWindowType(formData.windowType, language) },
-        { label: 'Casement Design', value: formData.windowType === 'Casement' ? getCasementDesignLabel(formData.casementDesign) : '' },
-        { label: 'Opening Direction', value: formData.windowType === 'Casement' && formData.casementDesign === 'single' ? getCasementDirectionLabel(formData.casementOpenDirection) : '' },
+        { label: language === 'zh' ? '平开窗设计' : 'Casement Design', value: formData.windowType === 'Casement' ? getCasementDesignLabel(formData.casementDesign, language) : '' },
+        { label: language === 'zh' ? '开启方向' : 'Opening Direction', value: formData.windowType === 'Casement' && formData.casementDesign === 'single' ? getCasementDirectionLabel(formData.casementOpenDirection, language) : '' },
         { label: language === 'zh' ? '尺寸' : 'Size', value: formData.width && formData.height ? `${formData.width}" × ${formData.height}"` : '' },
         { label: language === 'zh' ? '颜色' : 'Color', value: formData.color ? localizeColor(formData.color, language) : '' },
         { label: language === 'zh' ? '格条' : 'Grids', value: gridLabel },
-        { label: 'Glass Material', value: resolvedGlassType },
-        { label: 'Single Pane Thickness', value: resolvedGlassThickness },
-        { label: 'Glass Unit Total Thickness', value: resolvedGlassThickness ? GLASS_UNIT_TOTAL_THICKNESS : '' },
+        { label: language === 'zh' ? '玻璃材质' : 'Glass Material', value: resolvedGlassType ? localizeGlassMaterial(resolvedGlassType, language) : '' },
+        { label: language === 'zh' ? '单层玻璃厚度' : 'Single Pane Thickness', value: resolvedGlassThickness ? localizeGlassThickness(resolvedGlassThickness, language) : '' },
+        { label: language === 'zh' ? '中空玻璃总厚度' : 'Glass Unit Total Thickness', value: resolvedGlassThickness ? GLASS_UNIT_TOTAL_THICKNESS : '' },
         { label: language === 'zh' ? '数量' : 'Quantity', value: parseInt(formData.quantity) > 0 ? formData.quantity : '' },
     ].filter(item => item.value)
 
@@ -560,6 +580,9 @@ function GridCustomOption({
     onFocus: () => void
     onChange: (field: 'customVertical' | 'customHorizontal', value: string) => void
 }) {
+    const { language } = useLanguage()
+    const isZh = language === 'zh'
+
     return (
         <Card className={`transition-all ${selected ? 'border-primary bg-primary/5 shadow-sm' : ''}`}>
             <CardContent className="space-y-3 p-4">
@@ -572,7 +595,7 @@ function GridCustomOption({
                         />
                     </div>
                     <div>
-                        <p className="text-sm font-semibold">Custom</p>
+                        <p className="text-sm font-semibold">{isZh ? '自定义' : 'Custom'}</p>
                         <p className="text-xs text-muted-foreground">
                             {formatGridPattern(section)}
                         </p>
@@ -580,7 +603,7 @@ function GridCustomOption({
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1">
-                        <Label htmlFor={`custom-v-${sectionId}`} className="text-xs text-muted-foreground">Vertical</Label>
+                        <Label htmlFor={`custom-v-${sectionId}`} className="text-xs text-muted-foreground">{isZh ? '竖线' : 'Vertical'}</Label>
                         <Input
                             id={`custom-v-${sectionId}`}
                             type="number"
@@ -593,7 +616,7 @@ function GridCustomOption({
                         />
                     </div>
                     <div className="space-y-1">
-                        <Label htmlFor={`custom-h-${sectionId}`} className="text-xs text-muted-foreground">Horizontal</Label>
+                        <Label htmlFor={`custom-h-${sectionId}`} className="text-xs text-muted-foreground">{isZh ? '横线' : 'Horizontal'}</Label>
                         <Input
                             id={`custom-h-${sectionId}`}
                             type="number"
@@ -732,63 +755,63 @@ export default function QuotationPage() {
             stepColorDesc: '请选择你偏好的窗户颜色',
             stepSizeTitle: '窗户尺寸',
             stepSizeDesc: '请输入窗户宽度和高度（英寸）',
-            casementDesignTitle: 'Casement Design',
-            casementDesignDesc: 'Choose single-opening or double-opening design',
-            casementSingle: 'Single Casement',
-            casementDouble: 'Double Casement',
-            casementDirectionTitle: 'Opening Direction',
-            casementDirectionDesc: 'Select how the sash opens when viewed from inside',
-            casementOpenLeft: 'Stand Inside Open From Left',
-            casementOpenRight: 'Stand Inside Open From Right',
+            casementDesignTitle: '平开窗设计',
+            casementDesignDesc: '请选择单扇开启或双扇对开设计',
+            casementSingle: '单扇平开窗',
+            casementDouble: '双扇平开窗',
+            casementDirectionTitle: '开启方向',
+            casementDirectionDesc: '请选择从室内看时窗扇的开启方向',
+            casementOpenLeft: '站在室内从左侧开启',
+            casementOpenRight: '站在室内从右侧开启',
             width: '宽度（英寸）',
             height: '高度（英寸）',
-            glassTitle: 'Glass Options',
-            glassDesc: 'Choose glass material and single pane thickness',
-            glassBathroomNote: 'If this window is for a bathroom, please confirm whether frosted glass is needed.',
-            glassMaterialSection: 'Section 1 · Glass Material',
-            glassThicknessSection: 'Section 2 · Single Pane Thickness',
-            glassMaterialOtherPlaceholder: 'Enter glass material',
-            glassThicknessOtherPlaceholder: 'Enter glass thickness',
-            glassUnitNote: `Glass Unit Total Thickness: ${GLASS_UNIT_TOTAL_THICKNESS}`,
+            glassTitle: '玻璃选项',
+            glassDesc: '请选择玻璃材质和单层玻璃厚度',
+            glassBathroomNote: '如果此窗户用于卫生间，请确认是否需要使用磨砂玻璃。',
+            glassMaterialSection: '部分 1 · 玻璃材质',
+            glassThicknessSection: '部分 2 · 单层玻璃厚度',
+            glassMaterialOtherPlaceholder: '请输入玻璃材质',
+            glassThicknessOtherPlaceholder: '请输入玻璃厚度',
+            glassUnitNote: `中空玻璃总厚度：${GLASS_UNIT_TOTAL_THICKNESS}`,
             quantityTitle: '需要多少扇窗？',
             quantityDesc: '请输入你需要的数量',
             contactTitle: '联系方式',
             contactDesc: '我们会把报价发送到这个邮箱',
-            contactActionsTitle: 'Save This Window',
-            contactActionsDesc: 'Save this window to a group, start another window, or continue to project details.',
-            contactDetailsTitle: 'Project Contact Details',
-            contactDetailsDesc: 'Add the global information for this quotation before submitting.',
+            contactActionsTitle: '保存此窗户',
+            contactActionsDesc: '将此窗户保存到分组、继续添加另一扇窗户，或进入项目信息填写。',
+            contactDetailsTitle: '项目联系信息',
+            contactDetailsDesc: '提交前请补充这份报价单的全局联系信息。',
             email: '邮箱地址 *',
             phone: '电话号码（可选）',
-            contactName: 'Contact Name *',
-            projectAddress: 'Project Address *',
-            quoteSummaryTitle: 'Quotation Summary',
-            groupedUnder: 'Grouped Under',
-            ungroupedSection: 'Ungrouped Windows',
-            createGroup: 'Create a Group',
-            createGroupDesc: 'Name a room, floor, or area and save this window into it.',
-            createGroupPlaceholder: 'Enter group name',
-            saveGroup: 'Save Group',
-            saveToExistingGroups: 'Save to Existing Groups',
-            saveToExistingGroupsDesc: 'Assign this window to one of the groups you already created.',
-            startAnotherWindow: 'Start Another Window',
-            startAnotherWindowDesc: 'Save this window and begin configuring another one.',
-            proceedToContact: 'Proceed to Contact',
-            proceedToContactDesc: 'Move on to the global contact and project information.',
-            addItemToGroup: (groupName: string) => `Add Item to ${groupName}`,
-            addItemToGroupDesc: (groupName: string) => `Save the current window into ${groupName} and continue building this group.`,
-            assignToGroup: 'Assign to Group',
-            noGroupsYet: 'No groups created yet.',
-            currentWindowSaved: 'Current window saved.',
-            currentWindowSavedDesc: (groupName: string) => `This window has been added to ${groupName}.`,
-            currentWindowUngrouped: 'Current window saved as ungrouped.',
-            currentWindowUngroupedDesc: 'You can continue adding more windows or move on to contact details.',
-            existingGroupsTitle: 'Select an Existing Group',
-            groupedWindowsCount: (count: number) => `${count} window${count === 1 ? '' : 's'}`,
-            readyToSubmit: 'Ready to Submit',
-            readyToSubmitDesc: 'Review your grouped windows and complete the global project information.',
-            totalWindowItems: (count: number) => `${count} total window item${count === 1 ? '' : 's'}`,
-            submitQuote: 'Submit Full Quotation',
+            contactName: '联系人姓名 *',
+            projectAddress: '项目地址 *',
+            quoteSummaryTitle: '报价汇总',
+            groupedUnder: '所属分组',
+            ungroupedSection: '未分组窗户',
+            createGroup: '创建分组',
+            createGroupDesc: '输入房间、楼层或区域名称，并将当前窗户保存进去。',
+            createGroupPlaceholder: '请输入分组名称',
+            saveGroup: '保存分组',
+            saveToExistingGroups: '保存到已有分组',
+            saveToExistingGroupsDesc: '将当前窗户分配到你已经创建好的分组中。',
+            startAnotherWindow: '继续添加窗户',
+            startAnotherWindowDesc: '先保存当前窗户，然后开始配置下一扇。',
+            proceedToContact: '填写联系信息',
+            proceedToContactDesc: '继续填写这份报价单的全局联系与项目信息。',
+            addItemToGroup: (groupName: string) => `添加到 ${groupName}`,
+            addItemToGroupDesc: (groupName: string) => `将当前窗户保存到 ${groupName}，并继续完善这个分组。`,
+            assignToGroup: '分配到分组',
+            noGroupsYet: '还没有创建任何分组。',
+            currentWindowSaved: '当前窗户已保存。',
+            currentWindowSavedDesc: (groupName: string) => `这扇窗户已添加到 ${groupName}。`,
+            currentWindowUngrouped: '当前窗户已保存为未分组。',
+            currentWindowUngroupedDesc: '你可以继续添加更多窗户，或进入联系信息填写。',
+            existingGroupsTitle: '选择已有分组',
+            groupedWindowsCount: (count: number) => `${count} 扇窗户`,
+            readyToSubmit: '准备提交',
+            readyToSubmitDesc: '请检查已分组的窗户内容，并补全全局项目联系信息。',
+            totalWindowItems: (count: number) => `共 ${count} 扇窗户`,
+            submitQuote: '提交完整报价单',
             finalStep: '最后一步',
             previewEmptyTitle: '请选择窗型',
             previewEmptyDesc: '预览会显示在这里',
@@ -802,6 +825,8 @@ export default function QuotationPage() {
             sleek: '简洁',
             white: '白色',
             quoteError: '提交报价请求失败，请稍后重试。',
+            custom: '自定义',
+            quantityShort: '数量',
         }
         : {
             headerTitle: 'Window Quote',
@@ -909,6 +934,8 @@ export default function QuotationPage() {
             sleek: 'Sleek',
             white: 'White',
             quoteError: 'Failed to submit quote request. Please try again.',
+            custom: 'Custom',
+            quantityShort: 'Qty',
         }
 
     const stepLabel = (stepNumber: number) => isZh ? `步骤 ${stepNumber}` : `Step ${stepNumber}`
@@ -1513,7 +1540,7 @@ export default function QuotationPage() {
                                             {GLASS_MATERIAL_OPTIONS.map((option) => (
                                                 <ChoiceOption
                                                     key={option}
-                                                    title={option}
+                                                    title={localizeGlassMaterial(option, language)}
                                                     selected={formData.glassType === option}
                                                     onClick={() => setFormData({
                                                         ...formData,
@@ -1525,7 +1552,7 @@ export default function QuotationPage() {
                                         </div>
                                         <div className="rounded-xl border border-border bg-card p-3">
                                             <Label htmlFor="custom-glass-material" className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                                                Custom
+                                                {t.custom}
                                             </Label>
                                             <Input
                                                 id="custom-glass-material"
@@ -1552,7 +1579,7 @@ export default function QuotationPage() {
                                             {GLASS_THICKNESS_OPTIONS.map((option) => (
                                                 <ChoiceOption
                                                     key={option}
-                                                    title={option}
+                                                    title={localizeGlassThickness(option, language)}
                                                     selected={formData.glassThickness === option}
                                                     onClick={() => setFormData({
                                                         ...formData,
@@ -1564,7 +1591,7 @@ export default function QuotationPage() {
                                         </div>
                                         <div className="rounded-xl border border-border bg-card p-3">
                                             <Label htmlFor="custom-glass-thickness" className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                                                Custom
+                                                {t.custom}
                                             </Label>
                                             <Input
                                                 id="custom-glass-thickness"
@@ -1678,7 +1705,7 @@ export default function QuotationPage() {
                                                                     <span className="text-muted-foreground">{item.width}&quot; × {item.height}&quot;</span>
                                                                 </div>
                                                                 <p className="mt-1 text-xs text-muted-foreground">
-                                                                    Qty {item.quantity}
+                                                                    {t.quantityShort} {item.quantity}
                                                                 </p>
                                                             </div>
                                                         ))}
@@ -1700,7 +1727,7 @@ export default function QuotationPage() {
                                                                     <span className="text-muted-foreground">{item.width}&quot; × {item.height}&quot;</span>
                                                                 </div>
                                                                 <p className="mt-1 text-xs text-muted-foreground">
-                                                                    Qty {item.quantity}
+                                                                    {t.quantityShort} {item.quantity}
                                                                 </p>
                                                             </div>
                                                         ))}
